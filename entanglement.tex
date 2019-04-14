@@ -1,0 +1,352 @@
+
+\documentclass[aps,pra,onecolumn,notitlepage,superscriptaddress]{revtex4-1}
+
+%\input{myQcircuit}
+\usepackage{graphicx,color}% Include figure files
+\usepackage{dcolumn}% Align table columns on decimal point
+\usepackage{bm}% bold math
+\usepackage{amsmath,amssymb,mathrsfs}
+\usepackage{url}
+\usepackage{hyperref}
+
+% added by me
+\usepackage{framed}
+\usepackage{algorithm}
+\usepackage{dsfont}
+\usepackage{mathtools}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+
+
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+
+%  Sets
+\newcommand{\set}[1]{\mathsf{#1}}
+\newcommand{\grp}[1]{\mathsf{#1}}
+\newcommand{\reg}[1]{\mathsf{#1}}
+\newcommand{\spc}[1]{\mathcal{#1}}
+
+% Integrals
+
+\def\d{{\rm d}}
+
+% Linear structures
+\newcommand{\Span}{{\mathsf{Span}}}
+\newcommand{\Lin}{\mathsf{Lin}}
+\newcommand{\Pos}{\mathsf{Pos}}
+\newcommand{\CP}{\mathsf{CP}}
+\newcommand{\Herm}{\mathsf{Herm}}
+\newcommand{\D}{\mathsf{D}}
+\newcommand{\s}{\mathsf{S}}
+\newcommand{\Proj}{\mathsf{Proj}}
+\newcommand{\U}{\mathsf{U}}
+\newcommand{\Diag}{\mathsf{Diag}}
+\newcommand{\Sep}{\mathsf{Sep}}
+\newcommand{\SepD}{\mathsf{SepD}}
+% added by me
+\newcommand{\T}{\mathsf{T}}
+
+% added by me
+\newcommand{\rank}{\mathsf{rank}}
+\newcommand{\im}{\mathsf{im}}
+\newcommand{\myker}{\mathsf{ker}}
+% \newcommand{\Pr}{\mathsf{Pr}}
+
+\def\>{\rangle}
+\def\<{\langle}
+\def\kk{\>\!\>}
+\def\bb{\<\!\<}
+\newcommand{\st}[1]{\mathbf{#1}}
+\newcommand{\bs}[1]{\boldsymbol{#1}}
+
+% Linear maps
+\newcommand{\map}[1]{\mathcal{#1}}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\diag}{\mathsf{diag}}
+
+
+%  Operational notions
+\newcommand{\op}[1]{\operatorname{#1}}
+
+\newcommand{\St}{{\mathsf{St}}}
+\newcommand{\Eff}{{\mathsf{Eff}}}
+\newcommand{\Pur}{{\mathsf{Pur}}}
+\newcommand{\Transf}{{\mathsf{Transf}}}
+\newcommand{\Chan}{{\mathsf{Chan}}}
+
+%   By Mo
+\newcommand{\arccot}{\mathrm{arccot}\,}
+
+%  Miscellanea
+\newcommand\myuparrow{\mathord{\uparrow}}
+\newcommand\mydownarrow{\mathord{\downarrow}}
+\newcommand\h{{\scriptstyle \frac 12}}
+% added by me
+\newcommand\I{\mathds{1}}
+
+% Environments
+\newtheorem{theo}{Theorem}
+\newtheorem{ax}{Axiom}
+\newtheorem{lemma}{Lemma}
+\newtheorem{prop}{Proposition}
+\newtheorem{cor}{Corollary}
+\newtheorem{defi}{Definition}
+
+
+\newtheorem{rem}{Remark}
+\newtheorem{ex}{Exercise}
+
+\newtheorem{proper}{Property}
+
+\def\Proof{{\bf Proof.~}}
+\def\qed{$\blacksquare$ \newline}
+
+\begin{document}
+    \preprint{APS/123-QED}
+    \title{Bipartite entanglement}
+    \author{}
+    \maketitle
+    % \tableofcontents
+    % \newpage
+
+    \begin{defi}
+        $R \in \Sep(\spc X : \spc Y)$ if
+        \begin{equation}
+            R = \sum_{a \in \Sigma} P_a \otimes Q_a
+        \end{equation}
+        where $\{ P_a : a \in \Sigma \} \subset \Pos(\spc X)$ and $\{ Q_a : a \in \Sigma \} \subset \Pos(\spc Y)$.
+    \end{defi}
+    \begin{defi}
+        \begin{equation}
+            \SepD(\spc X : \spc Y) = \Sep(\spc X : \spc Y) \cap \D(\spc X \otimes \spc Y)
+        \end{equation}
+    \end{defi}
+    \begin{theo}
+        $\Sep(\spc X : \spc Y)$ is a convex cone and $\SepD(\spc X : \spc Y)$ is convex.
+    \end{theo}
+    \Proof {
+        It suffices to prove that $Sep(X : Y)$ is closed under addition as well as multiplication by any nonnegative real number.
+        \begin{equation}
+            R_0 = \sum_{a \in \Sigma_0} P_a \otimes Q_a \ \ \ \ 
+            R_1 = \sum_{a \in \Sigma_1} P_a \otimes Q_a
+        \end{equation}
+        Then
+        \begin{equation}
+            R_0 + R_1 = \sum_{a \in \Sigma_0 \cup \Sigma_1} P_a \otimes Q_a \in \Sep(\spc X : \spc Y) \ \ \ \
+            \lambda R_0 = \sum_{a \in \Sigma_0} \lambda P_a \otimes Q_a \in \Sep(\spc X : \spc Y)
+        \end{equation}
+
+        $\SepD(\spc X : \spc Y)$ is convex because it is the intersection of two convex sets.
+    } \qed
+
+    \begin{lemma}
+        $\spc A \subset \Pos(\spc Z)$ is a cone. $\emptyset \neq \spc B = \spc A \cap \D(\spc Z)$
+        \begin{equation}
+            \spc A = \op{cone}(\spc B)
+        \end{equation}
+    \end{lemma}
+    \Proof
+        \begin{enumerate}
+            \item $\op{cone}(\spc B) \subset \spc A$ is obvious.
+            \item Assume $P \in \spc A$, then
+            \begin{equation}
+                \frac{P}{\Tr(P)} \in \spc A \cap \D(\spc Z) = \spc B
+            \end{equation}
+        \end{enumerate}
+    \qed
+
+    \begin{theo}
+        Let $\xi \in \D(\spc X \otimes \spc Y)$ be a density operator. The following statements are equivalent:
+        \begin{enumerate}
+            \item $\xi \in \SepD(\spc X : \spc Y)$
+            \item There exists an alphabet $\Sigma$
+            \begin{equation}
+                \xi = \sum_{a \in \Sigma} p(a) \rho_a \otimes \sigma_a
+            \end{equation}
+            \item There exists an alphabet $\Sigma$
+            \begin{equation}
+                \xi = \sum_{a \in \Sigma} p(a) x_ax_a^* \otimes y_ay_a^*
+            \end{equation}
+        \end{enumerate}
+    \end{theo}
+
+    \begin{theo}
+        If $\xi \in \SepD(\spc X : \spc Y)$, then there exists an alphabet $\Sigma$ with $|\Sigma| \leq \rank(\xi)^2$, $\{ x_a : a \in \Sigma \} \subset \s(\spc X)$ and $\{ y_a : a \in \Sigma \} \subset \s(\spc Y)$ such that
+        \begin{equation}
+            \xi = \sum_{a \in \Sigma} p(a) x_ax_a^* \otimes y_ay_a^*
+        \end{equation}
+    \end{theo}
+    \Proof
+    It holds that
+    \begin{equation}
+        \SepD(\spc X : \spc Y) = \op{conv} \{ xx^* \otimes yy^* : x \in \spc S(\spc X), y \in \spc S(\spc Y) \}
+    \end{equation}
+
+    And it is easy to see that
+    \begin{equation}
+        \xi \in \op{conv} \{ xx^* \otimes yy^* : x \in \spc S(\spc X), y \in \spc S(\spc Y), \im(xx^* \otimes yy^*) \subset \im(\xi) \}
+    \end{equation}
+
+    Notice that the following is a real affine space satisfying of dimension $\rank(\xi)^2 - 1$
+    \begin{equation}
+        \{ H \in \Herm(\spc X \otimes \spc Y) : \im(H) \subset \im(\xi), \Tr(H) = 1 \}
+    \end{equation}
+
+    Thus $\xi$ is contained in a affine space of dimension $\rank(\xi)^2 - 1$. This completes the proof.
+    \qed
+
+    \begin{cor}
+        If $R \in \Sep(\spc X : \spc Y)$ and $R \neq 0$, then there exists an alphabet $\Sigma$ with $|\Sigma| \leq \rank(R)^2$, $\{ x_a : a \in \Sigma \} \subset \spc X$ and $\{ y_a : a \in \Sigma \} \subset \spc Y$ such that
+        \begin{equation}
+            R = \sum_{a \in \Sigma} x_ax_a^* \otimes y_ay_a^*
+        \end{equation}
+    \end{cor}
+
+    \begin{theo}
+        For every choice of complex Euclidean spaces $\spc X$ and $\spc Y$, the set $\op{SepD}(\spc X : \spc Y)$ is compact and the set $\op{Sep}(\spc X : \spc Y)$ is closed.
+    \end{theo}
+
+    \begin{theo}
+        (Horodecki criterion) $R \in \Pos(\spc X \otimes \spc Y)$. The following are equivalent:
+        \begin{enumerate}
+            \item $R \in \Sep(\spc X : \spc Y)$
+            \item If $\Phi \in \T(\spc X, \spc Z)$ is a positive map, then
+            \begin{equation}
+                (\Phi \otimes \I_{\Lin(\spc Y)})(R) \in \Pos(\spc Z \otimes \spc Y)
+            \end{equation}
+            \item If $\Phi \in \T(\spc X, \spc Y)$ is a positive unital map, then
+            \begin{equation}
+                (\Phi \otimes \I_{\Lin(\spc Y)})(R) \in \Pos(\spc Y \otimes \spc Y)
+            \end{equation}
+        \end{enumerate}
+    \end{theo}
+    \Proof
+    It is easy to see $1 \implies 2$ and $2 \implies 3$. Thus we focus on $3 \implies 1$. 
+    
+    Suppose $R \notin \Sep(\spc X : \spc Y)$. As $\Sep(\spc X : \spc Y)$ is a closed, convex cone within the real vector space $\Herm(\spc X \otimes \spc Y)$, the hyperplane separation theorem implies that
+    \begin{equation}
+        \exists H \in \Herm(\spc X \otimes \spc Y) \ \forall S \in \Sep(\spc X : \spc Y) \ \begin{cases}
+            \<H, R\> < 0 \\
+            \<H, S\> \geq 0
+        \end{cases}
+    \end{equation}
+
+    Such an $H$ will be used to construct a positive and unital map.
+
+    Define $\Psi \in \T(\spc Y, \spc X)$ as
+    \begin{equation}
+        J(\Psi) = H
+    \end{equation}
+
+    Let $P \in \Pos(\spc X)$, $Q \in \Pos(\spc Y)$. Then
+    \begin{equation}
+        \<P, \Psi(Q)\> = \< P \otimes \overline Q, J(\Psi) \> = \< H, P \otimes \overline Q \> \geq 0
+    \end{equation}
+    Thus $\Psi$ is a positive map. It follows that $\Psi^*$ is also a positive map.
+
+    Define $\Phi$
+    \begin{equation}
+        \Phi(X) = A^{-\frac 1 2} \Psi^*(X) A^{-\frac 1 2}
+    \end{equation}
+    where $A = \Psi^*(\I_{\spc X})$.
+
+    Now we get a positive and unital map $\Phi$. Then we show that $(\Phi \otimes \I_{\Lin (\spc Y)})(R)$ is not positive
+    \begin{align*}
+        0
+        &> \< H, R \> \\
+        &= \< J(\Psi), R \> \\
+        &= \< \op{vec}(\I_{\spc Y}) \op{vec}(\I_{\spc Y})^*, (\Psi^* \otimes \I_{\Lin (\spc Y)})(R) \> \\
+        &= \< \op{vec}(\sqrt{A})\op{vec}(\sqrt{A})^*, (\Phi \otimes \I_{\Lin(\spc Y)})(R) \>
+    \end{align*}
+
+    \begin{defi}
+        Define the following projectors
+        \begin{align*}
+            &\Delta_0 = \frac 1 n \sum_{a,b \in \Sigma} E_{a,b} \otimes E_{a,b} & \Pi_0 = \frac 1 2 \I \otimes \I + \frac 1 2 W \\
+            &\Delta_1 = \I \otimes \I - \Delta_0 & \Pi_1 = \I \otimes \I - \Pi_1
+        \end{align*}
+
+        Isotropic states
+        \begin{equation}
+            \lambda \Delta_0 + (1-\lambda) \frac{\Delta_1}{n^2-1}
+        \end{equation}
+
+        Werner states
+        \begin{equation}
+            \lambda \frac{\Pi_0}{\binom{n+1}{2}} +
+            (1-\lambda) \frac{\Pi_1}{\binom{n}{2}}
+        \end{equation}
+    \end{defi}
+    
+    \begin{theo}
+        The isotropic state is entangled for $\lambda \in (1/n,1]$, while the Werner state is entangled for $\lambda \in [0,1/2)$.
+    \end{theo}
+    \Proof
+    Let $\op T$ denote the transpose map
+        \begin{equation}
+            \op T(X) = X^T
+        \end{equation}
+        We have
+        \begin{equation}
+            (\op T \otimes \I_{\Lin(\spc Y)}) \left(
+                \lambda \Delta_0 + (1-\lambda) \frac{\Delta_1}{n^2-1}
+            \right) = 
+                \frac{1+\lambda n}{2} \frac{\Pi_0}{\binom{n+1}{2}} +
+                \frac{1-\lambda n}{2} \frac{\Pi_1}{\binom{n}{2}}
+        \end{equation}
+        \begin{equation}
+            (\op T \otimes \I_{\Lin(\spc Y)}) \left(
+                \lambda \frac{\Pi_0}{\binom{n+1}{2}} + (1-\lambda) \frac{\Pi_1}{\binom{n}{2}}
+            \right) = 
+                \frac{2\lambda - 1}{n} \Delta_0 +
+                \left( 1- \frac{2\lambda - 1}{n} \right) \Delta_1
+        \end{equation}
+        
+        This completes the proof. \qed
+
+    \begin{lemma}
+        \begin{equation}
+            X = \sum_{a,b \in \Sigma} X_{a,b} \otimes E_{a,b} \in \Lin(\spc X \otimes \spc Y)
+        \end{equation}
+        We have
+        \begin{equation}
+            \Vert X \Vert^2 \leq \sum_{a,b \in \Sigma} \Vert X_{a,b} \Vert^2
+        \end{equation}
+    \end{lemma}
+    \Proof
+    Define
+    \begin{equation}
+        Y_a = \sum_{b \in \Sigma} X_{a,b} \otimes E_{a,b}
+    \end{equation}
+    \begin{align*}
+        \Vert Y_a^*Y_a \Vert
+        &= \left\Vert \sum_{b \in \Sigma} X_{a,b}X_{a,b}^* \otimes E_{a,a} \right\Vert \\
+    \end{align*}
+    \begin{align*}
+        \Vert X \Vert^2
+        &= \Vert XX^* \Vert \\
+        &\leq \sum_{a \in \Sigma} \Vert Y_a^*Y_a \Vert \\
+        &\leq \sum_{a,b \in \Sigma} \Vert X_{a,b}X_{a,b}^* \Vert \\
+        &= \sum_{a,b \in \Sigma} \Vert X_{a,b} \Vert^2
+    \end{align*}
+
+    \begin{lemma}
+        $\Phi \in \T(\spc X, \spc Y)$ is a positive and unital map. It holds that
+        \begin{equation}
+            \Vert \Phi(X) \Vert \leq \Vert X \Vert
+        \end{equation}
+    \end{lemma}
+
+    \begin{theo}
+        $H \in \Herm(\spc X \otimes \spc Y)$ and $\Vert H \Vert_2 \leq 1$, it holds that
+        \begin{equation}
+            \I_\spc X \otimes \I_\spc Y - H \in \Sep(\spc X : \spc Y)
+        \end{equation}
+    \end{theo}
+\end{document}
+    

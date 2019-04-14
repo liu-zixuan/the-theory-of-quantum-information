@@ -1,0 +1,471 @@
+
+\documentclass[aps,pra,onecolumn,notitlepage,superscriptaddress]{revtex4-1}
+
+%\input{myQcircuit}
+\usepackage{graphicx,color}% Include figure files
+\usepackage{dcolumn}% Align table columns on decimal point
+\usepackage{bm}% bold math
+\usepackage{amsmath,amssymb,mathrsfs}
+\usepackage{url}
+\usepackage{hyperref}
+
+% added by me
+\usepackage{framed}
+\usepackage{algorithm}
+\usepackage{dsfont}
+
+
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+
+%  Sets
+\newcommand{\set}[1]{\mathsf{#1}}
+\newcommand{\grp}[1]{\mathsf{#1}}
+\newcommand{\reg}[1]{\mathsf{#1}}
+\newcommand{\spc}[1]{\mathcal{#1}}
+
+% Integrals
+
+\def\d{{\rm d}}
+
+% Linear structures
+\newcommand{\Span}{{\mathsf{Span}}}
+\newcommand{\Lin}{\mathsf{Lin}}
+\newcommand{\Pos}{\mathsf{Pos}}
+\newcommand{\CP}{\mathsf{CP}}
+\newcommand{\Herm}{\mathsf{Herm}}
+\newcommand{\D}{\mathsf{D}}
+\newcommand{\Proj}{\mathsf{Proj}}
+\newcommand{\U}{\mathsf{U}}
+\newcommand{\Diag}{\mathsf{Diag}}
+% added by me
+\newcommand{\T}{\mathsf{T}}
+
+% added by me
+\newcommand{\rank}{\mathsf{rank}}
+\newcommand{\im}{\mathsf{im}}
+\newcommand{\myker}{\mathsf{ker}}
+% \newcommand{\Pr}{\mathsf{Pr}}
+
+\def\>{\rangle}
+\def\<{\langle}
+\def\kk{\>\!\>}
+\def\bb{\<\!\<}
+\newcommand{\st}[1]{\mathbf{#1}}
+\newcommand{\bs}[1]{\boldsymbol{#1}}
+
+% Linear maps
+\newcommand{\map}[1]{\mathcal{#1}}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\diag}{\mathsf{diag}}
+
+
+%  Operational notions
+\newcommand{\op}[1]{\operatorname{#1}}
+
+\newcommand{\St}{{\mathsf{St}}}
+\newcommand{\Eff}{{\mathsf{Eff}}}
+\newcommand{\Pur}{{\mathsf{Pur}}}
+\newcommand{\Transf}{{\mathsf{Transf}}}
+\newcommand{\Chan}{{\mathsf{Chan}}}
+
+
+%   By Mo
+\newcommand{\arccot}{\mathrm{arccot}\,}
+
+%  Miscellanea
+\newcommand\myuparrow{\mathord{\uparrow}}
+\newcommand\mydownarrow{\mathord{\downarrow}}
+\newcommand\h{{\scriptstyle \frac 12}}
+% added by me
+\newcommand\I{\mathds{1}}
+
+% Environments
+\newtheorem{theo}{Theorem}
+\newtheorem{ax}{Axiom}
+\newtheorem{lemma}{Lemma}
+\newtheorem{prop}{Proposition}
+\newtheorem{cor}{Corollary}
+\newtheorem{defi}{Definition}
+
+
+\newtheorem{rem}{Remark}
+\newtheorem{ex}{Exercise}
+
+\newtheorem{proper}{Property}
+
+\def\Proof{{\bf Proof.~}}
+\def\qed{$\blacksquare$ \newline}
+
+\begin{document}
+    \preprint{APS/123-QED}
+    \title{Unital channels and majorization}
+    \author{}
+    \maketitle
+    % \tableofcontents
+    % \newpage
+
+    \begin{defi}
+        $\Phi \in \Chan(\spc X)$ is a unital channel if $\Phi(\I_{\spc X}) = \I_{\spc X}$.
+    \end{defi}
+
+    \section{Subclasses of unital channels}
+    \begin{defi}
+        $\Phi \in \Chan(\spc X)$ is mixed-unitary channel if 
+        \begin{equation}
+            \Phi(X) = \sum_{a \in \Sigma} p(a) U_a X U_a^*
+        \end{equation}
+        where $p \in \spc P(\Sigma)$ and $\{ U_a : a \in \Sigma \} \subset \U(\spc X)$.
+    \end{defi}
+
+    \begin{rem}
+        Unital channels may not be mixed-unitary. Let $\spc X = \C^3$, then
+        \begin{equation}
+            \Phi(X) = \frac{1}{2} \Tr(X) \I - \frac{1}{2} X^T
+        \end{equation}
+        is unital but not mixed-unitary. We can prove that this channel is a extreme point of $\Chan(\spc X)$ but $\Phi$ is not unitary. So it can not be represented as the convex combination of unitary channels.
+    \end{rem}
+    
+    \begin{defi}
+        $\Phi \in \Chan(\spc X)$ is a pinching if
+        \begin{equation}
+            \Phi(X) = \sum_{a \in \Sigma} \Pi_a X \Pi_a \ \ \ \ \sum_{a \in \Sigma} \Pi_a = \I_{\spc X}
+        \end{equation}
+    \end{defi}
+
+    \begin{theo}
+        Every pinching channel is a mixed-unitary channel.
+    \end{theo}
+    \Proof
+    Define
+    \begin{equation}
+        U_{w} = \sum_{a \in \Sigma} w(a) \Pi_a \ \ \ \ w \in \{-1,1\}^\Sigma
+    \end{equation}
+    Then
+    \begin{equation}
+        \frac{1}{2^{|\Sigma|}} \sum_{w \in \{-1,1\}^\Sigma} U_w X U_w^* = \sum_{a \in \Sigma} \Pi_a X \Pi_a = \Phi(X)
+    \end{equation}
+
+    \begin{theo}
+        Let $A \in \U(\spc X, \spc X \otimes \spc Z)$ be an isometry. Let $\Phi \in \Chan(\spc X)$ such that
+        \begin{equation}
+            \Phi(X) = \Tr_{\spc Z} (AXA^*)
+        \end{equation}
+        The following two statements are equivalent
+        \begin{enumerate}
+            \item $\Phi$ is a mixed-unitary channels.
+            \item There exists a collection of channels $\{ \Psi_a : a \in \Sigma \} \subset \Chan(\spc X)$ and a measurement $\mu : \Sigma \to \Pos(\spc Z)$
+            \begin{equation}
+                X = \sum_{a \in \Sigma} \Psi_a \left( \Tr_{\spc Z} [ (\I_{\spc X} \otimes \mu(a)) AXA^* ] \right)
+            \end{equation}
+        \end{enumerate}
+    \end{theo}
+    \Proof {
+        \begin{enumerate}
+            \item Assume 1 holds. 
+            \begin{equation}
+                \begin{cases}
+                    \Phi(X) = \Tr_{\spc Z}(AXA^*) = \sum_{a \in \Sigma} (\I_{\spc X} \otimes v_a^*) AXA^* (\I_{\spc X} \otimes v_a) \\
+                    \Phi(X) = \sum_{a \in \Sigma} p(a) U_a X U_a^*
+                \end{cases}
+            \end{equation}
+            where $\sum_{a \in \Sigma} v_av_a^* = \I_{\spc Z}$.
+            Then there is a unitary matrix connecting them
+            \begin{equation}
+                \exists W \in \U(\C^\Sigma) \ \sqrt{p(a)}U_a = \sum_{b \in \Sigma} W(a,b) (\I_{\spc X} \otimes v_b ^*) A = \left( \I_{\spc X} \otimes \sum_{b \in \Sigma} W(a,b) v_b^* \right) A
+            \end{equation}
+    
+            Define
+            \begin{align*}
+                u_a &= \sum_{b \in \Sigma} \overline{W(a,b)} v_b \\
+            \end{align*}
+            We can see that
+            \begin{align*}
+                &\sum_{a \in \Sigma} u_au_a^* =
+                \left( \sum_{b \in \Sigma} \overline{W(a,b)} v_b  \right)
+                \left( \sum_{c \in \Sigma} W(a,c) v_c^* \right)
+                = \sum_{a \in \Sigma} v_av_a^* = \I_{\spc Z} \\
+                &\sqrt{p(a)} U_a
+                = (\I_{\spc X} \otimes u_a^*) A
+            \end{align*}
+            Define
+            \begin{equation}
+                \mu(a) = u_au_a^*
+            \end{equation}
+            Then
+            \begin{equation}
+                \Tr_{\spc Z} [ (\I_{\spc X} \otimes \mu(a)) AXA^* ] = (\I_{\spc X} \otimes u_a^*) AXA^* (\I_{\spc X} \otimes u_a) = p(a) U_a X U_a^*
+            \end{equation}
+            Obviously, the following channels work.
+            \begin{align*}
+                \Psi_a(X) &= U_a^*XU_a
+            \end{align*}
+            \item If statement 2 holds, define
+            \begin{equation}
+                \Phi_a(X) = \Tr_{\spc Z}((\I_{\spc X} \otimes \mu(a)) AXA^*)
+            \end{equation}
+    
+            Let\begin{equation}
+                \Psi_a(X) = \sum_{b \in \Gamma} A_{a,b} X A_{a,b}^* \ \ \ \ \Phi_a(X) = \sum_{c \in \Gamma} B_{a,c} X B_{a,c}^*
+            \end{equation}
+            \begin{align*}
+                &\sum_{a \in \Sigma} \Psi_a\Phi_a = \I_{\Lin(\spc X)} \\
+                \implies& \sum_{a \in \Sigma} \sum_{b,c \in \Gamma} \op{vec}(A_{a,b}B_{a,c}) \op{vec}(A_{a,b}B_{a,c})^* = \op{vec}(\I_{\spc X}) \op{vec}(\I_{\spc X})^*
+            \end{align*}
+
+            Since $\op{vec}(\I_{\spc X}) \op{vec}(\I_{\spc X})^*$ is a extreme point, we have
+            \begin{equation}
+                \forall a,b,c \ A_{a,b}B_{a,c} = \alpha_{a,b,c} \I_{\spc X} \ \ \ \ \sum_{a,b,c} |\alpha_{a,b,c}|^2 = 1
+            \end{equation}
+
+            Since $\Psi_a$ are channels
+            \begin{equation*}
+                \forall b \ \sum_b A_{a,b}^*A_{a,b} = \I
+            \end{equation*}
+            This implies
+            \begin{equation}
+                \sum_b |\alpha_{a,b,c}|^2 \I = \sum_b (A_{a,b}B_{a,c})^*(A_{a,b}B_{a,c}) = B_{a,c}^*B_{a,c}
+            \end{equation}
+
+            Thus $\Phi_a(X) = \sum_{c \in \Gamma} B_{a,c} X B_{a,c}$ is mixed-unitary.
+        \end{enumerate}
+    }
+
+    \subsection{Weyl-covariant channels}
+    The set $\Z_n$ is defined as
+    \begin{equation}
+        \Z_n = \{ 0, \cdots, n-1 \}
+    \end{equation}
+    This set forms a ring, with respect to addition and multiplication modulo $n$.
+
+    The discrete Weyl operators are a collection of unitary operators acting on $\spc X = \C^{\Z_n}$ , for a given positive integer $n$, defined in the following way. One first defines a scalar value
+    \begin{equation}
+        \zeta = \exp \left( \frac{2\pi i}{n} \right)
+    \end{equation}
+    along with unitary operators
+    \begin{equation}
+        U = \sum_{c \in \Z_n} E_{c+1,c} \ \ \ \ V = \sum_{c \in \Z_n} \zeta^c E_{c,c}
+    \end{equation}
+
+    The discrete Weyl operator $W_{a,b}$ is defined as
+    \begin{equation}
+        W_{a,b} = U^aV^b = \sum_{c \in \Z_n} \zeta^{bc}E_{a+c,c}
+    \end{equation}
+
+    \begin{proper}
+        Properties of the discrete Weyl operator
+        \begin{align}
+            &\I = W_{0,0} \ \ \ \sigma_z = W_{0,1} \ \ \ \sigma_x = W_{1,0} \ \ \ -i\sigma_y = W_{1,1} \\
+            &UV = \sum_{c \in \Z_n}\zeta^c E_{c+1,c} \ \ \ \  
+                VU = \sum_{c \in \Z_n}\zeta^{c+1} E_{c+1,c} \ \ \ \
+                VU = \zeta UV \\
+            &\overline{W_{a,b}} = W_{a,-b} \ \ \ \
+            W^T_{a,b} = \zeta^{-ab}W_{-a,b} \ \ \ \
+            W^*_{a,b} = \zeta^{ab}W_{-a,-b} \\
+            &W_{a,b}W_{c,d} = \zeta^{bc} W_{a+c,b+d} = \zeta^{bc-ad} W_{c,d}W_{a,b} \\
+            & \sum_{c \in \Z_n} \zeta^{ac} = \begin{cases}
+                n & a = 0 \\
+                0 & a \in \{ 1, \cdots, n-1 \}
+            \end{cases} \\
+            &\Tr(W_{a,b}) = \begin{cases}
+                n & (a,b) = (0,0) \\
+                0 & (a,b) \neq (0,0)
+            \end{cases} \\
+            &\< W_{a,b}, W_{c,d} \> = \begin{cases}
+                n & (a,b) = (c,d) \\
+                0 & (a,b) \neq (c,d)
+            \end{cases} \\
+            & \left\{ \frac{1}{\sqrt{n}} W_{a,b} : (a,b) \in \Z_n \times \Z_n \right\} \text{ is an ONB.} \\
+            & \text{discrete Fourier transform operator } F = \frac{1}{\sqrt{n}} \sum_{a,b \in \Z_n} \zeta^{ab} E_{a,b} \\
+            & F \in \U
+        \end{align}
+    \end{proper}
+
+    \begin{defi}
+        Let $X = \C^{\Z_n}$. A map $\Phi \in \T(\spc X)$ is a Weyl-covariant map if
+        \begin{equation}
+            \Phi(W_{a,b} X W_{a,b}^*) = W_{a,b} \Phi(X) W_{a,b}^*
+        \end{equation}
+    \end{defi}
+
+    \begin{theo}
+        $X = \C^{\Z_n}, \ \Phi \in \T(\spc X)$
+        \begin{enumerate}
+            \item $\Phi$ is a Weyl-covariant map
+            \item $\exists A \in \Lin(\spc X)$ such that
+            \begin{equation}
+                \Phi(W_{a,b}) = A(a,b) W_{a,b}
+            \end{equation}
+            \item $\exists B \in \Lin(\spc X)$ such that
+            \begin{equation}
+                \Phi(X) = \sum_{a,b \in \Z_n} B(a,b) W_{a,b} X W^*_{a,b}
+            \end{equation}
+        \end{enumerate}
+        Under the assumption that these three statements hold, the operators $A$ and $B$ in statements 2 and 3 are related by the equation
+        \begin{equation}
+            A^T = nF^*BF
+        \end{equation}
+
+        \subsection{Completely depolarizing and dephasing channels}
+        \begin{align*}
+            \Omega(X) &= \frac{\Tr(X)}{\dim(\spc X)} \I_{\spc X}  = \frac{1}{n^2} \sum_{a,b \in \Z_n} W_{a,b} X W_{a,b}^* \\
+            \Delta(X) &= \sum_{a \in \Sigma} X(a,a) E_{a,a} = \frac{1}{n} \sum_{c \in \Z_n} W_{0,c} X W_{0,c}^*
+        \end{align*}
+    \end{theo}
+
+    \subsection{Schur channels}
+    \begin{defi}
+        Schur map:
+        \begin{equation}
+            \Phi(X) = A \odot X
+        \end{equation}
+        where $\odot$ is the entry-wise product of $A$ and $X$
+        \begin{equation}
+            (A \odot X) (a,b) = A(a,b) X(a,b)
+        \end{equation}
+    \end{defi}
+
+    \begin{theo}
+        $A \in \Lin(\spc X)$, $\Phi(X) = A \odot X$ is completely positive iff $A$ is positive iff Kraus representations consisting only of equal pairs of diagonal operators.
+    \end{theo}
+
+    \begin{theo}
+        $A \in \Lin(\spc X)$, $\Phi(X) = A \odot X$ is trace-preserving iff $\forall a \in \Sigma \ A(a,a) = 1$ iff $\Phi$ is unital.
+    \end{theo}
+
+    \section{General properties of unital channels}
+    \subsection{Extreme points of the set of unital channels}
+
+    Define an operator $V \in \Lin(\spc X \oplus \spc X, (\spc X \oplus \spc X) \otimes (\spc X \oplus \spc X))$
+    \begin{equation}
+        V \op{vec}(X) = \op{vec} \begin{bmatrix}
+            X & 0 \\
+            0 & X^T
+        \end{bmatrix}
+    \end{equation}
+
+    Define $\phi(\Phi) \in \T(\spc X \oplus \spc X)$
+    \begin{equation}
+        J(\phi(\Phi)) = VJ(\Phi)V^*
+    \end{equation}
+
+    \begin{theo}
+        $\Phi \in \T(\spc X)$
+        \begin{equation}
+            \Phi(X) = \sum_{a \in \Sigma} A_a X B_a^*
+        \end{equation}
+        \begin{equation}
+            \phi(\Phi) \begin{bmatrix}
+                X_{0,0} & X_{0,1} \\
+                X_{1,0} & X_{1,1}
+            \end{bmatrix} = \sum_{a \in \Sigma}
+            \begin{bmatrix}
+                A_a & 0 \\
+                0 & A_a
+            \end{bmatrix}
+            \begin{bmatrix}
+                X_{0,0} & X_{0,1} \\
+                X_{1,0} & X_{1,1}
+            \end{bmatrix}
+            \begin{bmatrix}
+                B_a & 0 \\
+                0 & B_a
+            \end{bmatrix}^*
+        \end{equation}
+    \end{theo}
+
+    \begin{theo}
+        \begin{enumerate}
+            \item $\Phi \in \op{CP}(\spc X)$ iff $\phi(\Phi) \in \op{CP}(\spc X \oplus \spc X)$.
+            \item $\Phi \in \T(\spc X)$ is trace preserving and unital iff $\phi(\Phi)$ is trace preserving.
+            \item $\Phi$ is an extreme point of the set of all
+            unital channels in $\Chan(\spc X)$ iff $\phi(\Phi)$ is an extreme point of the set of channels $\Chan(\spc X \oplus \spc X)$.
+        \end{enumerate}
+    \end{theo}
+
+    \begin{theo}
+        $\Phi \in \Chan(\spc X)$ is a unital channel and
+        \begin{equation}
+            \Phi(X) = \sum_{a \in \Sigma} A_a X A_a^*
+        \end{equation}
+        where $A_a$ is linearly independent.
+
+        $\Phi$ is an extreme point of the set of all unital channels in $\Chan(\spc X)$ iff
+        \begin{equation}
+            \left\{ \begin{bmatrix}
+                A_b^*A_a & 0 \\
+                0 & A_aA_b^*
+            \end{bmatrix} : (a,b) \in \Sigma \times \Sigma \right\}
+        \end{equation}
+        is linearly independent.
+    \end{theo}
+
+    \begin{lemma}
+        $A_0, A_1 \in \Lin(\spc X)$
+        \begin{equation}
+            A_0^*A_0 + A_1^*A_1 = \I_{\spc X} = A_0A_0^* + A_1A_1^* \implies \exists U,V \in \U(\spc X) \ VA_0U^*, VA_1U^* \in \diag(\spc X)
+        \end{equation}
+    \end{lemma}
+    \Proof {
+        It suffices to prove that there exists a unitary operator $W \in \U(\spc X)$ such that the operators $WA_0$ and $WA_1$ are both normal and satisfy
+        \begin{equation}
+            [WA_0, WA_1] = 0
+        \end{equation}
+
+        Polar decompositions: $U_0,U_1 \in \U(\spc X), P_0,P_1 \in \Pos(\spc X)$
+        \begin{equation}
+            A_0 = U_0P_0 \ \ \ \ A_1 = U_1P_1
+        \end{equation}
+
+        Let $W = U_0^*$, then $WA_0 = P_0$ is normal.
+        \begin{equation}
+            A_0^*A_0 + A_1^*A_1 = \I_{\spc X} \implies P_0^2 + P_1^2 = \I_{\spc X}
+        \end{equation}
+        \begin{equation}
+            A_0A_0^* + A_1A_1^* = \I_{\spc X} \implies U_0P_0^2U_0^* + U_1P_1^2U_1^* = \I_{\spc X}
+        \end{equation}
+        Then
+        \begin{align*}
+            (WA_1)(WA_1)^* 
+            &= U_0^*A_1A_1^*U_0 \\
+            &= U_0^*U_1P_1^2U_1^*U_0 \\
+            &= U_0^*(\I_{\spc X} - U_0P_0^2U_0^*)U_0 \\
+            &= \I_{\spc X} - P_0^2 \\
+            &= P_1^2 \\
+            &= P_1U_1^*U_0U_0^*U_1P_1 \\
+            &= (WA_1)^*(WA_1)
+        \end{align*}
+        Thus $WA_1$ is normal.
+        \begin{align*}
+            &\begin{cases}
+                P_0^2 + P_1^2 = \I_{\spc X} \\
+                U_0P_0^2U_0^* + U_1P_1^2U_1^* = \I_{\spc X}
+            \end{cases} \\
+            \implies& U_0P_0^2U_0^* = U_1P_0^2U_1^* \\
+            \implies& U_0P_0U_0^* = U_1P_0U_1^* \\
+            \implies& P_0(U_0^*U_1) = (U_0^*U_1)P_0
+        \end{align*}
+        \begin{equation}
+            P_0^2P_1^2 = P_0^2(\I_{\spc X}-P_0^2) = (\I_{\spc X}-P_0^2)P_0^2 = P_1^2P_0^2 \implies P_0P_1 = P_1P_0
+        \end{equation}
+
+        Then
+        \begin{equation}
+            (WA_0)(WA_1) = P_0U_0^*U_1P_1 = U_0^*U_1P_1P_0 = (WA_1)(WA_0)
+        \end{equation}
+
+    }
+
+    \begin{theo}
+        Every unital qubit channel is mixed unitary.
+    \end{theo}
+    \Proof {
+        It suffices to establish that every unital channel $\Phi \in \Chan(\spc X)$ that is not a unitary channel is not an extreme point.
+    }
+    
+\end{document}
+    

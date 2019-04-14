@@ -1,0 +1,1485 @@
+
+\documentclass[aps,pra,onecolumn,notitlepage,superscriptaddress]{revtex4-1}
+
+%\input{myQcircuit}
+\usepackage{graphicx,color}% Include figure files
+\usepackage{dcolumn}% Align table columns on decimal point
+\usepackage{bm}% bold math
+\usepackage{amsmath,amssymb,mathrsfs}
+\usepackage{url}
+\usepackage{hyperref}
+
+% added by me
+\usepackage{framed}
+\usepackage{algorithm}
+\usepackage{dsfont}
+\usepackage{mathtools}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+
+
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+
+%  Sets
+\newcommand{\set}[1]{\mathsf{#1}}
+\newcommand{\grp}[1]{\mathsf{#1}}
+\newcommand{\reg}[1]{\mathsf{#1}}
+\newcommand{\spc}[1]{\mathcal{#1}}
+
+% Integrals
+
+\def\d{{\rm d}}
+
+% Linear structures
+\newcommand{\Span}{{\mathsf{Span}}}
+\newcommand{\Lin}{\mathsf{Lin}}
+\newcommand{\Pos}{\mathsf{Pos}}
+\newcommand{\CP}{\mathsf{CP}}
+\newcommand{\Herm}{\mathsf{Herm}}
+\newcommand{\D}{\mathsf{D}}
+\newcommand{\Proj}{\mathsf{Proj}}
+\newcommand{\U}{\mathsf{U}}
+\newcommand{\Diag}{\mathsf{Diag}}
+% added by me
+\newcommand{\T}{\mathsf{T}}
+
+% added by me
+\newcommand{\rank}{\mathsf{rank}}
+\newcommand{\im}{\mathsf{im}}
+\newcommand{\myker}{\mathsf{ker}}
+% \newcommand{\Pr}{\mathsf{Pr}}
+
+\def\>{\rangle}
+\def\<{\langle}
+\def\kk{\>\!\>}
+\def\bb{\<\!\<}
+\newcommand{\st}[1]{\mathbf{#1}}
+\newcommand{\bs}[1]{\boldsymbol{#1}}
+
+% Linear maps
+\newcommand{\map}[1]{\mathcal{#1}}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\diag}{\mathsf{diag}}
+
+
+%  Operational notions
+\newcommand{\op}[1]{\operatorname{#1}}
+
+\newcommand{\St}{{\mathsf{St}}}
+\newcommand{\Eff}{{\mathsf{Eff}}}
+\newcommand{\Pur}{{\mathsf{Pur}}}
+\newcommand{\Transf}{{\mathsf{Transf}}}
+\newcommand{\Chan}{{\mathsf{Chan}}}
+
+%   By Mo
+\newcommand{\arccot}{\mathrm{arccot}\,}
+
+%  Miscellanea
+\newcommand\myuparrow{\mathord{\uparrow}}
+\newcommand\mydownarrow{\mathord{\downarrow}}
+\newcommand\h{{\scriptstyle \frac 12}}
+% added by me
+\newcommand\I{\mathds{1}}
+
+% Environments
+\newtheorem{theo}{Theorem}
+\newtheorem{ax}{Axiom}
+\newtheorem{lemma}{Lemma}
+\newtheorem{prop}{Proposition}
+\newtheorem{cor}{Corollary}
+\newtheorem{defi}{Definition}
+
+
+\newtheorem{rem}{Remark}
+\newtheorem{ex}{Exercise}
+
+\newtheorem{proper}{Property}
+
+\def\Proof{{\bf Proof.~}}
+\def\Solution{{\bf Solution.~}}
+\def\qed{$\blacksquare$ \newline}
+
+\begin{document}
+    \preprint{APS/123-QED}
+    \title{Entropy and Source coding}
+    \author{}
+    \maketitle
+    % \tableofcontents
+    % \newpage
+
+    \section{Definitions of classical entropic functions}
+    \begin{defi}
+        $u \in [0, \infty)^{\Sigma}$
+        \begin{equation}
+            \boxed {
+                \op H(u) = - \sum_{a \in \Sigma} u(a) \log u(a)
+            }
+        \end{equation}
+    \end{defi}
+
+    \begin{defi}
+        $u,v \in [0, \infty)^{\Sigma}$ and the support of $u$ is contained in the support of $v$ ($\forall a \in \Sigma, \ u(a) > 0 \implies v(a) > 0$).
+        \begin{equation}
+            \boxed{\op D(u \Vert v) = \sum_{a \in \Sigma} u(a) \log \frac{u(a)}{v(a)} }
+        \end{equation}
+    \end{defi}
+
+    
+    \begin{rem}
+        Note that we define
+        \begin{equation}
+            0 \log 0 = \lim_{x \to 0^+} x \log x = 0
+        \end{equation}
+
+        For all other choices of u and v, one defines $\op D(u \Vert v) = \infty$.
+    \end{rem}
+
+    \begin{defi}
+        Scalar analogues of Shannon entropy and relative entropy
+        \begin{enumerate}
+            \item $\eta : [0, \infty) \to \R$
+            \begin{equation}
+                \boxed {
+                    \eta(\alpha) = -\alpha \ln \alpha
+                }
+            \end{equation}
+            \item $\theta : [0,\infty)^2 \to (-\infty, \infty]$ and $\alpha > 0 \implies \beta > 0$
+            \begin{equation}
+                \boxed {
+                    \theta(\alpha, \beta) = \alpha \ln \frac{\alpha}{\beta} 
+                }
+            \end{equation}
+        \end{enumerate}
+    \end{defi}
+
+    \begin{proper}
+        \begin{enumerate}
+            \item The relationship between $\eta$ and $\theta$:
+            \begin{align}
+                \theta(\alpha, \beta) &= -\beta \eta \left( \frac \alpha \beta \right) \\
+                \eta(\alpha) &= - \theta(\alpha, 1)
+            \end{align}
+            \item The Shannon entropy function may be expressed in terms of the $\eta$-function as follows:
+            \begin{equation}
+                \op H(u) = \frac{1}{\ln 2} \sum_{a \in \Sigma} \eta(u(a))
+            \end{equation}
+            \item Expressed in terms of the $\theta$-function
+            \begin{equation}
+                \op D(u \Vert v) = \frac{1}{\ln 2} \sum_{a \in \Sigma} \theta (u(a), v(a))
+            \end{equation}
+            \item The relationship between $\op H$ and $\op D$:
+            \begin{align}
+                \op H(u) &= -\op D(u \Vert \I) \\
+                \op D(u \Vert v) &= -\sum_{a \in \Sigma} v(a) \eta \left( \frac{u(a)}{v(a)} \right)
+            \end{align}
+            \item Properties of $\eta$: concavity
+            \begin{align}
+                &\eta^{(n+1)}(\alpha) = 
+                \begin{cases}
+                    -(1 + \ln \alpha) & n = 0 \\
+                    \frac{(-1)^n (n-1)!}{\alpha^n} & n \geq 1
+                \end{cases} \\
+                &\eta(\lambda \alpha + (1-\lambda) \beta) \geq \lambda \eta(\alpha) + (1-\lambda) \eta(\beta)
+            \end{align}
+            \item Properties of $\theta$: subadditivity
+            \begin{equation}
+                \theta(\alpha_0,\beta_0) + \theta(\alpha_1,\beta_1) \geq \theta(\alpha_0 + \alpha_1, \beta_0 + \beta_1)
+            \end{equation}
+            The equality is achieved iff $\alpha_0/\beta_0 = \alpha_1/\beta_1$.
+            \newline\Proof
+            \begin{align*}
+                \theta(\alpha_0,\beta_0) + \theta(\alpha_1,\beta_1)
+                &= -(\beta_0 + \beta_1) \left[ \frac{\beta_0}{\beta_0 + \beta_1} \eta\left(\frac{\alpha_0}{\beta_0}\right) + \frac{\beta_1}{\beta_0 + \beta_1} \eta\left(\frac{\alpha_1}{\beta_1}\right)  \right] \\
+                &\geq -(\beta_0 + \beta_1) \eta\left(\frac{\alpha_0 + \alpha_1}{\beta_0 + \beta_1}\right) \\
+                &= \theta(\alpha_0 + \alpha_1, \beta_0 + \beta_1)
+            \end{align*}
+            \qed
+
+            \item Concavity of $\op H$
+            \begin{equation}
+                \op H(\lambda u + (1-\lambda) v) \geq \lambda \op H(u) + (1-\lambda) \op H(v)
+            \end{equation}
+            (Hint: concavity of $\eta$)
+
+            \item Subadditivity of $\op D$
+            \begin{equation}
+                \op D(u_0 \Vert v_0) + \op D(u_1 \Vert v_1) \geq \op D(u_0+u_1 \Vert v_0+v_1)
+            \end{equation}
+            The equality is achieved iff $u_0(a)/v_0(a) = u_1(a)/v_1(a) \ \ \forall a \in \Sigma$.
+            (Hint: subadditivity of $\theta$)
+
+            \item Joint convexity of $\op D$
+            \begin{equation}
+                \op \lambda D(u_0 \Vert v_0) + \op (1-\lambda) D(u_1 \Vert v_1) \geq \op D(\lambda u_0+(1-\lambda)u_1 \Vert \lambda v_0+(1-\lambda)v_1)
+            \end{equation}
+
+            \item $\oplus$ and $\otimes$
+            \begin{equation}
+                \op H(u \oplus v) = \op H(u) + \op H(v)
+            \end{equation}
+            \begin{equation}
+                \op H(u \otimes v) = \op H(u) \sum_{b \in \Gamma} v(b) + \op H(v) \sum_{a \in \Sigma} u(a)
+            \end{equation}
+            \Proof
+            \begin{align*}
+                \op H(u \otimes v)
+                &= -\sum_{a \in \Sigma, b \in \Gamma} u(a)v(b) \log (u(a)v(b)) \\
+                &= -\sum_{a \in \Sigma, b \in \Gamma} u(a)v(b) \log (u(a)) - \sum_{a \in \Sigma, b \in \Gamma} u(a)v(b) \log (v(b)) \\
+                &= \op H(u) \sum_{b \in \Gamma} v(b) + \op H(v) \sum_{a \in \Sigma} u(a)
+            \end{align*}
+            \qed
+
+            \item $p \in \spc P(\Sigma)$, $\alpha > 0$
+            \begin{equation}
+                \op H(\alpha p) = \alpha \op H(p) - \alpha \log \alpha
+            \end{equation}
+
+            \item $p,q \in \spc P(\Sigma)$, $\alpha,\beta > 0$
+            \begin{equation}
+                \op D(\alpha p \Vert \beta q) = \alpha \op D(p \Vert q) + \alpha \log \frac{\alpha}{\beta}
+            \end{equation}
+
+            \item Non-negativity of $\op D$
+            \begin{equation}
+                \sum_{a \in \Sigma} u(a) \geq \sum_{a \in \Sigma} v(a)
+                \implies \op D(u \Vert v) \geq 0
+            \end{equation}
+            The equality is achieved iff $u = v$.
+            \newline\Proof
+            \begin{equation}
+                \op D(u \Vert v) = \frac{1}{\ln 2} \sum_{a \in \Sigma} \theta(u(a), v(a)) \geq \frac{1}{\ln 2} \theta(\sum_{a \in \Sigma} u(a), \sum_{a \in \Sigma} v(a)) \geq 0
+            \end{equation}
+            \qed
+
+            \item Bounds of Shannon entropy of a single system
+            \begin{equation}
+                \alpha = \sum_{a \in \Sigma} u(a)
+            \end{equation}
+            \begin{equation}
+                0 \leq \op H(u) + \alpha \log \alpha \leq \alpha \log (|\Sigma|)
+            \end{equation}
+            The first equality is achieved iff $u$ is pure. The second equality is achieved iff $u$ is flat.
+            
+            In particular, $0 \leq \op H(p) \leq \log(|\Sigma|)$
+            
+            \Proof
+            \begin{equation}
+                \op D(p \Vert \frac{\I}{|\Sigma|}) = \log |\Sigma|-\op H(p) \geq 0 \implies \op H(p) \leq \log |\Sigma|
+            \end{equation}
+            \qed
+         \end{enumerate}
+    \end{proper}
+
+    \begin{rem}
+        For convenience, we use $\op H(\reg X)$ to denote $\op H(p), \ p \in \spc P(\Sigma)$.
+    \end{rem}
+
+    \begin{defi}
+        Conditional Shannon entropy
+        \begin{equation}
+            \op H(\reg X | \reg Y) = \op H(\reg X, \reg Y) - \op H(\reg Y) = -\op D(p \Vert \I \otimes p[\reg Y]) = \log |\Sigma| - \op D(p \Vert \frac{\I}{|\Sigma|} \otimes p[\reg Y])
+        \end{equation}
+        where  is the alphabet of register $\reg X$.
+    \end{defi}
+    \begin{defi}
+        Mutual information
+        \begin{equation}
+            \op I(\reg X, \reg Y) = \op H(\reg X) + \op H(\reg Y) - \op H(\reg X, \reg Y) = \op D(p \Vert p[\reg X] \otimes p[\reg Y])
+        \end{equation}
+    \end{defi}
+
+    \begin{theo}
+        Let $\reg X$ and $\reg Y$ be classical registers. With respect to an arbitrary probabilistic state of these
+        registers, it holds that
+        \begin{enumerate}
+            \item A compound register cannot be greater than the total uncertainty one has about its individual registers
+            \begin{equation}
+                \op H(\reg X, \reg Y) \leq \op H(\reg X) + \op H(\reg Y)
+            \end{equation}
+            The equality is saturated iff $\reg X$ and $\reg Y$ are uncorrelated.
+
+            (Hint: $\op I(\reg X:\reg Y) = \op H(\reg X) + \op H(\reg Y) - \op H(\reg X, \reg Y) = \op D(p \Vert p[\reg X] \otimes p[\reg Y])$)
+            \item A pair of classical registers cannot be less than the Shannon entropy of either of the registers viewed in isolation.
+            \begin{equation}
+                \op H(\reg X) \leq \op H(\reg X, \reg Y)
+            \end{equation}
+            The equality is saturated iff the value of $\reg Y$ is totally dependent on the value of $\reg X$. It should be noted that this property does not carry over to the von Neumann entropy of quantum states.
+
+            \Proof
+            \begin{equation}
+                \op H(\reg X, \reg Y) = -\sum_{ab} p(a,b) \log p(a,b) \geq -\sum_a (\sum_b p(a,b)) \log (\sum_b p(a,b)) = \op H(\reg X)
+            \end{equation}
+            \qed
+
+            \item (Strong subadditivity) $\op H(\reg{X,Y,Z}) + \op H(\reg Y) \leq \op H(\reg X, \reg Y) + \op H(\reg Y, \reg Z)$ with equality iff $\reg Z \to \reg Y \to \reg X$ forms a Markov chain. That is
+            \begin{equation}
+                \forall a,b,c \ \ p[\reg X=a | \reg Y=b, \reg Z=c] = p[\reg X=a | \reg Y=b]
+            \end{equation}
+
+            And strong subadditivity is equivalent to
+            \begin{align*}
+                \op H(\reg X | \reg Y, \reg Z) &\leq \op H(\reg X | \reg Y) \\
+                \op I(\reg X : \reg Y, \reg Z) &\geq \op I(\reg X : \reg Y)
+            \end{align*}
+        \end{enumerate}
+    \end{theo}
+    
+    
+    \begin{theo}
+        $p_0, p_1 \in \spc P(\Sigma)$, $|\Sigma| \geq 2$ and $\lambda = \frac{1}{2} \Vert p_0 - p_1 \Vert_1$
+        \begin{equation}
+            |\op H(p_0) - \op H(p_1)| \leq \lambda \log (|\Sigma|-1) + \op H(\lambda, 1-\lambda)
+        \end{equation}
+    \end{theo}
+    The condition that the equality is saturated can be specified by the following proof.
+
+    \Proof
+    Define
+    \begin{align}
+        u_0(a) &= \begin{cases}
+            p_0(a) - p_1(a) & p_0(a) > p_1(a) \\
+            0 & \text{otherwise}
+        \end{cases} \\
+        u_1(a) &= \begin{cases}
+            p_1(a) - p_0(a) & p_0(a) < p_1(a) \\
+            0 & \text{otherwise}
+        \end{cases} \\
+        w(a) &= \min \{ p_0(a), p_1(a) \}
+    \end{align}
+
+    Then we have the following properties
+    \begin{enumerate}
+        \item $\lambda = \sum_{a \in \Sigma} u_0(a) = \sum_{a \in \Sigma} u_1(a) = 1 - \sum_{a \in \Sigma} w(a)$
+        \item $p_0 = u_0 + w, \ p_1 = u_1 + w$
+    \end{enumerate}
+
+    By concavity of Shannon entropy and notice that
+    \begin{equation}
+        -\alpha \log \alpha - \beta \log \beta + (\alpha+\beta) \log (\alpha+\beta) = (\alpha+\beta) \op H\left( 
+            \frac{\alpha}{\alpha+\beta},     
+            \frac{\beta}{\alpha+\beta}
+        \right)
+    \end{equation}
+    \begin{align*}
+        0 \leq \op H(u_0) + \op H(w) - \op H(p_0) &= \sum_{a \in \Sigma} p_0(a) \op H \left(\frac{u_0(a)}{p_0(a)}, \frac{w(a)}{p_0(a)} \right) \leq \op H(\lambda, 1-\lambda) \\
+        0 \leq \op H(u_1) + \op H(w) - \op H(p_1) &= \sum_{a \in \Sigma} p_1(a) \op H \left(\frac{u_1(a)}{p_1(a)}, \frac{w(a)}{p_1(a)} \right) \leq \op H(\lambda, 1-\lambda)
+    \end{align*}
+    \begin{align*}
+        \implies& |(\op H(u_0) - \op H(u_1)) - (\op H(p_0) - \op H(p_1))| \leq \op H(\lambda, 1-\lambda) \\
+        \implies& |\op H(p_0) - \op H(p_1)| - |\op H(u_0) - \op H(u_1)| \leq \op H(\lambda, 1-\lambda) \\
+    \end{align*}
+
+    Then we need to prove that
+    \begin{equation*}
+        |\op H(u_0) - \op H(u_1)| \leq \lambda \log (|\Sigma| - 1)
+    \end{equation*}
+
+    Just let $\Gamma$ be a proper subset of $\Sigma$.
+    \begin{equation}
+        \sum_{b \in \Gamma} v(b) = \lambda \implies 0 \leq \op H(v) + \lambda \log \lambda \leq \lambda \log (|\Gamma|)
+    \end{equation}
+    Thus
+    \begin{equation}
+        |\op H(u_0) - \op H(u_1)| \leq \lambda \log (|\Gamma|) \leq \lambda \log (|\Sigma|-1)
+    \end{equation}
+    \qed
+
+    \begin{theo}
+        Let $p_0, p_1 \in \spc P(\Sigma)$ be probability vectors, for $\Sigma$ being an alphabet. It holds that
+        \begin{equation}
+            \op D(p_0 \Vert p_1) \geq \frac{1}{2\ln 2} \Vert p_0-p_1 \Vert_1^2
+        \end{equation}
+    \end{theo}
+    The equality is saturated iff $p_0 = p_1$.
+    
+    \Proof
+    The following formula is useful.
+    \begin{equation}
+        \theta(\alpha, \beta) + \theta(1-\alpha, 1-\beta) \geq 2 (\alpha-\beta)^2
+    \end{equation}
+
+    Define
+    \begin{equation*}
+        \Sigma_0 = \{a \in \Sigma : p_0(a) > p_1(a)\}
+    \end{equation*}
+    \begin{equation}
+        \alpha = \sum_{a \in \Sigma_0} p_0(a) \ \ \ \ \beta = \sum_{a \in \Sigma_0} p_1(a)
+    \end{equation}
+    We have
+    \begin{equation}
+        \alpha - \beta = \sum_{a \in \Sigma} u_0(a) = \lambda
+    \end{equation}
+    And
+    \begin{align*}
+        \op D(p_0 \Vert p_1) 
+        &= \frac{1}{\ln 2} \sum_{a \in \Sigma} \theta(p_0(a), p_1(a)) \\ 
+        &\geq \frac{1}{\ln 2}(\theta(\alpha, \beta) + \theta(1-\alpha, 1-\beta)) \\
+        &\geq \frac{2}{\ln 2} \lambda^2 = \frac{1}{2\ln 2} \Vert p_0-p_1 \Vert_1^2
+    \end{align*}
+
+    The bound is saturated iff $p_0 = p_1$.
+    \qed
+
+    \begin{defi}
+        R\'{e}nyi function is defined as
+        \begin{equation}
+            \op H_\alpha(u) = \frac{1}{1-\alpha} \log \frac{\sum_{a \in \Sigma} u(a)^\alpha}{\sum_{a \in \Sigma} u(a)}
+        \end{equation}
+    \end{defi}
+    
+    \begin{proper}
+        Special cases:
+        \begin{enumerate}
+            \item $\alpha \to 0$: Zero entropy
+            \begin{equation}
+                \op H_0(u) = \log \frac{|\Sigma|}{\sum_{a \in \Sigma} u(a)}
+            \end{equation}
+
+            \item $\alpha = \frac 1 2$:  Max-entropy
+            \begin{equation}
+                \op H_{\max}(u) = 2 \log \frac{\sum_{a \in \Sigma} \sqrt{u(a)}}{\sum_{a \in \Sigma} u(a)}
+            \end{equation}
+
+            \item $\alpha \to 1$: Shannon entropy
+            \begin{align*}
+                \lim_{\alpha \to 1} \op H_\alpha(u)
+                &= \lim_{\alpha \to 1} \frac{1}{1-\alpha} \log \frac{\sum_{a \in \Sigma} u(a)^\alpha}{\sum_{a \in \Sigma} u(a)} \\
+                &= \lim_{\alpha \to 1} - \frac{\sum_{a \in \Sigma} u(a)}{\sum_{a \in \Sigma} u(a)^\alpha} \sum_{a \in \Sigma} u(a)^\alpha \log u(a) \\
+                &= - \sum_{a \in \Sigma} u(a) \log u(a)
+            \end{align*}
+
+            \item $\alpha = 2$: Collision entropy
+            
+            \item $\alpha \to \infty$: Min-entropy
+            \begin{equation}
+                \op H_{\min}(u) = - \log \frac{\max_{a \in \Sigma} u(a)}{\sum_{a \in \Sigma} u(a)}
+            \end{equation}
+        \end{enumerate}
+    \end{proper}
+    
+    \begin{defi}
+        \begin{equation}
+            \op D_\alpha (u \Vert v) = \frac{1}{\alpha-1} \log \frac{\sum_{a \in \Sigma} u(a)^\alpha v(a)^{1-\alpha}}{\sum_{a \in \Sigma} u(a)}
+        \end{equation}
+
+        It is easy to see that
+        \begin{equation}
+            \op H_\alpha(u) = -\op D_\alpha(u \Vert \I)
+        \end{equation}
+
+        We can define conditional entropy and mutual information this way:
+        \begin{equation}
+            \op H_\alpha (\reg X | \reg Y) = - \min_{q \in \spc P(\Gamma)} \op D_\alpha (p \Vert \I \otimes q)
+        \end{equation}
+        \begin{equation}
+            \op I_\alpha (\reg X : \reg Y) = \min_{q \in \spc P(\Gamma)} \op D_\alpha (p \Vert p[\reg X] \otimes q)
+        \end{equation}
+    \end{defi}
+
+    \section{Definitions of quantum entropic functions}
+    \begin{defi}
+        $P \in \Pos(\spc X)$. The von Neumann entropy of $P$ is defined as
+        \begin{equation}
+            \boxed{\op H(P) = \op H(\lambda(P)) = -\op H(P \log P)}
+        \end{equation}
+        for $\lambda(P)$ being the vector of eigenvalues of $P$.
+    \end{defi}
+
+    \begin{rem}
+        Similar to the Shannon entropy usually being considered for probability vectors, it is most common that one considers the von Neumann entropy function on density operator inputs.
+    \end{rem}
+
+    \begin{defi}
+        $P,Q \in \Pos(\spc X), \ \im(P) \subset \im(Q)$. The quantum relative entropy of $P$ with respect to $Q$ is defined as
+        \begin{equation}
+            \boxed{\op D(P \Vert Q) =  \Tr(P \log P) - \Tr(P \log Q)}
+        \end{equation}
+    \end{defi}
+    
+    \begin{defi}
+        The conditional von Neumann entropy and quantum mutual information are defined in an analogous manner to the conditional Shannon entropy and mutual information.
+    \end{defi}
+
+    \begin{proper}
+        \begin{enumerate}
+            \item $P, Q \in \C^\Sigma$ with spectrum decompositions
+            \begin{equation}
+                P = \sum_{a \in \Sigma} \lambda_{a} x_ax_a^* \ \ \ \ 
+                Q = \sum_{b \in \Sigma} \mu_{b} y_by_b^*
+            \end{equation}
+            Then
+            \begin{equation}
+                \boxed{
+                    \op D(P \Vert Q) = \frac{1}{\ln 2} \sum_{a,b \in \Sigma} \theta( |x_a^*y_b|^2 \lambda_a, |x_a^*y_b|^2 \mu_b )
+                }
+            \end{equation}
+            Hint
+            \begin{equation}
+                \op D(P \Vert Q) = \sum_{a \in \Sigma} \lambda_a \log \lambda_a - \sum_{a,b \in \Sigma} |x_a^*y_b|^2 \lambda_a \log \mu_b = \sum_{a,b \in \Sigma} |x_a^*y_b|^2 \lambda_a \log \frac{\lambda_a}{\mu_b}
+            \end{equation}
+            \item $P,Q \in \Pos(\spc X)$ and $V \in \U(\spc X, \spc Y)$
+            \begin{equation}
+                \op H(VPV^*) = \op H(P) \ \ \ \ \op D(VPV^* \Vert VQV^*) = \op D(P \Vert Q)
+            \end{equation}
+            \item $P, Q \in \Pos(\spc X)$
+            \begin{equation}
+                \op H \left( \begin{bmatrix}
+                    P &  \\
+                     & Q
+                \end{bmatrix} \right) = H(P) + H(Q)
+            \end{equation}
+            \begin{equation}
+                \op H(P \otimes Q) = \Tr(Q)\op H(P) + \Tr(P)\op H(Q)
+            \end{equation}
+            \begin{equation}
+                \op D(P_0 \otimes P_1 \Vert Q_0 \otimes Q_1) = \Tr(P_1)\op D(P_0 \Vert Q_0) + \Tr(P_0) \op D(P_1 \Vert Q_1)
+            \end{equation}
+            \begin{equation}
+                \op H(\alpha \rho) = \alpha\op H(\rho) - \alpha \log \alpha
+            \end{equation}
+            \begin{equation}
+                \op D(\alpha \rho \Vert \beta \sigma) = \alpha \op D(\rho \Vert \sigma) + \alpha \log \frac{\alpha}{\beta}
+            \end{equation}
+
+            \item non-negativity of quantum relative entropy
+            \begin{equation}
+                \Tr(P) \geq \Tr(Q) \implies \op D(P \Vert Q) \geq 0
+            \end{equation}
+            with equality saturated iff $P = Q$. This is equivalent to
+            \begin{align*}
+                \op H(P) &\leq -\Tr(P \log Q) \ \ \ \ \Tr(Q) \leq \Tr(P) \\
+                \op H(P) &= \min_{\Tr(Q) \leq \Tr(P)} -\Tr(P \log Q)
+            \end{align*}
+            \begin{align*}
+                \op D(P \Vert Q) 
+                &= \frac{1}{\ln 2} \sum_{a,b \in \Sigma} \theta( |x_a^*y_b|^2 \lambda_a, |x_a^*y_b|^2 \mu_b ) \\
+                &\geq \frac{1}{\ln 2} \theta(\sum_{a,b \in \Sigma}  |x_a^*y_b|^2 \lambda_a, \sum_{a,b \in \Sigma}  |x_a^*y_b|^2 \mu_b ) \\
+                &= \frac{1}{\ln 2} \theta(\Tr(P), \Tr(Q))
+            \end{align*}
+            \item Concavity
+            \begin{equation}
+                \op H(\lambda P + (1-\lambda) Q) \geq \lambda \op H(P) + (1-\lambda) \op H(Q)
+            \end{equation}
+            \Proof
+            Since $\op H$ is a continuous, the following mid-point convexity is enough.
+            \begin{equation*}
+                \op H \left(
+                    \begin{bmatrix}
+                        P & \\
+                        & Q
+                    \end{bmatrix}
+                    \Bigg\Vert
+                    \begin{bmatrix}
+                        \frac{P+Q}{2} & \\
+                        & \frac{P+Q}{2}
+                    \end{bmatrix}   
+                \right) = 2 \op H\left(\frac{P+Q}{2}\right) - \op H(P) - \op H(Q) \geq 0
+            \end{equation*}
+
+            Another proof. Let $f(x) = \op H(xP + (1-x)Q)$. The convexity of $\op H$ is equivalent to
+            \begin{equation}
+                f(\lambda) \geq \lambda f(1) + (1-\lambda)f(0)
+            \end{equation}
+
+            It suffices to prove $f$ is convex over $[0,1]$.
+            \begin{align*}
+                f'(x) 
+                &= \lim_{\Delta x \to 0} \frac{\Delta f(x)}{\Delta x} \\
+                &= -\Tr [(P-Q) \log (xP + (1-x)Q) + (P-Q)] \\
+                f''(x) &= \lim_{\Delta x \to 0} \frac{\Delta f'(x)}{\Delta x} \\
+                &= -\Tr [(P-Q) (xP+(1-x)Q)^{-1} (P-Q)] \\
+                &\leq 0
+            \end{align*}
+
+            A third proof.
+            Consider a classical-quantum state $\sigma \in \D(\spc X \otimes \spc Y)$:
+            \begin{equation}
+                \sigma = \sum_{a \in \Sigma} p(a) E_{a,a} \otimes \rho_a
+            \end{equation}
+            \begin{equation}
+                \begin{cases}
+                    \op H(\reg X) = \op H(p) \\
+                    \op H(\reg Y) = \op H\left( \sum_{a \in \Sigma} p(a) \rho_a \right) \\
+                    \op H(\reg X, \reg Y) = \op H(p) + \sum_{a \in \Sigma} p(a) \op H(\rho_a) \\
+                    \op H(\reg X) + \op H(\reg Y) \geq \op H(\reg X, \reg Y)
+                \end{cases}
+                \implies \op H\left( \sum_{a \in \Sigma} p(a) \rho_a \right) \geq \sum_{a \in \Sigma} p(a) \op H(\rho_a)
+            \end{equation}
+
+            \item Subadditivity \label{Subadditivity}
+            \begin{equation}
+                \op H(\reg X, \reg Y) \leq \op H(\reg X) + \op H(\reg Y)
+            \end{equation}
+            with equality iff $\reg X$ and $\reg Y$ are uncorrelated.
+            \begin{equation*}
+                \op D(\rho \Vert \rho[\reg X] \otimes \rho[\reg Y]) = -\op H(\rho) + \op H(\rho[\reg X]) + \op H(\rho[\reg Y]) \geq 0
+            \end{equation*}
+            The following formula is useful.
+            \begin{equation}
+                \log (P \otimes Q) =  \log P \otimes \I + \I \otimes \log Q
+            \end{equation}
+
+            \item Assume the compound register $(\reg X,\reg Y)$ is in a pure state $uu^*$. The Schmidt decomposition of $u$ is
+            \begin{equation}
+                u = \sum_{a \in \Sigma} \sqrt{p(a)} x_a \otimes y_a
+            \end{equation}
+            Then
+            \begin{equation}
+                \op H(\reg X) = \op H(\reg Y) = \op H(p)
+            \end{equation}
+
+            \item $\op H(\reg X) \leq \op H(\reg Y) + \op H(\reg X, \reg Y)$ \label{tri}
+            The equality is achieved iff $\reg Y$ is uncorrelated with the purifying system. Or specificly, Let $\rho \in \D(\spc X, \otimes \spc Y)$ with the following spectrum decomposition:
+            \begin{equation}
+                \rho = \sum_{a \in \Sigma} p(a) u_a u_a^*
+            \end{equation}
+            The equality is saturated iff $\{ \Tr_{\spc Y} u_au_a : a \in \Sigma \}$ have a common eigenbasis and $\{ \Tr_{\spc X} u_au_a : a \in \Sigma \}$ are orthogonal.
+
+            To prove the result, consider a purification $u \in \op D(\spc X, \spc Y, \spc Z)$ of $\rho \in \D(\spc X, \spc Y)$. Then
+            \begin{align*}
+                \op H(\reg X) &= \op H(\reg Y, \reg Z) \\
+                \op H(\reg X, \reg Y) &= \op H(\reg Z) \\
+                \op H(\reg Y, \reg Z) &\leq \op H(\reg Y) + \op H(\reg Z)
+            \end{align*}
+
+            \item Combining \ref{Subadditivity} and \ref{tri}, we have
+            \begin{equation}
+                |\op H(\reg X) - \op H(\reg Y)| \leq \op H(\reg X, \reg Y) \leq \op H(\reg X) + \op H(\reg Y)
+            \end{equation}
+        \end{enumerate}
+    \end{proper}
+
+    \begin{theo}
+        (Fannes-Audenaert inequality) Let $\rho_0, \rho_1 \in \D(\spc X)$ be density operators, for $\spc X$ a complex Euclidean space of dimension $n \geq 2$, and let
+        \begin{equation}
+            \delta = \frac 1 2 \Vert \rho_0 - \rho_1 \Vert_1
+        \end{equation}
+        we have
+        \begin{equation}
+            |\op H(\rho_0) - \op H(\rho_1)| \leq \delta \log (n-1) + \op H(\delta, 1-\delta)
+        \end{equation}
+        The condition that the equality is saturated can be specified by the following proof.
+    \end{theo}
+    \Proof
+    The following bound is useful.
+    \begin{equation}
+        \sum_{k = 1}^n |\lambda_k(X) - \lambda_k(Y)| \leq \Vert X - Y \Vert_1 \leq \sum_{k = 1}^n |\lambda_k(X) - \lambda_{n-k+1}(Y)| 
+    \end{equation}
+
+    Define
+    \begin{align}
+        \delta_0 &= \frac 1 2 \sum_{k=1}^n |\lambda_k(\rho_0) - \lambda_k(\rho_1)| \\
+        \delta_1 &= \frac 1 2 \sum_{k=1}^n |\lambda_k(\rho_0) - \lambda_{n-k+1}(\rho_1)| \\
+    \end{align}
+
+    Use the above bound, we have $\delta_0 \leq \delta \leq \delta_1$. Let
+    \begin{equation}
+        \delta = \alpha \delta_0 + (1-\alpha) \delta_1
+    \end{equation}
+    \begin{align*}
+        |\op H(\rho_0) - \op H(\rho_1)| &\leq \delta_0 \log (n-1) + \op H(\delta_0, 1-\delta_0) \\
+        |\op H(\rho_0) - \op H(\rho_1)| &\leq \delta_1 \log (n-1) + \op H(\delta_1, 1-\delta_1)
+    \end{align*}
+
+    Thus
+    \begin{align*}
+        |\op H(\rho_0) - \op H(\rho_1)| &\leq \alpha (\delta_0 \log (n-1) + \op H(\delta_0, 1-\delta_0)) + (1-\alpha)(\delta_1 \log (n-1) + \op H(\delta_1, 1-\delta_1)) \\
+        &\leq \delta \log (n-1) + \op H(\delta, 1-\delta)
+    \end{align*}
+    \qed
+
+    \begin{theo}
+        (Projective measurement increases entropy) $Q \in \Pos(\spc X)$. Let $\{ P_a : a \in \Sigma \} \in \Proj(\spc X)$ be a complete set of projectors.
+        \begin{equation}
+            Q' = \sum_{a \in \Sigma} P_a Q P_a
+        \end{equation}
+        \begin{equation}
+            \op H(Q') \geq \op H(Q)
+        \end{equation}
+    \end{theo}
+    \Proof 
+    \begin{align*}
+        - \Tr(Q \log Q')
+        &= -\Tr \left(\sum_{a \in \Sigma} P_a Q \log Q' \right) \\
+        &= -\sum_{a \in \Sigma}\Tr  (P_a Q \log Q' P_a) \\
+        &= -\sum_{a \in \Sigma}\Tr  (P_a Q P_a \log Q') \\
+        &= \op H(Q')
+    \end{align*}
+
+    Then
+    \begin{equation}
+        \op H(Q') - \op H(Q) = - \Tr(Q \log Q') + \Tr(Q \log Q) = \op D(Q \Vert Q') \geq 0
+    \end{equation}
+    \qed
+
+    \begin{theo}
+        (Entropy of classical-quantum state) $p \in \spc P(\Sigma)$, $\{ \rho_a : a \in \Sigma \} \subset \D(\spc Y)$. Define a classical-quantum state $\sigma \in \D(\spc X \otimes \spc Y)$
+        \begin{equation}
+            \sigma = \sum_{a \in \Sigma} p(a) E_{a,a} \otimes \rho_a
+        \end{equation}
+        Then
+        \begin{align*}
+            \op H(\reg X) &= \op H(p) \\
+            \op H(\reg Y) &= \op H \left(\sum_{a \in \Sigma} p(a) \rho_a \right) \\
+            \op H(\reg X, \reg Y) &= \op H(p) + \sum_{a \in \Sigma} p(a) \op H(\rho_a) \\
+            \op H(\reg Y) &\leq \op H(\reg X, \reg Y) \\
+            \op H(\reg X) &\leq \op H(\reg X, \reg Y)
+        \end{align*}
+    $\op H(\reg Y) = \op H(\reg X, \reg Y)$ holds iff $\{\rho(a)\}$ are orthogonal. $\op H(\reg X) = \op H(\reg X, \reg Y)$ holds iff $\{\rho(a)\}$ are pure.
+    \end{theo}
+    \Proof
+    Suppose $\rho_a = u_au_a^*$, consider a purification of $\rho = \sum_{a \in \Sigma} p(a) \rho_a$
+    \begin{equation}
+        w = \sum_{a \in \Sigma} \sqrt{p(a)} u_a \otimes e_a
+    \end{equation}
+    
+    Then
+    \begin{equation}
+        \op H(\rho) = \op H(\reg X) = \op H(\reg Y)
+    \end{equation}
+
+    Perform a projective measurement on $w[\reg Y]$. We get
+    \begin{equation}
+        \op H(\reg Y) \leq \op H(p)
+    \end{equation}
+
+    Thus, we have proved that when the states $\rho_a$ are pure,
+    \begin{equation}
+        \op H \left(\sum_{a \in \Sigma} p(a) \rho_a \right) \leq \op H(p)
+    \end{equation}
+
+    If not pure, we can decompose
+    \begin{equation}
+        \rho_a = \sum_{b \in \Gamma} q(a,b) v_bv_b^*
+    \end{equation}
+    Then
+    \begin{align*}
+        \op H \left(\sum_{a \in \Sigma} p(a) \rho_a \right)
+        &= \op H \left(\sum_{a \in \Sigma, b \in \Gamma} p(a) q(a,b) v_bv_b^* \right) \\
+        &\leq \op H(p(a)q(a,b)) \\
+        &= \op H(p) + \sum_{a \in \Sigma} p(a) \op H(\rho_a)
+    \end{align*}
+    \qed
+
+    \begin{theo}
+        Combining concavity and the entropy inequality of classical-quantum state, we have
+        \begin{equation}
+            \sum_{a \in \Sigma} p(a) \op H(\rho_a) \leq \op H \left(\sum_{a \in \Sigma} p(a) \rho_a \right) \leq \sum_{a \in \Sigma} p(a) \op H(\rho_a) + \op H(p)
+        \end{equation}
+    \end{theo}
+
+    \begin{theo}
+        \begin{equation}
+            \op D(P \Vert Q) = \lim_{\varepsilon \to 0^+} \frac 1 \varepsilon \log \frac{\Tr(P)}{\< P^{1-\varepsilon}, Q^\varepsilon \>} = \frac{1}{\ln 2} \lim_{\varepsilon \to 0^+}\frac{\Tr (P) - \< P^{1-\varepsilon}, Q^\varepsilon\>}{\varepsilon}
+        \end{equation}
+    \end{theo}
+
+
+    \begin{lemma}
+        Let $P,Q \in \Pos(\spc X)$ be positive semidefinite operators such that $[P,Q] = 0$, and let $H \in \Herm(\spc X)$ be a Hermitian operator for which
+        \begin{equation}
+            \begin{pmatrix}
+                P & H \\
+                H & Q
+            \end{pmatrix} 
+            \in \Pos(\spc X \oplus \spc X)
+        \end{equation}
+        It holds that $H \leq \sqrt P \sqrt Q$.
+    \end{lemma}
+    \Proof
+    \begin{align*}
+        &\begin{pmatrix}
+            P & H \\
+            H & Q
+        \end{pmatrix} 
+        \in \Pos(\spc X \oplus \spc X) \\
+        &\implies \Vert P^{-\frac 1 2} H Q^{-\frac 1 2} \Vert \leq 1 \\
+        &\implies \Vert P^{-\frac 1 4}Q^{-\frac 1 4} H Q^{-\frac 1 4}P^{-\frac 1 4} \Vert \leq 1 \\
+        &\implies H \leq \sqrt P \sqrt Q
+    \end{align*}
+    \qed
+
+    \begin{lemma}
+        (Lieb’s concavity theorem) $A_0, A_1 \in \Pos(\spc X)$, $B_0, B_1 \in \Pos(\spc Y)$, $\alpha \in [0,1]$
+        \begin{equation}
+            (A_0 + A_1)^\alpha \otimes (B_0 + B_1)^{1-\alpha} \geq A_0^\alpha \otimes B_0^{1-\alpha} + A_1^\alpha \otimes B_1^{1-\alpha} 
+        \end{equation}
+    \end{lemma}
+    \Proof
+    Define
+    \begin{align*}
+        X(\alpha) &= A_0^\alpha \otimes B_0^{1-\alpha} \\
+        Y(\alpha) &= A_1^\alpha \otimes B_1^{1-\alpha} \\
+        Z(\alpha) &= (A_0 + A_1)^\alpha \otimes (B_0 + B_1)^{1-\alpha} \\
+        f(\alpha) &= Z(\alpha) - X(\alpha) - Y(\alpha)
+    \end{align*}
+
+    Our goal is to prove that $f(\alpha) \geq 0$ for every $\alpha \in [0,1]$. $f(0) \geq 0$ and $f(1) \geq 0$ are trivial.
+
+    $f$ is continuous on the interval $[0,1]$, and therefore the preimage of the
+    closed set $\Pos(\spc X \otimes \spc Y)$ under this function is closed. It therefore suffices to prove that the set $\{ \alpha \in [0,1] : f(\alpha) \geq 0 \}$ is dense in $[0,1]$.
+
+    Suppose $f(\alpha) > 0$ and $f(\beta) > 0$.
+    \begin{align*}
+        &\begin{bmatrix}
+            Z(\alpha) & X\left( \frac{\alpha+\beta}{2} \right) + Y\left( \frac{\alpha+\beta}{2} \right) \\
+            X\left( \frac{\alpha+\beta}{2} \right) + Y\left( \frac{\alpha+\beta}{2} \right) & Z(\alpha)
+        \end{bmatrix} \\
+        &=\begin{bmatrix} \sqrt{X(\alpha)} \\ \sqrt{X(\beta)} \end{bmatrix}
+        \begin{bmatrix} \sqrt{X(\alpha)} & \sqrt{X(\beta)} \end{bmatrix}+
+        \begin{bmatrix} \sqrt{Y(\alpha)} \\ \sqrt{Y(\beta)} \end{bmatrix}
+        \begin{bmatrix} \sqrt{Y(\alpha)} & \sqrt{Y(\beta)} \end{bmatrix} \\
+        &\in \Pos(\sc X \oplus \spc X) \\
+        &\implies X\left( \frac{\alpha+\beta}{2} \right) + Y\left( \frac{\alpha+\beta}{2} \right) \leq \sqrt{Z(\alpha)} \sqrt{Z(\beta)} = Z\left( \frac{\alpha+\beta}{2} \right)
+    \end{align*}
+
+    Then we keep dividing a interval into two halves. We get $f(\alpha) \geq 0$ for the set $\{ \alpha = k/2^n : k,n \in N^*, k \leq 2^n \}$. This completes the proof.    
+    \qed
+
+    \begin{cor}
+        $P_0,P_1,Q_0,Q_1 \in \Pos(\spc X)$
+        \begin{equation}
+            \< (P_0+P_1)^\alpha, (Q_0+Q_1)^{1-\alpha} \> \geq \< P_0^\alpha, Q_0^{1-\alpha} \> + \< P_1^\alpha, Q_1^{1-\alpha} \>
+        \end{equation}
+    \end{cor}
+
+    \begin{theo}
+        $P_0, P_1, Q_0, Q_1 \in \Pos(\spc X)$
+        \begin{equation}
+            \op D(P_0 + P_1 \Vert Q_0 + Q_1) \leq \op D(P_0 \Vert Q_0) + \op D(P_1 \Vert Q_1)
+        \end{equation}
+    \end{theo}
+    \Proof
+    \begin{align*}
+        &\op D(P_0+P_1 \Vert Q_0+Q_1) \\
+        &= \frac{1}{\ln 2} \lim_{\varepsilon \to 0} \frac{\Tr(P_0+P_1) - \< (P_0+P_1)^{1-\varepsilon}, (Q_0+Q_1)^\varepsilon \>}{\varepsilon} \\
+        &\leq \frac{1}{\ln 2} \left(
+            \lim_{\varepsilon \to 0} \frac{\Tr P_0 - \< P_0^{1-\varepsilon}, Q_0^\varepsilon \>}{\varepsilon} + 
+            \lim_{\varepsilon \to 0} \frac{\Tr P_1 - \< P_1^{1-\varepsilon}, Q_1^\varepsilon \>}{\varepsilon}
+        \right) \\
+        &= \op D(P_0 \Vert Q_0) + \op D(P_1 \Vert Q_1)
+    \end{align*}
+    \qed
+
+    \begin{cor}
+        (Joint convexity of quantum relative entropy) $P_0, P_1, Q_0, Q_1 \in \Pos(\spc X)$, $\lambda \in [0,1]$. It holds that 
+        \begin{equation}
+            \op D(\lambda P_0 + (1-\lambda) P_1 \Vert \lambda Q_0 + (1-\lambda) Q_1) \leq \lambda \op D(P_0 \Vert Q_0) + (1-\lambda) \op D(P_1 \Vert Q_1)
+        \end{equation}
+    \end{cor}
+
+    \begin{theo}
+        (Monotonicity of quantum relative entropy) $P,Q \in \Pos(\spc X)$, $\Phi \in \Chan(\spc X, \spc Y)$.
+        \begin{equation}
+            \op D(\Phi(P) \Vert \Phi(Q)) \leq \op D(P \Vert Q)
+        \end{equation}
+    \end{theo}
+    \Proof
+    First use joint convexity to prove that it holds for mixed unitary channels. Then
+    \begin{align*}
+        \op D(\Phi(P) \Vert \Phi(Q))
+        &= \op D(\Phi(P) \otimes \omega \Vert \Phi(Q) \otimes \omega) \\
+        &= \op D((\I_{\Lin(\spc Y)} \otimes \Omega)(APA^*) \Vert (\I_{\Lin(\spc Y)} \otimes \Omega)(AQA^*)) \\
+        &\leq \op D(APA^* \Vert AQA^*) \\
+        &= \op D(P \Vert Q)
+    \end{align*}
+    \qed
+    
+    \begin{theo}
+        (Strong subadditivity of von Neumann entropy)
+        \begin{equation}
+            \op H(\reg X, \reg Y, \reg Z) + \op H(\reg Z) \leq \op H(\reg X, \reg Z) + \op H(\reg Y, \reg Z)
+        \end{equation}
+        This is equivalent to
+        \begin{align*}
+            \op H(\reg X | \reg {Y,Z}) &\leq \op H(\reg X | \reg Z) \\
+            \op I(\reg X : \reg {Y,Z}) &\geq \op I(\reg X : \reg Z)
+        \end{align*}
+    \end{theo}
+    \Proof 
+    \begin{align*}
+        &\op D(\rho[\reg X, \reg Y, \reg Z] \Vert \rho[\reg X] \otimes \rho[\reg Y, \reg Z]) \geq \op D(\rho[\reg X, \reg Z] \Vert \rho[\reg X] \otimes \rho[\reg Z]) \\
+        \implies & \op H(\reg X) + \op H(\reg Y, \reg Z) - \op H(\reg X, \reg Y, \reg Z) \geq \op H(\reg X) + \op H(\reg Z) - \op H(\reg X, \reg Z)
+    \end{align*}
+    \qed
+
+    \begin{theo}
+        (Quantum Pinsker inequality) Let $\rho_0 ,\rho_1 \in \op D(\spc X)$ be density operators, for $\spc X$ a complex Euclidean space. It holds that
+        \begin{equation}
+            \op D(\rho_0 \Vert \rho_1) \geq \frac{1}{2\ln 2} \Vert \rho_0-\rho_1 \Vert_1
+        \end{equation}
+    \end{theo}
+    The equality is saturated iff $\rho_0 = \rho_1$.
+
+    \Proof
+    Perform an optimal measurement which discrimate the two states, then we get two classical state $p_0$ and $p_1$ such that
+    \begin{equation}
+        \Vert p_0-p_1 \Vert_1 = \Vert \rho_0-\rho_1 \Vert_1
+    \end{equation}
+    By monotonicity of quantum relative entropy, we get
+    \begin{equation}
+        \op D(\rho_0 \Vert \rho_1) \geq \op D(p_0 \Vert p_1) \geq \frac{1}{2\ln 2} \Vert p_0-p_1 \Vert_1 = \frac{1}{2\ln 2} \Vert \rho_0-\rho_1 \Vert_1
+    \end{equation}
+    \qed
+
+    \begin{defi} 
+        R\'{e}nyi entropies
+        \begin{equation}
+            \op H_\alpha(P) = \frac{1}{1-\alpha} \log \frac{\Tr(\rho^ \alpha)}{\Tr (\rho)}
+        \end{equation}
+    \end{defi}
+
+
+    \begin{defi}
+        Quantum divergences have multiple definitions
+        \begin{align*}
+            \widetilde{\op D}_\alpha(P \Vert Q) &= \frac{1}{\alpha-1} \log \frac{1}{\Tr(P)} \Tr[ ( Q^{\frac{1}{2\alpha} - \frac 1 2} P Q^{\frac{1}{2\alpha} - \frac 1 2} )^\alpha ] 
+            = \frac{\alpha}{\alpha - 1} \log \frac{1}{\Tr(P)^{1/\alpha}} 
+            \left\Vert Q^{\frac{1}{2\alpha} - \frac 1 2} P Q^{\frac{1}{2\alpha} - \frac 1 2} \right\Vert_\alpha
+            \\
+            \op D_\alpha (P \Vert Q) &= \frac{1}{\alpha - 1} \log \frac{\Tr(P^\alpha Q^{1-\alpha})}{\Tr(P)} \\
+            % \op D''_\alpha (P \Vert Q) &= \frac{1}{\alpha - 1} \log \frac{\Tr[(Q^{(1-\alpha)/4} P^{\alpha / 2} Q^{(1-\alpha)/4})^2]}{\Tr(P)} \\
+        \end{align*}
+
+        It is easy to see that
+        \begin{equation}
+            \op H_\alpha(P)= -\op D_\alpha(P \Vert \I) = \widetilde{\op H}_\alpha(P) = - \widetilde{\op D}_\alpha(P \Vert \I)
+        \end{equation}
+        In particular, we define
+        \begin{equation}
+            \op H_0(P) = - \op D_0(P \Vert \I) = \log \frac{\Tr(\Pi_P)}{\Tr(P)}
+        \end{equation}
+    \end{defi}
+
+    \begin{rem}
+        The range of $\alpha$:
+        \begin{itemize}
+            \item $\widetilde{\op D}_\alpha$: $[\frac 1 2, \infty)$
+            \item $\op D_\alpha$ : $[0, 2]$
+        \end{itemize}
+    \end{rem}
+
+    \begin{theo}
+        If $[P,Q] = 0$, then $\widetilde{\op D}_\alpha(P \Vert Q) = \op D_\alpha(P \Vert Q)$.
+    \end{theo}
+    \begin{theo}
+        $\widetilde{\op D}_\alpha(P \Vert Q) \leq \op D_\alpha(P \Vert Q)$
+    \end{theo}
+
+    \begin{proper}
+        Special cases
+        \begin{enumerate}
+            \item $\alpha = 0$
+            \begin{equation}
+                % \op D_{\min}(P \Vert Q) = \op D_0(P \Vert Q) = \log \Tr(P) - \log \Tr(\Pi_P Q)
+                \op D_0(P \Vert Q) = \log \Tr(P) - \log \Tr(\Pi_{\im(P)} Q)
+            \end{equation}
+            \item $\alpha = \frac 1 2$
+            \begin{equation}
+                \widetilde{\op D}_{\frac 1 2}(P \Vert Q) = -2 \log \frac{\Tr[(Q^{1/2} P Q^{1/2})^{1/2}]}{\Tr(P)} = -2 \log \frac{\op F(P, Q)}{\Tr(P)}
+            \end{equation}
+            \item $\alpha = 1$: the usual relative entropy.
+            \begin{equation}
+                \widetilde{\op D}_1(P \Vert Q) = \op D_1(P \Vert Q) = \Tr(P \log P) - \Tr(P \log Q)
+            \end{equation}
+            \item $\alpha = 2$: collision entropy
+            \item $\alpha \to \infty$
+            \begin{equation}
+                % \op D_{\max}(P \Vert Q) = \widetilde{\op D}_{\infty}(P \Vert Q) = \log \min \{ \lambda : P \leq \lambda Q \} = \log \Vert Q^{-1/2} P Q^{-1/2} \Vert
+                \widetilde{\op D}_{\infty}(P \Vert Q) = \min \{ \lambda : P \leq 2^\lambda Q \} = \log \Vert Q^{-1/2} P Q^{-1/2} \Vert
+            \end{equation}
+        \end{enumerate}
+    \end{proper}
+
+    \begin{defi}
+        Conditional entropy
+        \begin{equation}
+            \op H_\alpha (\reg X | \reg Y) = - \min_{\sigma \in \D(\spc Y)} \op D_\alpha ( \rho \Vert \I_\spc X \otimes \sigma )
+        \end{equation}
+        \begin{equation}
+            \widetilde{\op H}_\alpha (\reg X | \reg Y) = - \min_{\sigma \in \D(\spc Y)} \widetilde{\op D}_\alpha ( \rho \Vert \I_\spc X \otimes \sigma )
+        \end{equation}
+        % \begin{equation}
+        %     \op I_\alpha (\reg X | \reg Y) = - \min \widetilde{\op D}_\alpha ( \rho \Vert \I_\spc X \otimes \sigma )
+        % \end{equation}
+    \end{defi}
+
+    \begin{proper}
+        Special cases
+        \begin{enumerate}
+            \item $\alpha \to 0$: Zero-entropy
+            \begin{align*}
+                \op H_0(\reg X | \reg Y) 
+                &= - \min_{\sigma \in \D(\spc Y)} \op D_0(\rho \Vert \I_\spc X \otimes \sigma) \\
+                &= \max_{\sigma \in \D(\spc Y)} \log \Tr(\Pi_{\im(\rho)}(\I_\spc X \otimes \sigma)) \\
+                &= \log \Vert \Tr_\spc X \Pi_{\im(\rho)} \Vert
+            \end{align*}
+
+            \item $\alpha = \frac 1 2$: Max-entropy
+                \begin{align*}
+                    \op H_{\max}(\reg X | \reg Y) 
+                    &= \widetilde{\op H}_{\frac 1 2}(\reg X | \reg Y) \\
+                    &= - \min_{\sigma \in \D(\spc Y)} \widetilde{\op D}_{\frac 1 2}(\rho \Vert \I_\spc X \otimes \sigma) \\
+                    &= \max_{\sigma \in \D(\spc Y)} 2 \log \op F(\rho, \I_\spc X \otimes \sigma)
+                \end{align*}
+
+            \item $\alpha \to \infty$: Min-entropy
+            \begin{align*}
+                \op H_{\min}(\reg X | \reg Y)
+                &= \widetilde{\op H}_{\infty}(\reg X | \reg Y) \\
+                &= - \min_{\sigma \in \D(\spc Y)} \widetilde{\op D}_{\infty}(\rho \Vert \I_\spc X \otimes \sigma) \\
+            \end{align*}
+        \end{enumerate}
+    \end{proper}
+
+    The min-entropy and the max-entropy, as defined in the previous section, are discontinuous in the sense that a slight modification of the system's state might have a large impact on its entropy.
+
+    We will see later that the zero-entropy $\op H_0(p_X)$ can be interpreted as the minimum number of bits needed to encode $X$ in such a way that its value can be recovered from the encoding without errors. Indeed, while we need at least $\log n$ bits to store a value $X$ distributed according to $p_X$ , one single bit is sufficient to store a value distributed according to $\overline p_X$. However, for most applications, we allow some small error probability. For example, we might want to encode $X$ in such a way that its value can be recovered with probability $1-\varepsilon$.
+    \begin{defi}
+        Let $\hat\rho, \rho \in \D(\spc X \otimes \spc Y)$ and $\hat\rho$ is $\varepsilon$-close to $\rho$. One definition of distance is the fidelity distance $\op F^2(\hat\rho, \rho) \geq 1 - \varepsilon^2$.
+        \begin{equation}
+            \op H_{\min}^\varepsilon (\reg X | \reg Y)_\rho = \sup_{\hat\rho} \op H_{\min} (\reg X | \reg Y)_{\hat\rho}
+        \end{equation}
+        \begin{equation}
+            \op H_{\max}^\varepsilon (\reg X | \reg Y)_\rho = \inf_{\hat\rho} \op H_{\max} (\reg X | \reg Y)_{\hat\rho}
+        \end{equation}
+    \end{defi}
+
+    \section{Classical source coding}
+    \begin{defi}
+        $\Gamma = \{ 0,1 \}, \ n \in \N^*,\ \alpha > 0,\ \delta \in (0,1), \ m = \floor{\alpha n}$
+        \begin{equation}
+            f : \Sigma^n \to \Gamma^m \ \ \ \ g : \Gamma^m \to \Sigma^n
+        \end{equation}
+        is said to be an $(n,\alpha,\delta)$-coding scheme for $p \in \spc P(\Sigma)$ if it holds that
+        \begin{align}
+            &G = \{ a_1 \cdots a_n \in \Sigma^n : g(f(a_1\cdots a_n)) = a_1\cdots a_n \} \\
+            &\sum_{a_1, \cdots, a_n \in G} p(a_1) \cdots p(a_n) > 1-\delta
+        \end{align}
+    \end{defi}
+    Alice encode $a_1\cdots a_n$ to a string with $ m = \floor{\alpha n}$ bits and send it to Bob. If it is the case that the pair $(f,g)$ is an $(n,\alpha,\delta)$-coding scheme for $p$, then the number $\delta$ is an upper bound on the probability that the coding scheme fails to be correct, so that Bob does not recover the string Alice obtained from the source, while $\alpha$ represents the average number of bits (as the value of $n$ increases) needed to encode each symbol.
+
+    \begin{defi}
+        Typical strings. $\varepsilon$-typical
+        \begin{align*}
+            & \left|\frac{1}{n} \sum_{i=1}^n \log \frac{1}{p(a_i)} - \op H(p) \right| < \varepsilon \\
+            &  2^{-n(\op H(p) + \varepsilon)} < p(a_1) \cdots p(a_n) < 2^{-n(\op H(p)-\varepsilon)}
+        \end{align*}
+
+        The set of $\varepsilon$-strings is denoted $T_{n,\varepsilon}(p)$.
+    \end{defi}
+
+    \begin{theo}
+        \begin{equation}
+            \lim_{n \to \infty} \sum_{a_1 \cdots a_n \in T_{n,\varepsilon}(p)} p(a_1) \cdots p(a_n) = 1
+        \end{equation}
+    \end{theo}
+    (Hint: use the weak law of large numbers)
+
+    \begin{theo}
+        \begin{equation}
+            |T_{n,\varepsilon}(p)| < 2^{n(\op H(p)+\varepsilon)}
+        \end{equation}
+    \end{theo}
+
+    \begin{theo}
+        Shannon's source coding theorem. 
+        Let $\op{Scheme}(p,n,\alpha,\delta)$ denote the set of $(n,\alpha,\delta)$-coding schemes for $p$. Fix $\alpha$, $p$ and $\delta$
+        \begin{enumerate}
+            \item If $\alpha > \op H(p)$, then
+            \begin{equation}
+                \exists N \in \N \ (n \geq N \implies \op{Scheme}(p,n,\alpha,\delta) \neq \emptyset)
+            \end{equation}
+
+            \item If $\alpha < \op H(p)$, then
+            \begin{equation}
+                \forall N \in \N \ (\exists n \geq N \ \op{Scheme}(p,n,\alpha,\delta) = \emptyset)
+            \end{equation}
+        \end{enumerate}
+    \end{theo}
+    \Proof
+    \begin{enumerate}
+        \item Assume $\alpha > \op H(p)$ and choose $\varepsilon > 0$ such that $\alpha > \op H(p) + 2\varepsilon$. A coding theorem will be defined for $n > 1/\varepsilon$
+        \begin{equation*}
+            m = \floor{\alpha n} > n(\op H(p) + \varepsilon)
+        \end{equation*}
+
+        Then
+        \begin{equation*}
+            |T_{n,\varepsilon}| < 2^{n(\op H(p) + \varepsilon)} < 2^m
+        \end{equation*}
+
+        one may therefore define a function $f_n : \Sigma^n \to \Gamma^m$ that is injective when restricted to $T_{n,\varepsilon}$, together with a function $g_n : \Gamma_m \to \Sigma_n$ that is chosen so that
+        \begin{equation}
+            g_n(f_n(a_1, \cdots, a_n)) = a_1 \cdots a_n
+        \end{equation}
+
+        Thus it holds that $T_{n,\varepsilon} \subset G_n$ and therefore
+        \begin{equation}
+            \sum_{a_1 \cdots a_n \in G_n} p(a_1)\cdots p(a_n) \geq \sum_{a_1 \cdots a_n \in T_{n,\varepsilon}} p(a_1) \cdots p(a_n)
+        \end{equation}
+        It follows that the quantity on the right-hand side is greater than $1 - \delta$ for sufficiently large values of $n$.
+
+        \item Assume $\alpha < \op H(p)$.
+        \begin{equation}
+            |G_n| \leq 2^m = 2^{\floor{\alpha n}}
+        \end{equation} 
+        Then we prove
+        \begin{equation}
+            \lim_{n \to \infty} \sum_{a_1\cdots a_n \in G_n} p(a_1) \cdots p(a_n) = 0
+        \end{equation}
+
+        Since
+        \begin{equation}
+            G_n \subset (\Sigma^n \backslash T_{n,\varepsilon}) \cup (G_n \cap T_{n,\varepsilon})
+        \end{equation}
+        \begin{equation}
+            \sum_{a_1\cdots a_n \in G_n} p(a_1) \cdots p(a_n) \leq
+            \left( 1-\sum_{a_1\cdots a_n \in T_{n,\varepsilon}} p(a_1) \cdots p(a_n) \right) + 2^{-n(\op H(p) - \varepsilon)} |G_n|
+        \end{equation}
+        Choosing $\varepsilon > 0$ so that $\alpha < \op H(p) - \varepsilon$, one has
+        \begin{equation}
+            \lim_{n \to \infty} 2^{-n(\op H(p)-\varepsilon)} = 0
+        \end{equation}
+    \end{enumerate}
+    \qed
+
+    \section{Quantum Source Coding}
+    \begin{defi}
+        $\Gamma = \{ 0,1 \}, \ n \in \N^*,\ \alpha > 0,\ \delta \in (0,1), \ m = \floor{\alpha n}$
+        \begin{equation}
+            \Phi \in \Chan(\spc X^n, \spc Y^m) \ \ \ \ \Psi \in \Chan(\spc Y^m, \spc X^n)
+        \end{equation}
+        is said to be an $(n,\alpha,\delta)$-coding scheme for $\rho \in \D(\spc X)$ if it holds that
+        \begin{align}
+            \op F(\Psi\Phi, \rho^{\otimes n}) > 1-\delta
+        \end{align}
+    \end{defi}
+
+    \begin{theo}
+        Shumacher's source coding theorem. 
+        Let $\op{Scheme}(\rho,n,\alpha,\delta)$ denote the set of $(n,\alpha,\delta)$-coding schemes for $\rho$. Fix $\alpha$, $\rho$ and $\delta$
+        \begin{enumerate}
+            \item If $\alpha > \op H(p)$, then
+            \begin{equation}
+                \exists N \in \N \ (n \geq N \implies \op{Scheme}(p,n,\alpha,\delta) \neq \emptyset)
+            \end{equation}
+
+            \item If $\alpha < \op H(p)$, then
+            \begin{equation}
+                \forall N \in \N \ (\exists n \geq N \ \op{Scheme}(p,n,\alpha,\delta) = \emptyset)
+            \end{equation}
+        \end{enumerate}
+    \end{theo}
+    \Proof
+    Spectrum decomposition of $\rho$
+    \begin{equation}
+        \rho = \sum_{a \in \Sigma} p(a) u_au_a^*
+    \end{equation}
+
+    \begin{enumerate}
+        \item Assume $\alpha > \op H(p)$. For a given choice of $n > 1/\varepsilon$, the quantum coding scheme $(\Phi_n, \Psi_n)$ is defined as follows. First, consider the set of $\varepsilon$-typical strings associated with the probability vector p, and define a projection operator
+        \begin{equation}
+            \Pi_{n, \varepsilon} = \sum_{a_1 \cdots a_n \in T_{n,\varepsilon}(p)} u_{a_1}u_{a_1}^* \otimes \cdots \otimes u_{a_n}u_{a_n}^*
+        \end{equation}
+    
+        The subspace upon which this operator projects is the $\varepsilon$-typical subspace of $\spc X^{\otimes n}$ with respect to $\rho$. Notice that
+        \begin{equation}
+            \< \Pi_{n,\varepsilon}, \rho^{\otimes n} \> = \sum_{a_1 \cdots a_n \in T_{n,\varepsilon}(p)} p(a_1) \cdots p(a_n)
+        \end{equation}
+    
+        Now, by Shannon's source coding theorem, there exists a classical coding scheme $(f_n, g_n)$ for $p$ that satisfies
+        \begin{equation}
+            g_n(f_n(a_1 \cdots a_n)) = a_1 \cdots a_n \ \ \ \ a_1 \cdots a_n \in T_{n,\varepsilon}(p)
+        \end{equation}
+    
+        Define a linear operator of the form $A_n \in \Lin(\spc X^{\otimes n}, \spc Y^{\otimes m})$ as
+        \begin{equation}
+            A_n = \sum_{a_1 \cdots a_n \in T_{n,\varepsilon}(p)} e_{f_n(a_1, \cdots, a_n)}(u_{a_1} \otimes \cdots \otimes u_{a_n})^*
+        \end{equation} 
+    
+        Finally, define channels $\Phi_n$ and $\Psi_n$ of the form as
+        \begin{align*}
+            \Phi_n(X) &= A_nXA_n^* + \< \I-A_n^*A_n, X \> \sigma \\
+            \Psi_n(X) &= A_n^*XA_n + \< \I-A_nA_n^*, Y \> \xi
+        \end{align*}
+        where $\sigma \in \op D(\spc Y^{\otimes m})$ and $\xi \in \op D(\spc X^{\otimes n})$ chosen arbitrarily.
+
+        It holds that
+        \begin{equation}
+            \op F(\Psi_n\Phi_n, \rho^{\otimes n}) \geq \< \rho^{\otimes n}, A_n^*A_n \> = \< \rho^{\otimes n}, \Pi_{n, \varepsilon} \>
+        \end{equation}
+        It follows that the quantity on the right-hand side is greater than $1 - \delta$ for sufficiently large values of $n$.
+
+        \item Suppose the Kraus representation of $\Psi\Phi$ is
+        \begin{equation}
+            (\Psi_n\Phi_n) (X) = \sum_{jk} (B_kA_j) X (B_kA_j)^*
+        \end{equation}
+
+        Notice that
+        \begin{equation}
+            \rank(B_kA_j) \leq \dim(\spc Y^{\otimes m}) = 2^m
+        \end{equation}
+        one may choose a projection operator $\Pi_k \in \Proj(\spc X^{\otimes n})$ with $\rank(\Pi_k) \leq 2^m$ such that
+        $\Pi_k B_k = B_k$. Therefore
+        \begin{align*}
+            \op F(\Psi_n\Phi_n, \rho^{\otimes n})^2 
+            &= \sum_{jk} |\< B_kA_j, \rho^{\otimes n} \>|^2 \\
+            &= \sum_{jk} |\< \Pi_kB_kA_j, \rho^{\otimes n} \>|^2 \\
+            &= \sum_{jk} |\< B_kA_j\sqrt{\rho^{\otimes n}}, \Pi_k\sqrt{\rho^{\otimes n}} \>|^2 \\
+            &\leq \sum_{jk} \Tr(B_kA_j \rho^{\otimes n} A_j^*B_k^*) \< \Pi_k, \rho^{\otimes n} \>
+        \end{align*}
+
+        Then the following completes the proof
+        \begin{equation}
+            \sum_{jk} \Tr(B_kA_j \rho^{\otimes n} A_j^* B_k^*) = 1
+        \end{equation}
+        \begin{equation}
+            \< \Pi_k, \rho^{\otimes n} \> \leq \sum_{i=1}^{2^m} \lambda_i(\rho^{\otimes n}) = \sum_{a_1\cdots a_n \in G_n} p(a_1)\cdots p(a_n)
+        \end{equation}
+        for some subset $G_n \subset \Sigma^n$ having size at most $2^m$. \qed
+    \end{enumerate}
+
+    \section{Accessible information}
+    \begin{defi}
+        Classical communications. Let $p \in \spc P(\Sigma)$ be the classical information source. The classical communication channel is characterized by conditional probabilities.
+        \begin{equation}
+            \{ p(\reg Y = b | \reg X = a) : a \in \Sigma, \ b \in \Gamma \}
+        \end{equation}
+        
+        The channel capacity of the classical channel is given by
+        \begin{equation}
+            C = \max_{p[\reg X]} \op I(\reg X : \reg Y)
+        \end{equation}
+    \end{defi}
+
+    \begin{defi}
+        Encoding classical information into quantum states. Let $\reg X$ and $\reg Z$ be classical registers having classical state sets $\Sigma$ and $\Gamma$, respectively, and let $\reg Y$ be a register. Also let $p \in \spc P(\Sigma)$ be a probability vector, let
+        \begin{equation}
+            \{ \rho_a : a \in \Sigma \} \subset \op D(\spc Y)
+        \end{equation}
+        \begin{equation}
+            \mu : \Gamma \to \Pos(\spc Y)
+        \end{equation}
+
+        Alice obtains an element $a \in \Sigma$, stored in the register $\reg X$, that has been randomly generated by a source according to the probability vector $p$. She prepares $\reg Y$ in the state $\rho_a$ and sends $\reg Y$ to Bob. Bob measures $\reg Y$ with respect to the measurement $\mu$, and stores the outcome of this measurement in the classical register $\reg Z$. This measurement outcome represents information that Bob has obtained regarding the classical state of $\reg X$. Then  the pair $(\reg X,\reg Z)$ will be left in the probabilistic state $q \in \spc P(\Sigma \times \Gamma)$ defined by
+        \begin{equation}
+            q(a,b) = p(a) \< \mu(b), \rho_a \>
+        \end{equation}
+
+        Define the ensemble
+        \begin{equation}
+            \eta(a) = p(a) \rho_a
+        \end{equation}
+        The probability vector $q$ may be expressed as
+        \begin{equation}
+            q(a,b) = \< \mu(b), \eta(a) \>
+        \end{equation}
+
+        The notation $I_{\mu}(\eta)$ will denote the mutual information between $\reg X$ and $\reg Z$, with respect to a probabilistic state defined in this way, so that
+        \begin{equation}
+            \op I_{\mu}(\eta) = \op H(q[\reg X]) + \op H(q[\reg Z]) - \op H(q) = \op D(q \Vert q[\reg X] \otimes q[\reg Z])
+        \end{equation}
+
+        The accessible information $\op I_{\text{acc}}(\eta)$ of the ensemble $\eta$ is defined as the supremum value, ranging over all possible choices of a measurement $\mu$, that may be obtained in this way.
+        \begin{equation}
+            \op I_{\text{acc}}(\eta) = \sup_{\mu} \op I_{\mu}(\eta)
+        \end{equation}
+    \end{defi}
+
+    \begin{lemma}
+        $\eta : \Sigma \to \Pos(\spc Y)$ is an ensemble of states. $\mu_0, \mu_1 : \Gamma \to \Pos(\spc Y)$ be measurements, $\lambda \in [0,1]$
+        \begin{equation}
+            \op I_{\lambda \mu_0 + (1-\lambda) \mu_1} (\eta) \leq \lambda \op I_{\mu_0} (\eta) + (1-\lambda) \op I_{\mu_1} (\eta)
+        \end{equation}
+    \end{lemma}
+    \Proof
+    Define
+    \begin{align*}
+        p(a) &= \Tr(\eta(a)) \\
+        q_1(a, b) &= \< \mu_1(b), \eta(a) \> \\
+        q_2(a, b) &= \< \mu_2(b), \eta(a) \>
+    \end{align*}
+    \begin{align*}
+        \op I_{\lambda \mu_0 + (1-\lambda) \mu_1} (\eta)
+        &= \op D(\lambda q_0 + (1-\lambda) q_1 \Vert p \otimes \lambda q_0 [\reg Z] + (1-\lambda) q_1 [\reg Z]) \\
+        &\leq \lambda\op D( q_0  \Vert p \otimes q_0 [\reg Z]) + (1-\lambda) \op D(q_1 \Vert p \otimes q_1 [\reg Z])\\
+        &= \lambda \op I_{\mu_0} (\eta) + (1-\lambda) \op I_{\mu_1}(\eta)
+    \end{align*}
+    \qed
+
+    \begin{theo}
+        $\eta : \Sigma \to \Pos(\spc Y)$ is an ensemble of states. $\exists (\mu : \Gamma \to \Pos(\spc Y)) \begin{cases}
+            |\Gamma| \leq \dim(\spc Y)^2 \\
+            \op I_{\mu} (\eta) = \op I_{\text{acc}}(\eta)
+        \end{cases}$
+    \end{theo}
+    \Proof
+    Let $\nu: \Lambda \to \Pos(\spc Y)$ be an measurement. Since $\op I_{\mu}(\eta)$ is convex on the set of measurement of the form $\mu: \Lambda \to \Pos(\spc Y)$. There exists an extreme measurement $\mu: \Lambda \to \Pos(\spc Y)$ satisfying $\op I_{\mu}(\eta) \geq \op I_{\nu}(\eta)$.
+
+    $\mu$ is extremal implies
+    \begin{equation}
+        |\{ a \in \Lambda : \mu(a) \neq 0 \}| \leq \dim(\spc Y)^2
+    \end{equation}
+
+    It follows that $\op I_{\text{acc}}(\eta)$ is equal to the supremum value of $\op I_{\mu}(\eta)$, ranging over all measurements $\mu$ having $\dim(\spc Y)^2$ measurement outcomes. So the supremum is taken over an compact set. This complete the proof. \qed
+
+    \begin{defi}
+        The Holevo information. Let $\eta : \Sigma \to \Pos(\spc Y)$ be an ensemble. $\sigma \in \D(\spc X \otimes \spc Y)$ is a classical-quantum state
+        \begin{equation}
+            \sigma = \sum_{a \in \Sigma} E_{a,a} \otimes \eta(a)
+        \end{equation}
+
+        Holevo $\chi$-quantity is defined as
+        \begin{equation}
+            \chi(\eta) = \op I(\reg X : \reg Y) = \op H\left( \sum_{a \in \Sigma} \eta(a) \right) - \sum_{a \in \Sigma, \eta(a) \neq 0} \Tr(\eta(a)) \op H \left( \frac{\eta(a)}{\Tr(\eta(a))} \right)
+        \end{equation}
+    \end{defi}
+
+    \begin{theo}
+        (Convexity) Let $\eta_0 : \Sigma \to \Pos(\spc Y)$ and $\eta_1 : \Sigma \to \Pos(\spc Y)$ be ensembles of states. Suppose further that at least one of the following two conditions is satisfied:
+        \begin{enumerate}
+            \item The ensembles $\eta_0$ and $\eta_1$ have the same average state:
+            \begin{equation}
+                \sum_{a \in \Sigma} \eta_0(a) = \sum_{a \in \Sigma} \eta_1(a) = \rho
+            \end{equation}
+            \item The ensembles $\eta_0$ and $\eta_1$ correspond to the same probability distribution, over possibly different states:
+            \begin{equation}
+                \Tr(\eta_0(a)) = \Tr(\eta_1(a)) = p(a)
+            \end{equation}
+        \end{enumerate}
+
+        Then for $\lambda \in [0,1]$, it holds that
+        \begin{equation}
+            \chi(\lambda \eta_0 + (1-\lambda)\eta_1) \leq \lambda \chi(\eta_0) + (1-\lambda) \chi(\eta_1)
+        \end{equation}
+    \end{theo}
+
+    \Proof
+    For condition 1
+    \begin{equation}
+        \sigma_0 = \sum_{a \in \Sigma} E_{a,a} \otimes \eta_0(a) \ \ \ \ 
+        \sigma_1 = \sum_{a \in \Sigma} E_{a,a} \otimes \eta_1(a) \ \ \ \ 
+        \sigma = \sum_{a \in \Sigma} E_{a,a} \otimes (\lambda \eta_0 + (1-\lambda)\eta_1)
+    \end{equation}
+
+    Then
+    \begin{equation}
+        \chi(\eta_0) = \op D(\sigma_0 \Vert \sigma_0[\reg X] \otimes \rho) \ \ \ \
+        \chi(\eta_1) = \op D(\sigma_1 \Vert \sigma_1[\reg X] \otimes \rho)
+    \end{equation}
+    \begin{align*}
+        \chi(\lambda \eta_0 + (1-\lambda)\eta_1) &= \op D(\sigma \Vert \sigma[\reg X] \otimes \rho) \\
+        &= \op D(\lambda\sigma_0 + (1-\lambda)\sigma_1 \Vert (\lambda\sigma_0[\reg X] + (1-\lambda)\sigma_1[\reg Y]) \otimes \rho) \\
+        &\leq \lambda \chi(\eta_0) + (1-\lambda) \chi(\eta_1)
+    \end{align*}
+
+    For condition 2
+    \begin{equation}
+        \sigma_0 = \sum_{a \in \Sigma} p(a) E_{a,a} \otimes \rho_{1,a} \ \ \ \ 
+        \sigma_1 = \sum_{a \in \Sigma} p(a) E_{a,a} \otimes \rho_{2,a} \ \ \ \
+        \sigma = \sum_{a \in \Sigma} p(a) E_{a,a} \otimes (\lambda\rho_{1,a} + (1-\lambda)\rho_{2,a})
+    \end{equation}
+
+    Then
+    \begin{equation}
+        \chi(\eta_0) = \op D(\sigma_0 \Vert \diag(p) \otimes \rho_0) \ \ \ \
+        \chi(\eta_1) = \op D(\sigma_1 \Vert \diag(p) \otimes \rho_1)
+    \end{equation}        
+    \begin{align*}
+        \chi(\lambda \eta_0 + (1-\lambda)\eta_1) &= \op D(\sigma \Vert \sigma[\reg X] \otimes \rho) \\
+        &= \op D(\lambda\sigma_0 + (1-\lambda)\sigma_1 \Vert \diag(p) \otimes (\lambda\rho_0 + (1-\lambda)\rho_1)) \\
+        &\leq \lambda \chi(\eta_0) + (1-\lambda) \chi(\eta_1)
+    \end{align*}
+    \qed
+
+    \begin{theo}
+        (Concavity) Let $\eta_0 : \Sigma \to \Pos(\spc Y)$ and $\eta_1 : \Sigma \to \Pos(\spc Y)$ be ensembles of states. Suppose further that
+        \begin{equation}
+            \frac{\eta_0(a)}{\Tr(\eta_0(a))} = \frac{\eta_1(a)}{\Tr(\eta_1(a))}
+        \end{equation}
+        Then
+        \begin{equation}
+            \lambda \chi(\eta_0) + (1-\lambda) \chi(\eta_1) \leq \chi(\lambda \eta_0 + (1-\lambda) \eta_1)
+        \end{equation}
+    \end{theo}
+
+    \begin{theo}
+        (Holevo's theorem) Let $\eta : \Sigma \to \Pos(\spc Y)$ be an ensemble of states. It holds that
+        \begin{equation}
+            \op I_{\text{acc}}(\eta) \leq \chi(\eta)
+        \end{equation}
+    \end{theo}
+    \Proof {
+        \begin{equation}
+            \sigma = \sum_{a \in \Sigma} E_{a,a} \otimes \eta(a)
+        \end{equation} 
+        \begin{equation}
+            \chi(\eta) = \op D(\sigma \Vert \sigma[\reg X] \otimes \sigma[\reg Y])
+        \end{equation}
+        let $\mu : \Gamma \to \Pos(\spc Y)$ be a measurement. The corresponding quantum-to-classical channel is $\Phi \in \Chan(\spc Y,\spc Z)$
+        \begin{equation}
+            \Phi(Y) = \sum_{b \in \Gamma} \< \mu(b), Y \> E_{b,b}
+        \end{equation}
+
+        Then
+        \begin{equation}
+            \op I_{\mu}(\eta) = \op D((\I_{\Lin(\spc X)} \otimes \Phi) (\sigma) \Vert (\I_{\Lin(\spc X)} \otimes \Phi)(\sigma[\reg X] \otimes \sigma[\reg Y])) )
+        \end{equation}
+
+        As the quantum relative entropy does not increase under the action of a channel, it follows
+        \begin{equation}
+            \op I_{\text{acc}}(\eta) \leq \chi(\eta)
+        \end{equation}
+    }\qed
+
+    \begin{defi}
+        Holevo information of a quantum channel. Let $\eta : \Sigma \to \Pos(\spc Y_1)$ be an ensemble. $\sigma \in \D(\spc X \otimes \spc Y_1), \ \omega \in \D(\spc X \otimes \spc Y_2)$ are classical-quantum states. $\Phi \in \Chan(\spc Y_1, \spc Y_2)$
+        \begin{equation}
+            \sigma = \sum_{a \in \Sigma} E_{a,a} \otimes \eta(a)
+        \end{equation}
+        \begin{equation}
+            \omega = (\I_{\Lin(\spc X)} \otimes \Phi)(\sigma) = \sum_{a \in \Sigma} E_{a,a} \otimes \Phi(\eta)
+        \end{equation}
+        The Holevo information $\chi(\Phi)$ of a channel $\Phi$ is a measure of the classical correlations that Alice can establish with Bob
+        \begin{equation}
+            \chi(\Phi) = \max_{\eta} \op I(\reg X : \reg Y_2)
+        \end{equation}
+    \end{defi}
+
+    \begin{theo}
+        It is sufficient to maximize the Holevo information with respect to pure states $\frac{\eta(a)}{\Tr (\eta(a))} : a \in \Sigma$
+        \begin{equation}
+            \chi(\Phi) = \max_\eta \op I(\reg X : \reg Y_2)
+        \end{equation}
+    \end{theo}
+    \Proof {
+        Let $\eta(a) = p(a)\rho_a$ be an ensemble. Introduce another classical register $\reg Z$. $\sigma \in \D( \spc X \otimes \spc Z \otimes \spc Y_2 )$
+        \begin{equation}
+            \sigma = \sum_{a \in \Sigma, b \in \Gamma} p(a, b) E_{a,a} \otimes E_{b,b} \otimes \Phi(\xi_{ab})
+        \end{equation}
+        where $\xi_{a,b}$ are the eigenvectors of $\rho_a$. That is, the spectrum decomposition of $\rho_a$ is 
+        \begin{equation}
+            \rho_a = \sum_{b \in \Gamma} \frac{p(a,b)}{p(a)} \xi_{ab}
+        \end{equation}
+        Thus we get a pure ensemble $\eta' : \Sigma \times \Gamma \to \Pos(\spc X)$
+
+        \begin{align*}
+            \chi(\eta) = \op I(\sigma[\reg X] : \sigma[\reg Y_2]) \leq \op I(\sigma[\reg X, \reg Z] : \sigma[\reg Y_2])
+        \end{align*}
+    }\qed
+
+    References
+
+    https://arxiv.org/abs/1306.3142
+
+    https://warwick.ac.uk/fac/sci/maths/research/events/2013-2014/statmech/su/Nilanjana-slides.pdf
+    
+    https://arxiv.org/abs/quant-ph/0512258
+\end{document}
+    

@@ -1,0 +1,373 @@
+
+\documentclass[aps,pra,onecolumn,notitlepage,superscriptaddress]{revtex4-1}
+
+%\input{myQcircuit}
+\usepackage{graphicx,color}% Include figure files
+\usepackage{dcolumn}% Align table columns on decimal point
+\usepackage{bm}% bold math
+\usepackage{amsmath,amssymb,mathrsfs}
+\usepackage{url}
+\usepackage{hyperref}
+
+% added by me
+\usepackage{framed}
+\usepackage{algorithm}
+\usepackage{dsfont}
+
+
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+
+%  Sets
+\newcommand{\set}[1]{\mathsf{#1}}
+\newcommand{\grp}[1]{\mathsf{#1}}
+\newcommand{\reg}[1]{\mathsf{#1}}
+\newcommand{\spc}[1]{\mathcal{#1}}
+
+% Integrals
+
+\def\d{{\rm d}}
+
+% Linear structures
+\newcommand{\Span}{{\mathsf{Span}}}
+\newcommand{\Lin}{\mathsf{Lin}}
+\newcommand{\Pos}{\mathsf{Pos}}
+\newcommand{\CP}{\mathsf{CP}}
+\newcommand{\Herm}{\mathsf{Herm}}
+\newcommand{\D}{\mathsf{D}}
+\newcommand{\Proj}{\mathsf{Proj}}
+\newcommand{\U}{\mathsf{U}}
+\newcommand{\Diag}{\mathsf{Diag}}
+% added by me
+\newcommand{\T}{\mathsf{T}}
+\newcommand{\F}{\op F}
+
+% added by me
+\newcommand{\rank}{\mathsf{rank}}
+\newcommand{\im}{\mathsf{im}}
+\newcommand{\myker}{\mathsf{ker}}
+% \newcommand{\Pr}{\mathsf{Pr}}
+
+\def\>{\rangle}
+\def\<{\langle}
+\def\kk{\>\!\>}
+\def\bb{\<\!\<}
+\newcommand{\st}[1]{\mathbf{#1}}
+\newcommand{\bs}[1]{\boldsymbol{#1}}
+
+% Linear maps
+\newcommand{\map}[1]{\mathcal{#1}}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\diag}{\mathsf{diag}}
+
+
+%  Operational notions
+\newcommand{\op}[1]{\operatorname{#1}}
+
+\newcommand{\St}{{\mathsf{St}}}
+\newcommand{\Eff}{{\mathsf{Eff}}}
+\newcommand{\Pur}{{\mathsf{Pur}}}
+\newcommand{\Transf}{{\mathsf{Transf}}}
+\newcommand{\Chan}{{\mathsf{Chan}}}
+
+
+%   By Mo
+\newcommand{\arccot}{\mathrm{arccot}\,}
+
+%  Miscellanea
+\newcommand\myuparrow{\mathord{\uparrow}}
+\newcommand\mydownarrow{\mathord{\downarrow}}
+\newcommand\h{{\scriptstyle \frac 12}}
+% added by me
+\newcommand\I{\mathds{1}}
+
+\newcommand{\vertiii}[1]{{\left\vert\kern-0.25ex\left\vert\kern-0.25ex\left\vert #1 
+    \right\vert\kern-0.25ex\right\vert\kern-0.25ex\right\vert}}
+
+% Environments
+\newtheorem{theo}{Theorem}
+\newtheorem{ax}{Axiom}
+\newtheorem{lemma}{Lemma}
+\newtheorem{prop}{Proposition}
+\newtheorem{cor}{Corollary}
+\newtheorem{defi}{Definition}
+
+
+\newtheorem{rem}{Remark}
+\newtheorem{ex}{Exercise}
+
+\newtheorem{proper}{Property}
+
+\def\Proof{{\bf Proof.~}}
+\def\qed{$\blacksquare$ \newline}
+
+\begin{document}
+    \preprint{APS/123-QED}
+    \title{Quantum state discrimination}
+    \author{}
+    \maketitle
+    % \tableofcontents
+    % \newpage
+
+    \section{Discriminating between pairs of states}
+    \begin{defi}
+        Let $\reg{X}$ be a register with alphabet $\Sigma$. Let $\reg{Y}$ be a classical register with alphabet $\{0,1\}$.
+        Alice prepares the following classical-quantum state $\sigma \in \D( \spc Y \otimes \spc X )$ with $\rho_0, \rho_1 \in \D(\spc X)$.
+        \begin{equation}
+            \sigma = \lambda E_{0,0} \otimes \rho_0 + (1-\lambda) E_{1,1} \otimes \rho_1
+        \end{equation}
+       send $\reg X$ to Bob. Then Bob guesses the state of $\reg{Y}$ according to the result of a measurement.
+    \end{defi}
+    
+    \subsection{Classical states discrimination}
+    Consider the classical case that $\rho_i$ is the probability state of $\reg{X}$ referring to $p_i \in \spc{P}(\Sigma)$, $(i=0,1)$. That is
+    \begin{equation}
+        \sigma = \sum_{a \in \Sigma} \lambda p_0(a) E_{0,0} \otimes E_{a,a} + (1-\lambda) p_1(a) E_{1,1} \otimes E_{a,a}
+    \end{equation}
+
+    It is easy to see that $\Pr(\reg{X} = a) = \lambda p_0(a) + (1-\lambda)p_1(a)$. We have
+    \begin{align}
+        \Pr(\reg{Y} = 0 | \reg{X} = a) &= \frac{\lambda p_0(a)}{\lambda p_0(a)+(1-\lambda) p_1(a)} \\
+        \Pr(\reg{Y} = 1 | \reg{X} = a) &= \frac{(1-\lambda) p_1(a)}{\lambda p_0(a)+(1-\lambda) p_1(a)}
+    \end{align}
+
+    If the measurement tells that $X = a$, then the probability Bob is correct with the best strategy is given by
+    \begin{equation}
+        \frac{
+            \max\{\lambda p_0(a), (1-\lambda) p_1(a)\}
+        }
+        {\lambda p_0(a)+(1-\lambda) p_1(a)} = \frac{1}{2} + \frac{|\lambda p_0(a) - (1-\lambda) p_1(a)|}{2(\lambda p_0(a)+(1-\lambda) p_1(a))}
+    \end{equation}
+
+    Thus the probability Bob is correct is given by
+    \begin{equation}
+        \frac{1}{2} + \frac{1}{2}\sum_{a \in \Sigma} |\lambda p_0(a) - (1-\lambda) p_1(a)| = \frac{1}{2} + \frac{1}{2} \Vert \rho_0 - \rho_1 \Vert_1
+    \end{equation} 
+
+    \subsection{Quantum state discrimination}
+    Suppose Bob use a measurement $\mu : \{0,1\} \to \Pos(\spc X)$ and take the outcome of the measurement as the strategy. Let $\Phi_\mu$ be the quantum-to-classical channel corresponding to $\mu$
+    \begin{align*}
+        \Phi_\mu(\sigma)
+        &= \lambda \< \mu(0), \rho_0 \> E_{0,0} \otimes E_{0,0} \\
+        &+ \lambda \< \mu(1), \rho_0 \> E_{0,0} \otimes E_{1,1} \\
+        &+ (1-\lambda) \< \mu(0), \rho_1 \> E_{1,1} \otimes E_{0,0} \\
+        &+ (1-\lambda) \< \mu(1), \rho_1 \> E_{1,1} \otimes E_{1,1}
+    \end{align*}
+    
+    Then the probability he is correct is
+    \begin{equation}
+        \lambda \< \mu(0), \rho_0 \> + (1-\lambda) \< \mu(1), \rho_1 \>
+    \end{equation}
+
+    \begin{lemma}
+        $u \in \C^{\Sigma}$ and $\{P_a : a \in \Sigma\} \subset \Pos(\spc{X})$ be a collection of positive semidefinite operators. It holds that
+        \begin{equation}
+            \left\Vert \sum_{a \in \Sigma} u(a) P_a \right\Vert \leq
+            \Vert u \Vert \left\Vert \sum_{a \in \Sigma} P_a \right\Vert
+        \end{equation}
+    \end{lemma}
+    \Proof {
+        Define $A \in \Lin(\spc{X}, \spc{X} \otimes \C^{\Sigma})$
+        \begin{equation}
+            A = \sum_{a \in \Sigma} \sqrt{P_a} \otimes e_a
+        \end{equation}
+        \begin{align*}
+            \left\Vert \sum_{a \in \Sigma} u(a) P_a \right\Vert
+            &= \left\Vert \sum_{a \in \Sigma} u(a) A^*(\I_{\spc{X}} \otimes E_{a,a})A \right\Vert \\
+            &\leq \Vert A^* \Vert \left\Vert \sum_{a \in \Sigma} u(a) E_{a,a} \right\Vert \Vert A \Vert \\
+            &= \Vert u \Vert \Vert A \Vert^2 \\
+            &= \Vert u \Vert \Vert A^*A \Vert \\
+            &= \Vert u \Vert \left\Vert \sum_{a \in \Sigma} P_a \right\Vert 
+        \end{align*}
+    } \qed
+
+    \begin{theo}
+        (Holevo-Helstrom theorem) Let $\spc{X}$ be a complex Euclidean
+        space, let $\rho_0 ,\rho_1 \in \D(X)$ be density operators, and let $\lambda \in [0,1]$. For every choice of a measurement $\mu : \{0,1\} \to \Pos(\spc{X})$, it holds that
+        \begin{equation}
+            \lambda \< \mu(0),\rho_0 \> + (1-\lambda )\< \mu(1),\rho_1 \> \leq \frac{1}{2} + \frac{1}{2} \Vert \lambda\rho_0 - (1-
+            \lambda)\rho_1 \Vert_1
+        \end{equation}
+        Moreover, there exists a projective measurement for which equality is achieved.
+    \end{theo}
+    \Proof {
+        Let $X = \lambda \rho_0 - (1-\lambda) \rho_1$.
+        \begin{equation}
+            \lambda \< \mu(0), \rho_0 \> + (1-\lambda) \< \mu(1), \rho_1 \> = \frac{1}{2} + \frac{1}{2} \< \mu(0)-\mu(1), X \>
+        \end{equation}
+
+        We know that
+        \begin{equation}
+            \< \mu(0)-\mu(1), X \> \leq \Vert \mu(0)-\mu(1) \Vert \Vert X \Vert_1 \leq \Vert X \Vert_1
+        \end{equation}
+
+        To achieve the equality, consider thw Jordan-Hahn decomposition
+        \begin{equation}
+            X = P - Q
+        \end{equation}
+
+        Then define
+        \begin{equation}
+            \mu(0) = \Pi_{\im(P)} \ \ \ \ \mu(1) = \Pi_{\im(Q)}
+        \end{equation}
+        
+        It holds that 
+        \begin{equation}
+            \< \mu(0)-\mu(1), X \> = \Tr(P) + \Tr(Q) = \Vert X \Vert_1
+        \end{equation}
+    } \qed
+
+    \begin{theo}
+        Let $\mu : \Sigma \to \Pos(\spc{X})$ be a measurement, and let $X \in \Lin(\spc{X})$ be an operator. Let $\Phi_\mu$ be the quantum-to-classical channel corresponding to $\mu$. Then
+        \begin{equation}
+            \Vert \Phi_\mu(X) \Vert_1 \leq \Vert X \Vert_1
+        \end{equation}
+    \end{theo}
+    \Proof {
+        \begin{align*}
+            \Vert \Phi_\mu(X) \Vert_1
+            &= \sum_{a \in \Sigma} | \< \mu(a), X \> | \\
+            &= \sum_{a \in \Sigma} u(a) \< \mu(a), X \> \\
+            &= \left\langle \sum_{a \in \Sigma} u(a)\mu(a), X \right\rangle \\
+            &\leq \left\Vert \sum_{a \in \Sigma} u(a)\mu(a) \right\Vert \Vert X \Vert_1 \\
+            &\leq \Vert X \Vert_1
+        \end{align*}
+        where $u(a)$ are the phase factors.
+    } \qed
+
+    \begin{defi}
+        Let $\reg{X}$ be a register and let $\reg{Y}$ be a register having classical state set $\{0,1\}$. The register $\reg{Y}$ is to be viewed as a classical register, while $\reg{X}$ is an arbitrary register. Also let $\spc{C}_0, \spc{C}_1 \subset \D(\spc{X})$ be nonempty, convex sets of states, and let $\lambda \in [0,1]$ be a real number. The sets $\spc{C}_0$ and $\spc{C}_1$, as well as the number $\lambda$, are assumed to be known to both Alice and Bob. Alice uses arbitrary states $\rho_0 \in \spc{C}_1, \rho_1 \in \spc{C}_2$ to prepare a state 
+        \begin{equation}
+            \sigma = \lambda E_{0,0} \otimes \rho_0 + (1-\lambda) E_{1,1} \otimes \rho_1
+        \end{equation}
+        and send it to Bob. Then Bob guesses the state of $\reg{Y}$ according to the result of a measurement.
+    \end{defi}
+
+    \begin{theo}
+        Let $\spc{C}_0, \spc{C}_1 \subset \D(\spc{X})$ be nonempty, convex sets, and let $\lambda \in [0,1]$. It holds that
+        \begin{align}
+            \sup_{\mu}\inf_{\rho_0, \rho_1} ( \lambda \< \mu(0),\rho_0 \> + (1-\lambda) \< \mu(1), \rho_1 \> ) 
+            &= \inf_{\rho_0, \rho_1}\sup_{\mu} ( \lambda \< \mu(0),\rho_0 \> + (1-\lambda) \< \mu(1), \rho_1 \> ) \\
+            &= \frac{1}{2} + \frac{1}{2} \inf_{\rho_0, \rho_1} \Vert \lambda \rho_0 + (1-\lambda) \rho_1 \Vert_1
+        \end{align}
+    \end{theo}
+
+    \section{Discriminating quantum states of an ensemble}
+    \begin{defi}
+        Let $\reg{X}$ be a register. Let $\reg{Y}$ be a classical register with alphabet $\Sigma$. Let $\eta : \Sigma \to \Pos(\spc{X})$ be an ensemble of states.
+        
+        Alice prepares the pair $(\reg{Y}, \reg{X})$ in the classical-quantum state
+        \begin{equation}
+            \sigma = \sum_{a \in \Sigma} E_{a,a} \otimes \eta(a)
+        \end{equation}
+        and send it to Bob. Then Bob guesses the state of $\reg{Y}$ according to the result of a measurement.
+    \end{defi}
+
+    The probability Bob is correct:
+    \begin{equation}
+        \sum_{a \in \Sigma} \< \mu(a), \eta(a) \>
+    \end{equation}
+
+    To optimize the probability, consider a more general problem: let $\phi : \Sigma \to \Herm(\spc{X})$. Consider a maximization of the quantity
+    \begin{equation}
+        \sum_{a \in \Sigma} \< \mu(a), \phi(a) \>
+    \end{equation}
+    over all measurements $\mu$.
+
+    A semidefinite program for optimal measurements
+
+    For any choice of a function $\phi : \Sigma \to \Herm(\spc{X})$, define
+    \begin{equation}
+        \op{opt}(\phi) = \max_{\mu} \sum_{a \in \Sigma} \< \mu(a), \phi(a) \>
+    \end{equation}
+
+    There is no closed-form expression that is known to represent the value $\op{opt}(\phi)$ for an arbitrary choice of a function $\phi : \Sigma \to \Herm(\spc{X})$.
+
+    \begin{defi}
+        Let $P, Q \in \Pos(\spc X)$, the fidelity is defined as
+        \begin{equation}
+            \op F(P, Q) = \Vert \sqrt P \sqrt Q \Vert_1 = \Tr \left(\sqrt{\sqrt Q P \sqrt Q} \right)
+        \end{equation}
+    \end{defi}
+
+    \begin{proper}
+        The following facts hold:
+        \begin{enumerate}
+            \item $\op F$ is continuous at $(P,Q)$
+            \item $\op F(P,Q) = \op F(Q,P)$
+            \item $\op F(\lambda P,Q) = \op F(P,\lambda Q) = \sqrt \lambda \op F(P,Q)$
+            \item $\op F(P,Q) = \op F(\Pi_{\im(Q)} P \Pi_{\im(Q)}, Q) = \op F(P, \Pi_{\im(P)} Q \Pi_{\im(P)})$
+            \item $\op F(P,Q) \geq 0$ with equality iff $PQ=0$
+            
+            \Proof
+            $\Vert \sqrt P \sqrt Q \Vert_1 \geq 0$ with equality iff $\sqrt P \sqrt Q = 0$, which is equivalent to $PQ = 0$.
+
+            \item $\op F(P,Q)^2 \leq \Tr(P)\Tr(Q)$ with equality iff $P$ and $Q$ are linearly dependent.
+            
+            \Proof
+            \begin{equation}
+                \Vert \sqrt P \sqrt Q \Vert_1^2 = |\< U, \sqrt P \sqrt Q\>|^2
+            \end{equation}
+
+            \item $V \in \U(\spc X, \spc Y)$, $\op F(P,Q) = \op F(VPV^*, VQV^*)$
+            \item $F(P, vv^*) = \sqrt{v^*Pv}$
+            \item $F(P, QPQ) = \< P,Q \>$
+            \item $\rho \in \D(\spc X)$, $P \leq \I_\spc X$, $\<P, \rho\> > 0$
+            \begin{equation}
+                \op F \left(\rho, \frac{\sqrt P \rho \sqrt P}{\< P, \rho \>} \right) \geq \sqrt{ \< P,\rho \> }
+            \end{equation}
+            \item $\op F(P_0 \otimes P_1, Q_0 \otimes Q_1) = \op F(P_0, Q_0) \op F(P_1, Q_1)$
+            \item \begin{equation}
+                \op F(P, Q) = \max \left\{ |\Tr(X)| : X \in \Lin(\spc X), \begin{bmatrix}
+                    P & X \\
+                    X^* & Q
+                \end{bmatrix} \in \Pos(\spc X \oplus \spc X) \right\}
+            \end{equation}
+        \end{enumerate}
+    \end{proper}
+
+    \section{Channel discrimination}
+    Bob prepares a state $\sigma \in \D(\spc X \otimes \spc W)$. Then Alice prepare channel $\Phi_0$ or $\Phi_1$ on system $\spc X$.
+    \begin{equation}
+        \rho_0 = (\Phi_0 \otimes \I_{\Lin(\spc W)}) \sigma \ \ \ \
+        \rho_1 = (\Phi_1 \otimes \I_{\Lin(\spc W)}) \sigma 
+    \end{equation}
+    with probability $\lambda$ and $1-\lambda$. 
+
+    Then Bob can distinguish the two states with probability
+    \begin{equation}
+        \frac 1 2 + \frac 1 2 \Vert \lambda \rho_0 + (1-\lambda) \rho_1  \Vert_1
+    \end{equation}
+
+    \begin{defi}
+        The induced trace norm
+        \begin{equation}
+            \Vert \Phi \Vert_1 = \max \{ \Vert \Phi(X) \Vert_1 : X \in \Lin(\spc X), \Vert X \Vert_1\leq 1 \}
+        \end{equation}
+    \end{defi}
+
+    \begin{theo}
+        Let $\Phi \in \Transf(\spc X, \spc Y)$ be a positive and trace-presearving map, then $\Vert \Phi \Vert_1 = 1$.
+    \end{theo}
+
+    \begin{proper}
+        \begin{enumerate}
+            \item \begin{equation}
+                \Vert \Psi\Phi \Vert_1 \leq \Vert \Psi \Vert_1 \Vert \Phi \Vert_1
+            \end{equation}
+            \item \begin{equation}
+                \Vert \Psi_1\Psi_0 - \Phi_1\Phi_0 \Vert_1 \leq \Vert \Psi_1 - \Phi_1 \Vert_1 + \Vert \Psi_0 - \Phi_0 \Vert_1
+            \end{equation}
+            \item 
+        \end{enumerate}
+    \end{proper}
+    
+    \begin{equation}
+        \vertiii {\sum_{a\in \Sigma}}
+    \end{equation}
+\end{document}
+    

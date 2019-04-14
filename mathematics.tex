@@ -1,0 +1,1099 @@
+
+\documentclass[aps,pra,onecolumn,notitlepage,superscriptaddress]{revtex4-1}
+
+%\input{myQcircuit}
+\usepackage{graphicx,color}% Include figure files
+\usepackage{dcolumn}% Align table columns on decimal point
+\usepackage{bm}% bold math
+\usepackage{amsmath,amssymb,mathrsfs}
+\usepackage{url}
+\usepackage{hyperref}
+
+% added by me
+\usepackage{framed}
+\usepackage{algorithm}
+\usepackage{dsfont}
+
+
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+
+%  Sets
+\newcommand{\set}[1]{\mathsf{#1}}
+\newcommand{\grp}[1]{\mathsf{#1}}
+\newcommand{\reg}[1]{\mathsf{#1}}
+\newcommand{\spc}[1]{\mathcal{#1}}
+
+% Integrals
+
+\def\d{{\rm d}}
+
+% Linear structures
+\newcommand{\Span}{{\mathsf{Span}}}
+\newcommand{\Lin}{\mathsf{Lin}}
+\newcommand{\Pos}{\mathsf{Pos}}
+\newcommand{\CP}{\mathsf{CP}}
+\newcommand{\Herm}{\mathsf{Herm}}
+\newcommand{\D}{\mathsf{D}}
+\newcommand{\Proj}{\mathsf{Proj}}
+\newcommand{\U}{\mathsf{U}}
+\newcommand{\Diag}{\mathsf{Diag}}
+% added by me
+\newcommand{\T}{\mathsf{T}}
+
+% added by me
+\newcommand{\rank}{\mathsf{rank}}
+\newcommand{\im}{\mathsf{im}}
+\newcommand{\myker}{\mathsf{ker}}
+
+\def\>{\rangle}
+\def\<{\langle}
+\def\kk{\>\!\>}
+\def\bb{\<\!\<}
+\newcommand{\st}[1]{\mathbf{#1}}
+\newcommand{\bs}[1]{\boldsymbol{#1}}
+
+% Linear maps
+\newcommand{\map}[1]{\mathcal{#1}}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\diag}{\mathsf{diag}}
+
+
+%  Operational notions
+\newcommand{\op}[1]{\operatorname{#1}}
+
+\newcommand{\St}{{\mathsf{St}}}
+\newcommand{\Eff}{{\mathsf{Eff}}}
+\newcommand{\Pur}{{\mathsf{Pur}}}
+\newcommand{\Transf}{{\mathsf{Transf}}}
+\newcommand{\Chan}{{\mathsf{Chan}}}
+
+
+%   By Mo
+\newcommand{\arccot}{\mathrm{arccot}\,}
+
+%  Miscellanea
+\newcommand\myuparrow{\mathord{\uparrow}}
+\newcommand\mydownarrow{\mathord{\downarrow}}
+\newcommand\h{{\scriptstyle \frac 12}}
+% added by me
+\newcommand\I{\mathds{1}}
+
+% Environments
+\newtheorem{theo}{Theorem}
+\newtheorem{ax}{Axiom}
+\newtheorem{lemma}{Lemma}
+\newtheorem{prop}{Proposition}
+\newtheorem{cor}{Corollary}
+\newtheorem{defi}{Definition}
+
+
+\newtheorem{rem}{Remark}
+\newtheorem{ex}{Exercise}
+
+\newtheorem{proper}{Property}
+
+\def\Proof{{\bf Proof.~}}
+\def\qed{$\blacksquare$ \newline}
+
+\begin{document}
+    \preprint{APS/123-QED}
+    \title{Mathematical preliminaries}
+    \author{}
+    \maketitle
+    % \tableofcontents
+    % \newpage
+
+    \section{Linear algebra}
+
+    \subsection{Definition of matrix}
+    \begin{defi}
+        \textbf{Complex Euclidean spaces}. 
+        
+        Let $\Sigma$ be an alphabet, then the set of all functions from $\Sigma$ to the complex numbers $\C$, denoted $\C^{\Sigma}$, forms a vector space of dimension $|\Sigma|$ with 
+        \begin{enumerate}
+            \item Addition: $(u+v)(a) = u(a)+v(a) \ \forall a \in \Sigma$.
+            \item Scalar multiplication: $(\alpha u)(a) = \alpha u(a) \ \forall \alpha \in \C \ \forall a \in \Sigma$.
+        \end{enumerate}
+
+
+        \begin{itemize}
+            \item Inner product is defined as
+            \begin{equation}
+                \< u,v \> = \sum_{a \in \Sigma} \overline{u(a)} v(a)
+            \end{equation}
+    
+            \item Euclidean norm of vectors is defined as
+            \begin{equation}
+                \Vert u \Vert = \sqrt{\<u,u\>} = \left(\sum_{a \in \Sigma} |u(a)|^2 \right)^{\frac{1}{2}}
+            \end{equation}
+    
+            \item $p$-norm of vectors is defined as
+            \begin{equation}
+                \Vert u \Vert_p = \left(\sum_{a \in \Sigma} |u(a)|^p \right)^{\frac{1}{p}}
+            \end{equation}
+    
+            \item Direct sum of complex Euclidean spaces
+            \begin{equation}
+                \spc X_1 \oplus \cdots \oplus \spc X_n = \C^{\Sigma_1 \cup \cdots \cup \Sigma_n}
+            \end{equation}
+    
+            \item Tensor product of complex Euclidean spaces
+            \begin{equation}
+                \spc X_1 \otimes \cdots \otimes \spc X_n = \C^{\Sigma_1 \times \cdots \times \Sigma_n}
+            \end{equation}
+        \end{itemize}
+    \end{defi}
+
+    \begin{theo}
+        Let $\spc X$ and $\spc Y$ be linear spaces. Then
+        \begin{equation}
+            \dim(\spc X) + \dim(\spc Y) = \dim(\spc X+\spc Y) + \dim(\spc X \cap \spc Y)
+        \end{equation}
+    \end{theo}
+
+    \begin{defi} 
+        Linear transformations and matrices.
+        \begin{itemize}
+            \item Linear operators are linear maps $A: \spc X \to \spc Y$ betweem two vector spaces such that
+            \begin{equation}
+                \forall u, v \in \spc X \ \ \forall \lambda, \mu \in \C \ \ A(\lambda u + \mu v) = \lambda Au + \mu Av
+            \end{equation}
+            The collection of all linear mappings of the above form is denoted $\Lin(\spc X,\spc Y)$.
+            \item Matrices
+            \begin{equation}
+                M : \Gamma \times \Sigma \to \C
+            \end{equation}
+            \item Let $M : \Gamma \times \Lambda \to \C$ and $N : \Lambda \times \Sigma \to \C$. $MN : \Gamma \times \Sigma$ is defined as
+            \begin{equation}
+                (MN)(a,b) = \sum_{c \in \Lambda} M(a,c)N(c,b)
+            \end{equation}
+        \end{itemize}
+    \end{defi}
+
+    Each operator $A: \C^{\Sigma} \to \C^{\Gamma}$ is associated with a matrix $M : \Gamma \times \Sigma \to \C$
+    \begin{equation}
+        M(a,b) = \< e_a, Ae_b \>
+    \end{equation}
+
+    And conversely, a matrix $M : \Gamma \times \Sigma \to \C$ represents an operator $A: \C^{\Sigma} \to \C^{\Gamma}$
+    \begin{equation}
+        (Au)(a) = \sum_{b \in \Sigma} M(a,b) u(b) \ \ \ \ \forall u \in \C^{\Sigma} \ \forall a \in \Gamma
+    \end{equation}
+
+    Let $A: \C^{\Lambda} \to \C^{\Gamma}$ and $B: \C^{\Sigma} \to \C^{\Lambda}$. Let $M : \Gamma \times \Lambda \to \C$ and $N : \Lambda \times \Sigma \to \C$ be the corresponding matrices. Then $\forall a \in \Gamma$
+    \begin{align}
+        (ABu)(a) 
+        &= \sum_{c \in \Lambda} M(a,c) (Bu)(c) \\
+        &= \sum_{c \in \Lambda} M(a,c) \sum_{b \in \Sigma} N(c,b) u(b) \\
+        &= \sum_{b \in \Sigma} \left( \sum_{c \in \Lambda} M(a,c)N(c,b) \right) u(b)
+    \end{align}
+
+    Thus $MN$ corresponds to the composite operator $AB$.
+
+    The standard basis $\{ E_{a,b} : a \in \Gamma, \ b \in \Sigma \}$ of a space of operators
+    \begin{equation}
+        E_{a,b} (c,d) = \begin{cases}
+            1 & (c,d) = (a,b) \\
+            0 & \text{otherewise}
+        \end{cases}
+    \end{equation}
+
+    The number of elements in this basis is, of course, consistent with the fact that the dimension of $\Lin(\spc X,\spc Y)$ is given by $\dim(\Lin(\spc X, \spc Y)) = \dim(\spc X)\dim(\spc Y)$.
+
+    \begin{rem}
+        Generally, matrices and linear maps can be viewed as the same thing.
+    \end{rem}
+
+    \subsection{General properties of matrices}
+    \begin{defi}
+        The entry-wise conjugate, transpose, and adjoint of $A : \Gamma \times \Lambda \to \C$
+        \begin{align}
+            \overline{A}(a,b) &= \overline{A(a,b)} \\
+            A^T(b,a) &= A(a,b) \\
+            \< v, Au \> &= \< A^*v, u \>
+        \end{align}
+    \end{defi}
+
+    \begin{proper}
+        $A^*(a,b) = \overline{A(b,a)}$
+        \begin{align*}
+            & \< v, Au \> = \sum_{a \in \Gamma} \overline{v(a)} (Au)(a) 
+            = \sum_{b \in \Sigma} \overline{(A^*v)(b)} u(b) = \< A^*v, u \> \\
+            \Longleftrightarrow & \sum_{a \in \Gamma} \overline{v(a)} \sum_{b \in \Sigma} A(a,b)u(b) = \sum_{b \in \Sigma} \sum_{a \in \Gamma}\overline{A^*(b,a)v(a)} u(b) \\
+            \Longleftrightarrow & A^*(b,a) = \overline{A(a,b)}
+        \end{align*}
+    \end{proper}
+
+    \begin{defi}
+        Kernel, image and rank of $A \in \Lin(\spc X,\spc Y)$
+        \begin{align}
+            \myker(A) &= \{ u \in \spc X : Au = 0 \} \\
+            \im(A) &= \{ Au : u \in \spc X \} \\
+            \rank(A) &= \dim(\im(A))
+        \end{align}
+    \end{defi}
+
+    \begin{theo}
+        Useful formulas
+        \begin{enumerate}
+            \item Let $A \in \Lin(\spc X,\spc Y)$, then 
+            \begin{equation}
+                \dim(\myker(A)) + \rank(A) = \dim(\spc X)
+            \end{equation}
+            
+            \Proof {
+                Let $\{ v_1, \cdots, v_k, v_{k+1}, \cdots, v_n \}$ be a basis of $\spc X$ such that
+                \begin{equation}
+                    \Span \{ v_1, \cdots, v_k \} = \myker(A) \ \ \ \ \Span \{ Av_{k+1}, \cdots, Av_n \} = \im(A)
+                \end{equation}
+                \begin{align}
+                    &c_{k+1}Av_{k+1} + \cdots + c_nAv_n = 0 \\
+                    \implies& A(c_{k+1}v_{k+1} + \cdots + c_nv_n) = 0 \\
+                    \implies& c_{k+1}v_{k+1} + \cdots + c_nv_n = c_1v_1 + \cdots + c_kv_k \\
+                    \implies& c_1 = \cdots = c_n = 0
+                \end{align}
+                Thus $\{ Av_{k+1}, \cdots, Av_n \}$ is a linear-independent set. Then
+                \begin{equation}
+                    \rank(A) = \dim(\im(A)) = \dim(\spc X) - \dim(\myker(A))
+                \end{equation}
+            }
+            \item Let $A \in \Lin(\spc Y,\spc Z)$ and $B \in \Lin(\spc X,\spc Y)$. Then
+            \begin{equation}
+                \rank(A)+\rank(B)-\dim(\spc Y) \leq \rank(AB) \leq \min( \rank(A), \rank(B) )
+            \end{equation}
+            \item Let $A,B \in \Lin(\spc X,\spc Y)$, then
+            \begin{equation}
+                \rank(A+B) \leq \rank(A)+\rank(B)
+            \end{equation}
+            \item $\myker(A) = \myker(A^*A)$
+            \\\Proof {
+                \begin{equation}
+                    A^*Au = 0 \implies u^*A^*Au = 0 \implies |Au|^2 = 0 \implies Au = 0 
+                \end{equation}
+                \begin{equation}
+                    Au = 0 \implies A^*Au = A^*0 = 0
+                \end{equation}
+            }
+            \item $\rank(A) = \rank(AA^*) = \rank(A^*A)$
+            \\\Proof{
+                \begin{equation}
+                    \myker(A) = \myker(A^*A) \implies \rank(A^*A) = \rank(A)
+                \end{equation} 
+                \begin{equation}
+                    \myker(A^*) = \myker(AA^*) \implies \rank(AA^*) = \rank(A^*) = \rank(A)
+                \end{equation}
+            } 
+            \item $\im(A) = \im(AA^*)$
+            \\\Proof {
+                \begin{equation}
+                    \begin{cases}
+                        \im(AA^*) \subset \im(A) \\
+                        \rank(AA^*) = \rank(A)
+                    \end{cases}
+                    \implies \im(AA^*) = \im(A)
+                \end{equation}
+            }
+        \end{enumerate}
+    \end{theo}
+
+    \begin{defi}
+        Identity operator, inverse operator, trace, inner product, determinant.
+        \begin{itemize}
+            \item Identity operator is defined as
+            \begin{equation}
+                \I(a,b) = \begin{cases}
+                    1 & a = b \\
+                    0 & a \neq b
+                \end{cases}
+            \end{equation}
+
+            \item An operator $A \in \Lin(\spc X)$ is invertible iff $\exists B \in \Lin(\spc X),\ BA = I$. It can be shown that $BA=I \implies AB=I$. Thus $B = A^{-1}$ is unique.
+            
+            \item Trace of $X \in \Lin(\C^{\Sigma})$ is defined as
+            \begin{equation}
+                \Tr(X) = \sum_{a \in \Sigma}X(a,a)
+            \end{equation}
+
+            \item For an arbitrary operator $A \in \Lin(\spc X,\spc Y)$, a \textbf{pseudoinverse} of $A$ is defined as a matrix $A^+ \in \Lin(\spc Y, \spc X)$ satisfying all of the following four criteria, known as the Moore-Penrose conditions:
+            \begin{enumerate}
+                \item $AA^+A = A$
+                \item $A^+AA^+ = A^+$
+                \item $(AA^+)^* = AA^+$
+                \item $(A^+A)^* = A^+A$
+            \end{enumerate}
+            \begin{itemize}
+                \item The pseudoinverse exists and is unique.
+                \item If $A$ has real entries, then so does $A^+$.
+                \item If $A$ is invertible, $A^+ = A^{-1}$.
+                \item $O^+ = O^T$
+                \item $(A^{^+})^+ = A$
+                \item $(A^T)^+ = (A^+)^T, (\overline{A})^+ = \overline{A^+}, (A^*)^+ = (A^+)^*$
+                \item $P = AA^+$ and $Q = A^+A$ are orthogonal projection operators. $PA = AQ = A$.
+                \item $P$ is the orthogonal projector onto the range of $A$.
+                \item $Q$ is the orthogonal projector onto the range of $A^*$.
+                \item $\myker(A^+) = \myker(A^*) = \myker(AA^*)$
+                \item $\im(A^+) = \im(A^*) = \im(A^*A)$
+            \end{itemize}
+            
+
+            \item Inner product on the space $\Lin(\spc X,\spc Y)$ is defined as
+            \begin{equation}
+                \< X,Y \> = \Tr(X^*Y)
+            \end{equation}
+
+            \item The determinant of a square operator $X \in \Lin(\C^\Sigma)$ is defined by the equation
+            \begin{equation}
+                \det(X) = \sum_{\pi \in  \op{Sym}(\Sigma)} \op{sign}(\pi) \prod_{a \in \Sigma} X(a, \pi(a))
+            \end{equation}
+        \end{itemize}
+    \end{defi}
+
+    \begin{proper}
+        Some properties about trace
+        \begin{enumerate}
+            \item Let $\{ u_a : a \in \Gamma \} \subset \C^\Sigma$ be an orthnormal basis. Then
+            \begin{equation}
+                \sum_{a \in \Gamma} u_au_a^* = \I
+            \end{equation}
+            \item Cyclic property of the trace
+            \begin{equation}
+                \Tr(XY) = \Tr(YX)
+            \end{equation}
+            \item Trace is the sum of expectations of the operator on an ONB.
+            \begin{equation}
+                \Tr(X) = \Tr(X\sum_{a \in \Gamma} u_au_a^*) = \sum_{a \in \Gamma} u_a^* X u_a
+            \end{equation}
+        \end{enumerate}
+    \end{proper}
+
+    \begin{defi}
+        Eigenvectors and eigenvalues
+        \begin{equation}
+            Xu = \lambda u
+        \end{equation}
+
+        Characteristic polynomial of $X$
+        \begin{equation}
+            P_X(\alpha) = \det(\alpha \I - X)
+        \end{equation}
+
+        The spectrum of $A$, denoted $\op{spec}(A)$, is the \textbf{multiset} containing the roots of the polynomial $P_A$ , where each root
+        appears a number of times equal to its multiplicity. Each element $\lambda \in \op{spec}(A)$ is necessarily an eigenvalue of $A$, and every eigenvalue of $A$ is contained in $\op{spec}(A)$.
+    \end{defi}
+
+    \begin{proper}
+        \begin{align}
+            \Tr(X) &= \sum_{\lambda \in \op{spec}(X)} \lambda \\
+            \det(X) &= \prod_{\lambda \in \op{spec}(X)} \lambda \\
+            \op{spec}(XY) &= \op{spec}(YX) \ \ \ \ \forall X \in \Lin(\spc X,\spc Y) \ \forall Y \in \Lin(\spc Y,\spc X)
+        \end{align}
+    \end{proper}
+    Hint: $\det(I_{\spc Y} - AB) = \det(I_{\spc X} - BA)$
+
+    \begin{defi}
+        A set $\spc A \subset \Lin(\spc X)$ is a \textbf{subalgebra} of $\Lin(\spc X)$ if it is closed under addition, scalar multiplication, and operator composition.
+
+        \begin{itemize}
+            \item Self-adjoint: $X \in \spc A \implies X^* \in \spc A$.
+            \item Unital: $\I \in \spc A$.
+        \end{itemize}
+        
+        Lie bracket $[X,Y] \in \Lin(\spc X)$is defined as
+        \begin{equation}
+            [X,Y] = XY-YX
+        \end{equation}
+
+        Commutant of $\spc A$
+        \begin{equation}
+            \op{comm}(\spc A) = \{ Y \in \Lin(\spc X) : \forall X \in \spc A \ [X,Y] = 0 \}
+        \end{equation}
+    \end{defi}
+
+    The commutant of every subset of $\Lin(\spc X)$ is a unital subalgebra of $\Lin(\spc X)$.
+
+    \subsection{Important classes of operators}
+    \begin{defi}
+        Important classes of operators
+        \begin{enumerate}
+            \item Normal: $XX^* = X^*X$
+            \item Hermitian: $H^* = H$
+            \item Positive semidefinite: $P = B^*B \ \ B \in \Lin(\spc X,\spc Y)$
+            \item Positive definite: $X \in \Pos(\spc X), \ \ \det(X) \neq 0$.
+            \item Density: $\rho \in \Pos(\spc X), \ \ \Tr(\rho) = 1$
+            \item Projection: $\Pi \in \Pos(\spc X), \ \ \Pi = \Pi^2$
+            \item Isometries: $V^*V = \I_{\spc X} \ \ V \in \Lin(\spc X, \spc Y)$
+            \item Unitary: $UU^* = U^*U = \I$
+            \item Diagnal: $X(a,b) = 0 \ \ a \neq b$
+        \end{enumerate}
+    \end{defi}
+
+    \begin{rem}
+        The sum of two Hermitian operators is Hermitian, as is a real scalar multiple of a Hermitian operator. The inner product of two Hermitian operators is real as well. For every choice of a complex Euclidean space $\spc X$, the space $\Herm(\spc X)$ therefore forms a vector space over the real numbers on which an inner product is defined.
+    \end{rem}
+
+    \begin{theo}
+        $\Herm(\C^\Sigma)$ and the real Euclidean space $\R^{\Sigma \times \Sigma}$ are isometrically isomorphic.
+    \end{theo}
+    \Proof
+    One way to define a mapping $\phi$ as above is as follows. First, assume that a total ordering of $\Sigma$ has been fixed, and define an ONB
+    \begin{equation}
+        H_{a,b} = \begin{cases}
+            E_{a,a} & a=b \\
+            \frac{1}{\sqrt 2} (E_{a,b} + E_{b,a}) & a < b \\
+            \frac{1}{\sqrt 2} (iE_{a,b} - iE_{b,a}) & a > b
+        \end{cases}
+    \end{equation}
+
+    The mapping $\phi$ is defined by the equation
+    \begin{equation}
+        \phi(e_{(a,b)}) = H_{a,b}
+    \end{equation}
+
+    Let $v = \sum_{a,b \in \Sigma}\alpha_{ab} e_{(a,b)}$. Notice that
+    \begin{align*}
+        \Vert v \Vert &= \sum_{a,b \in \Sigma} \alpha_{ab}^2 \\
+        \Vert \phi(v) \Vert &= \< \phi(v), \phi(v) \> = \sum_{a,b \in \Sigma} \alpha_{ab}^2
+    \end{align*}
+    \qed
+
+    \begin{defi}
+        $H \in \Herm(\spc X)$. Define a vector
+        \begin{equation}
+            \lambda(\op H) = (\lambda_1(H), \cdots, \lambda_n(H)) \in \R^n
+        \end{equation}
+        such that
+        \begin{equation}
+            \op{spec}(H) = \{ \lambda_1(H), \cdots, \lambda_n(H) \}
+        \end{equation}
+        \begin{equation}
+            \lambda_1(H) \geq \cdots \geq \lambda_n(H)
+        \end{equation}
+    \end{defi}
+
+    \begin{theo}
+        (Courant-Fischer theorem) Let $\spc X$ be a complex Euclidean space of dimension $n$ and let $H \in \Herm(\spc X)$ be a Hermitian operator. For every $k \in \{1, \cdots ,n\}$ it holds that
+        \begin{align*}
+            \lambda_k(H) 
+            &= \max_{u_1, \cdots, u_{n-k} \in \op S(\spc X)} \ \min_{v \in \Span\{u_1, \cdots, u_{n-k}\}^\perp} v^*Hv \\
+            &= \min_{u_1, \cdots, u_{k-1} \in \op S(\spc X)} \ \max_{v \in \Span\{u_1, \cdots, u_{k-1}\}^\perp} v^*Hv \\
+        \end{align*}
+    \end{theo}
+    \Proof
+    Suppose $H$ has the following spectrum decomposition
+    \begin{equation}
+        H = \sum_{k=1}^n \lambda_k(H) v_kv_k^*
+    \end{equation}
+    Let $\spc Y$ be a $k$-dimensional subspace and $\spc Z = \Span \{ v_k, \cdots, v_n \}$. 
+    \begin{equation}
+        \dim (\spc Y \cap \spc Z) \geq 1
+    \end{equation}
+    Choose $x \in \op S(\spc Y \cap \spc Z)$, then
+    \begin{equation}
+        x^* H x = \sum_{i=k}^n \lambda_k |\< x, v_i \>|^2 \leq \lambda_k(H)
+    \end{equation}
+    Thus
+    \begin{equation}
+        \forall \spc Y \ \inf_{x \in \op S(\spc Y)} x^* H x \leq \lambda_k(H)
+    \end{equation}
+    Therefore
+    \begin{equation}
+        \sup_{\spc Y} \inf_{x \in \op S(\spc Y)} x^* H x \leq \lambda_k(H)
+    \end{equation}
+
+    Choose $x = v_k$ to reach the inf and sup. \qed
+
+    \begin{theo}
+        Properties of positive operators. The following statements are equivalent.
+        \begin{enumerate}
+            \item $P \in \Pos(\spc X)$
+            \item $P = A^*A$, $A \in \Lin(\spc X, \spc Y)$
+            \item $P \in \Herm(\spc X)$ and eigenvalues are nonnegative.
+            \item $\forall u \in \spc X, x^*Px \geq 0$
+            \item $\forall Q \in \Pos(\spc X), \<Q,P\> \geq 0$
+            \item $P(a,b) = \< u_a, u_b \>$ where $\{u_a : a \in \Sigma \} \subset \spc Y$.
+        \end{enumerate}
+    \end{theo}
+    
+    \subsection{Linear maps on operators}
+    \begin{defi}
+        Linear maps on square operators
+        \begin{itemize}
+            \item The set of linear maps on square operators $\Lin(\spc X) \to \Lin(\spc Y)$ are denoted $\T(\spc X,\spc Y)$.
+            \item For a given map $\Phi \in \T(\spc X,\spc Y)$, the adjoint of $\Phi$ is defined to be the unique map $\Phi^* \in \T(\spc Y,\spc X)$ that satisfies
+            \begin{equation}
+                \< \Phi^*(Y), X \> = \< Y, \Phi(X) \> \ \ \ \ \forall X \in \Lin(\spc X) \ \forall Y \in \Lin(\spc Y)
+            \end{equation}
+            \item The identity map is defined as
+            \begin{equation}
+                \I_{\Lin(\spc X)}(X) = X \ \ \ \ \forall X \in \Lin(\spc X)
+            \end{equation}
+            \item The trace function can be viewed as
+            \begin{equation}
+                \Tr \in \T(X,\C)
+            \end{equation}
+            \item Partial trace
+            \begin{equation}
+                \Tr_{\spc X} = \Tr \otimes \I_{\Lin(\spc Y)} \in \T(\spc X \otimes \spc Y, \spc Y)
+            \end{equation}
+            \begin{equation}
+                \Tr_{\spc Y} = \I_{\Lin(\spc X)} \otimes \Tr \in \T(\spc X \otimes \spc Y, \spc X)
+            \end{equation}
+            \item The following classes of maps are among those that are discussed in greater detail later:
+            \begin{enumerate}
+                \item Hermitian-preserving maps. 
+                    \begin{equation*}
+                        \forall H \in \Herm(\spc X) \ \ \ \ \Phi(H) \in \Herm(\spc Y)
+                    \end{equation*}
+                \item Positive maps. 
+                    \begin{equation*}
+                        \forall P \in \Pos(\spc X) \ \ \ \ \Phi(P) \in \Pos(\spc Y)
+                    \end{equation*}
+                \item Completely positive maps. For arbitrary Euclidean space $\spc Z$
+                    \begin{equation*}
+                        \Phi \otimes \I_{\Lin(\spc Z)}
+                    \end{equation*}
+                is a positive map.
+                \item Trace-preserving maps.
+                    \begin{equation*}
+                        \forall X \in \Lin(\spc X) \ \ \ \ \Tr(\Phi(X)) = \Tr(X)
+                    \end{equation*}
+                \item Unital maps.
+                    \begin{equation*}
+                        \Phi(\I_{\spc X}) = \I_{\spc Y}
+                    \end{equation*}
+            \end{enumerate}
+        \end{itemize}
+    \end{defi}
+
+    \begin{theo}
+        Suppose $\Phi \in \T(\spc X, \spc Y)$ has the following decomposition
+        \begin{equation}
+            \Phi(X) = \sum_{a \in \Sigma} A_a X B_a^* \ \ \ \ \forall X \in \Lin(\spc X)
+        \end{equation}
+        Then
+        \begin{equation}
+            \Phi^*(Y) = \sum_{a \in \Sigma} A_a^* Y B_a \ \ \ \ \forall Y \in \Lin(\spc Y)
+        \end{equation}
+
+        \Proof {
+            \begin{align}
+                \< \Phi(X), Y \>
+                &= \Tr( (\sum_{a \in \Sigma} B_a X^* A_a^*) Y ) \\
+                &= \Tr( X^* \sum_{a \in \Sigma} A_a^* Y B_a ) \\
+                &= \< X, \sum_{a \in \Sigma} A_a^* Y B_a \>
+            \end{align}
+        }
+    \end{theo}
+
+    \begin{defi}
+        The operator-vector correspondence. There is a correspondence between the spaces $\Lin(\spc Y,\spc X)$ and $\spc X \otimes \spc Y$, for any
+        choice of complex Euclidean spaces $X = \C^\Sigma$ and $Y = \C^\Gamma$.
+        \begin{equation}
+            \op{vec} : \Lin(\spc Y,\spc X) \to \spc X \otimes \spc Y
+        \end{equation}
+        defined by the action
+        \begin{equation}
+            \op{vec}(E_{a,b}) = e_a \otimes e_b
+        \end{equation}
+    \end{defi}
+
+    \begin{proper} $u,v \in \spc X \otimes \spc Y$, $A,B \in \Lin(\spc Y,\spc X)$
+        \begin{enumerate}
+            \item $\op{vec}(uv^*) = u \otimes \overline{v}$
+            \item $\< A,B \> = \< \op{vec}(A), \op{vec}(B) \>$
+            \item $(A_0 \otimes A_1) \op{vec}(B) = \op{vec}(A_0BA_1^T) \ \ \ \ \forall A_0 \in \Lin(\spc X_0,Y_0), \ A_1 \in \Lin(\spc X_1, Y_1), \ B \in \Lin(\spc X_1, \spc X_0)$
+            \item $\Tr_{\spc Y}(\op{vec}(A) \op{vec}(B)^*) = AB^*$
+            \item $\Tr_{\spc X}(\op{vec}(A) \op{vec}(B)^*) = A^T\overline{B}$
+        \end{enumerate}
+    \end{proper}
+
+    \begin{theo}
+        Some important theorems
+        \begin{enumerate}
+            \item Spectrmum theorem
+            \item Jordan-Hahn decompositions
+            \begin{equation}
+                H \in \Herm(\spc X) \implies 
+                \exists P,Q \in \Pos(\spc X) \
+                \begin{cases}
+                    H = P - Q \\
+                    PQ = 0
+                \end{cases}
+            \end{equation}
+            \item Singular value theorem
+            \item Polar decompositions
+            \item Schmidt decompositions
+        \end{enumerate}
+    \end{theo}
+    
+    \begin{defi}
+        Norms of operators
+        \begin{enumerate}
+            \item \textbf{Schatten $p$-norms}
+
+            This family includes the three most commonly used norms in quantum information theory: the spectral norm, the Frobenius norm, and the trace norm.
+            \begin{equation}
+                \Vert A \Vert_p = \left\{ \Tr \left[ \left( A^*A \right)^{p/2} \right] \right\}^{1/p}
+            \end{equation}
+
+            The Schatten $p$-norm of an operator $A$ coincides with the ordinary vector $p$-norm of the vector of singular values of $A$:
+            \begin{equation}
+                \Vert A \Vert_p = \Vert s(A) \Vert_p
+            \end{equation}
+
+            \item \textbf{The spectrum norm}
+            \begin{equation}
+                \Vert A \Vert_\infty = \max \{ \Vert Au \Vert : u \in X, \ \Vert u \Vert \leq 1 \}
+            \end{equation}
+            The spectral norm is the most important norm we use.
+
+            \item \textbf{The Frobenius norm} 
+            \begin{equation}
+                \Vert A \Vert_2 = (\Tr(A^*A))^{1/2} = \sqrt{\< A^*A \>} = \Vert \op{vec}(A) \Vert = \sqrt{\sum_{a,b} |A(a,b)|^2 }
+            \end{equation}
+
+            \item \textbf{The trace norm} 
+            \begin{equation}
+                \Vert A \Vert_1 = \Tr(\sqrt{A^*A}) = \max\{ |\< U,A \>| : U \in \U(\spc X) \}
+            \end{equation}
+        \end{enumerate}
+    \end{defi}
+
+    \begin{proper}
+        \begin{enumerate}
+            \item  Schatten $p$-norms are non-increasing in $p$
+            \begin{equation}
+                1 \leq p \leq q \leq \infty \implies \Vert A \Vert_p \geq \Vert A \Vert_q
+            \end{equation}
+            \item  For every nonzero operator $A$ and for $1 \leq p \leq q \leq \infty$, it holds that
+            \begin{equation}
+                \Vert A \Vert_p \leq \rank(A)^{\frac{1}{p}-\frac{1}{q}} \Vert A \Vert_q
+            \end{equation}
+            \item For every $p \in [1, \infty]$, the Schatten $p$-norm is isometrically invariant (and therefore unitarily invariant): for every $A \in \Lin(\spc X, \spc Y)$, $U \in \U(\spc Y, \spc Z)$, and $V \in \U(\spc X, \spc W)$ it holds that
+            \begin{equation}
+                \Vert A \Vert_p = \Vert UAV^* \Vert_p
+            \end{equation}
+
+            \item For every operator $A \in \Lin(\spc X, \spc Y)$, it holds that the Schatten $p$-norm and $p^∗$-norm are dual
+            \begin{equation}
+                \Vert A \Vert_p = \max \{ |\< B,A \>| : B \in \Lin(\spc X, \spc Y), \Vert B \Vert_{p^*} \leq 1 \}
+            \end{equation}
+            One consequence is the inequality
+            \begin{equation}
+                |\< B,A \>| \leq \Vert A \Vert_p\Vert B \Vert_{p^*}
+            \end{equation}
+            where $1/p + 1/p^* = 1$.
+
+            \item $A \in \Lin(\spc Z, \spc W)$, $B \in \Lin(\spc Y, \spc Z)$ and $C \in \Lin(\spc X, \spc Y)$
+            \begin{equation}
+                \Vert ABC \Vert_p \leq \Vert A \Vert_{\infty} \Vert B \Vert_p \Vert C \Vert_{\infty}
+            \end{equation}
+            It follows that the Schatten $p-norm$ is submultiplicative:
+            \begin{equation}
+                \Vert AB \Vert_p \leq \Vert A \Vert_p \Vert B \Vert_p
+            \end{equation}
+
+            \item It holds that
+            \begin{equation}
+                \Vert A \Vert_p = \Vert A^* \Vert_p = \Vert A^T \Vert_p = \Vert \overline{A} \Vert_p
+            \end{equation}
+
+            \item The spectrum norm is induced by the Euclidean norm. It has the following property
+            \begin{equation}
+                \Vert A^*A \Vert_{\infty} = \Vert AA^* \Vert_{\infty} = \Vert A \Vert_{\infty}^2
+            \end{equation}
+
+            \item Let $A \in \Lin(\spc X \otimes \spc Y)$, then 
+            \begin{align*}
+                \Vert \Tr_{\spc Y}(A) \Vert_1 
+                &= \Vert (I_{\spc X} \otimes \Tr)A \Vert_1 \\
+                &= \max\{ |\< U,(I_{\spc X} \otimes \Tr)A \>| : U \in \U(\spc X) \} \\
+                &= \max\{ \Tr[(I_{\spc X} \otimes \Tr)(U^* \otimes I_{\spc Y})A] : U \in \U(\spc X) \} \\
+                &= \max\{ \Tr[(U^* \otimes I_{\spc Y})A] : U \in \U(\spc X) \} \\
+                &= \max\{ \<U \otimes I_{\spc Y}, A\> : U \in \U(\spc X) \} \\
+                &\leq \max\{ |\< V,A \>| : V \in \U(\spc X \otimes \spc Y) \} \\
+                &= \Vert A \Vert_1
+            \end{align*}
+            
+            \item Let $\alpha, \beta \geq 0$ and $u, v \in \spc X$
+            \begin{equation}
+                \Vert \alpha uu^* - \beta vv^* \Vert_1 = \sqrt{(\alpha+\beta)^2 - 4 \alpha \beta |\< u,v \>|^2 }
+            \end{equation}
+        \end{enumerate}
+    \end{proper}
+
+    \begin{rem}
+        \textbf{Spectrum norm is so important} that when we always omit the $\infty$ symbol when we write it. The spectrum norm of a vector (viewed as an operator on $\Lin(\C, \spc X)$) coincides with its Euclidean norm.
+    \end{rem}
+
+    \section{Analysis}
+    \begin{defi}
+        Nets
+
+        Let $V$ be a vector space. Let $W \subset V$. A set of vectors $N$ is an $\epsilon$-net if
+        \begin{equation*}
+            \forall u \in W \ \exists v \in  N \ \Vert u-v \Vert \leq \epsilon
+        \end{equation*}
+    \end{defi}
+
+    \begin{theo}
+        Let X be a complex Euclidean space of dimension $n$ and let $\epsilon > 0$ be a positive real number. With respect to the Euclidean norm on $X$, there exists an $\epsilon$-net $N \subset B(\spc X)$ for the unit ball $B(\spc X)$ such that
+        \begin{equation}
+            |N| \leq \left( 1+\frac{2}{\epsilon} \right)^{2n}
+        \end{equation}
+    \end{theo}
+
+    \begin{defi}
+        \textbf{Borel sets and functions}
+
+        $\spc A \subset \spc V$ and $\spc B \subset \spc W$ denote fixed subsets of finite-dimensional real or complex vector spaces $\spc V$ and $\spc W$.
+
+        A set $\spc C \subset \spc A$ is said to be a Borel subset of $\spc A$ if one or more of the following inductively defined properties holds:
+        \begin{enumerate}
+            \item $\spc C$ is an open set relative to $\spc A$
+            \item $\spc C$ is the complement of a Borel subset of $\spc A$
+            \item For $\{\spc C_1, \spc C_2, \cdots\}$ being a countable collection of Borel subsets of $\spc A$, it holds that $\spc C$ is equal to the union
+            \begin{equation}
+                \spc C = \bigcup_{k=1}^\infty \spc C_k
+            \end{equation}
+        \end{enumerate}
+
+        A function $f: \spc A \to \spc B$ is a Borel function if $f^{-1}(\spc C) \in \op{Borel}(\spc A)$ for all $\spc C \in \op{Borel}(\spc B)$.
+    \end{defi}
+
+    Continous function and the characteristic function of a Borel subset are both Borel functions.
+
+    \begin{enumerate}
+        \item If $B$ is a vector space, $\alpha f$ and $f+g$ are also Borel functions.
+        \item If $B$ is a subalgebra of $\Lin(Z)$, for $Z$ being a real or complex Euclidean space, and $f,g : A \to B$ are Borel functions, then the function $h : A \to B$ defined by
+        \begin{equation*}
+            h(u) = f(u)g(u)
+        \end{equation*}
+        is also a Borel function.
+    \end{enumerate}
+
+    \begin{defi}
+        Measures on Borel sets
+
+        A Borel measure (or simply a measure) defined on $\op{Borel}(\spc A)$ is a function
+        \begin{equation}
+            \mu : \op{Borel}(\spc A) \to [0, \infty]
+        \end{equation}
+        that possesses two properties:
+        \begin{enumerate}
+            \item $\mu(\emptyset) = 0$
+            \item  For any countable collection ${\spc C_1 ,\spc C_2 ,\cdots} \subset \op{Borel}(\spc A)$ of pairwise disjoint Borel subsets of $\spc A$, it holds that
+            \begin{equation}
+                \mu(\bigcup_{k=1}^{\infty} \spc C_k) = \sum_{k=1}^{\infty} \mu(\spc C_k)
+            \end{equation}
+        \end{enumerate}
+    \end{defi}
+
+    \begin{defi}
+        Let $V$ be a vector space over the real or complex numbers. A subset $C$ of $V$ is convex if
+        \begin{equation}
+            \lambda u + (1 - \lambda) v \in C \ \ \ \ \forall u,v \in C \ \forall \lambda \in [0,1]
+        \end{equation}
+
+        A set $K \subset V$ is a cone if
+        \begin{equation}
+            \lambda u \in K \ \ \ \ \forall u \in K \ \forall \lambda \geq 0
+        \end{equation}
+
+        The cone generated by a set $A \subset V$ is defined as
+        \begin{equation}
+            \op{cone}(A) = \{ \lambda u : u \in A, \ \lambda \geq 0 \}
+        \end{equation}
+
+        A convex cone is simply a cone that is also convex. 
+    \end{defi}
+
+    \begin{theo}
+        If $A$ is a compact set that does not include $0$, then $\op{cone}(A)$ is necessarily a closed set.
+    \end{theo}
+
+    Note that If $A$ contains $0$, $\op{cone}(A)$ may not be closed. For instance, $A = \{(x,y) : (x-1)^2+y^2 \leq 1, \ x,y\in \R \}$ is closed, but $\op{cone}(A) = \{ (x,y) : x > 0, \ y \in \R \}$ is not closed.
+
+    \begin{theo}
+        A cone $K$ is convex if and only if it is closed under addition
+        \begin{equation}
+            u+v \in K \ \ \ \ \forall u,v \in K
+        \end{equation}
+    \end{theo}
+    \Proof {
+        If
+        \begin{equation}
+            u,v \in K \ \lambda \in [0,1] \implies \lambda u, (1-\lambda) v \in K \implies \lambda u + (1-\lambda) v \in K
+        \end{equation}
+        
+        Only if
+        \begin{equation}
+            u,v \in K \ \lambda \in (0,1) \implies \frac{u}{\lambda}, \frac{v}{1-\lambda} \in K \implies u+v = \lambda \cdot \frac{u}{\lambda} + (1-\lambda) \cdot \frac{v}{1-\lambda} \in K
+        \end{equation}
+
+    }
+
+    \begin{defi}
+        $C \subset V$ is convex. Convex function $f: C \to \R$ if
+        \begin{equation}
+            f(\lambda u + (1-\lambda) v) \leq \lambda f(u) + (1-\lambda) f(v)
+        \end{equation}
+    \end{defi}
+
+    \begin{theo}
+        A convex function $f$ of one real variable defined on some open interval $C$ is continuous on $C$ and Lipschitz continuous on any closed subinterval. 
+    \end{theo}
+
+    \begin{theo}
+        $C \subset V$ is a convex set.
+        \begin{equation}
+            \begin{cases}
+                f(\frac{u+v}{2}) \leq \frac{f(u)+f(v)}{2} \ \ \ \ \forall u, v \in C \\
+                \text{$f$ is continuous}
+            \end{cases}
+            \implies \text{$f$ is convex}
+        \end{equation}
+    \end{theo}
+
+    \begin{defi}
+       The convex hull of a set $A \subset V$ is defined as
+       \begin{equation}
+           \op{conv}(A) = \{ \sum_{a \in \Sigma} p(a)u_a: p \in \spc P(\Sigma), \ \{ u_a : a \in \Sigma \} \subset A \}
+       \end{equation}
+    \end{defi}
+    
+    \begin{theo}
+        The convex hull $\op{conv}(A)$ of a closed set $A$ need not itself be closed. However, if A is compact, then so too is $\op{conv}(A)$.
+    \end{theo}
+
+    \begin{theo}
+        Let $V$ be a real vector space and let $A \subset V$. $A$ is contained in an affine subspace of $V$ having dimension $n$. For every vector $v \in \op{conv}(A)$ in the convex hull of $A$, there exist $m \leq n + 1$ vectors $u_1 , \cdots , u_m \in A$ such that $v \in \op{conv} \left(\{u_1, \cdots, u_m\} \right)$. 
+    \end{theo}
+    
+    \begin{defi}
+        A point $w \in C$ in a convex set $C$ is said to be an extreme point of $C$ if
+        \begin{equation}
+            \forall u,v \in C \  \forall \lambda \in (0,1) \ w = \lambda u + (1-\lambda) v \implies u=v=w
+        \end{equation}
+    \end{defi}
+
+    \begin{theo}
+        Let $V$ be a finite-dimensional vector space over the real or complex numbers, let $C \subset V$ be a compact and convex set, and let $A \subset C$ be the set of extreme points of $C$. It holds that $C = \op{conv}(A)$.
+    \end{theo}
+
+    \begin{enumerate}
+        \item The spectral norm unit ball.  For any complex Euclidean space $X$, the set
+        \begin{equation}
+            \{ X \in \Lin(\spc X) : \Vert X \Vert_\infty \leq 1 \}
+        \end{equation}
+        is a convex and compact set. The extreme points of this set are the unitary operators $\U(\spc X)$.
+
+        \item The trace norm unit ball. For any complex Euclidean space $X$, the set
+        \begin{equation}
+            \{ X \in \Lin(\spc X) : \Vert X \Vert_1 \leq 1 \}
+        \end{equation}
+        is a convex and compact set. The extreme points of this set are those operators of the form $uv^∗$ for $u,v \in S(\spc X)$ unit vectors.
+        \item Density operators. For any complex Euclidean space $\spc X$, the set $\D(\spc X)$ of density operators acting on $\spc X$ is convex and compact. The extreme points of $\D(\spc X)$ coincide with the rank-one projection operators. These are the operators of the form $uu^∗$ for $u \in S(\spc X)$ being a unit vector.
+        \item Probability vectors. For any alphabet $\Sigma$, the set of probability vectors $\spc P(\Sigma)$ is convex and compact. The extreme points of this set are the elements of the standard basis$\{e_a : a \in \Sigma\}$ of $\R^\Sigma$.
+    \end{enumerate}
+
+    Convex sets in real Euclidean spaces possess a fundamentally important property: every vector lying outside of a given convex set in a real Euclidean space can be separated from that convex set by a hyperplane. That is, if the underlying real Euclidean space has dimension $n$, then there exists an affine subspace of that space having dimension $n−1$ that divides the entire space into two half-spaces: one contains the convex set and the other contains the chosen point lying outside of the convex set. The following theorem represents one specific formulation of this fact.
+
+    \begin{theo}
+        Let $V$ be a real Euclidean space, let $C \subset V$ be a closed, convex subset of $V$, and let $u \in V$ be a vector with $u \notin C$. There exists a vector $v \in V$ and a scalar $\alpha \in \R$ such that
+        \begin{equation}
+            \< v,u \> < \alpha \leq \< v,w \> \ \ \ \ \forall w \in C
+        \end{equation}
+        If $C$ is a cone, then $v$ may be chosen so that it holds for $\alpha = 0$.
+    \end{theo}
+
+    Consider the 2-dimensional case. A line in $\R^2$ is
+    \begin{equation}
+        Ax+By+C = 0 \ \ \ \ (A,B) \neq (0,0)
+    \end{equation}
+    Then the plane is divided into 2 parts:
+    \begin{equation*}
+        \begin{bmatrix}
+            A & B
+        \end{bmatrix}
+        \begin{bmatrix}
+            x \\ y
+        \end{bmatrix}
+        \leq -C
+        \ \ \ \ 
+        \begin{bmatrix}
+            A & B
+        \end{bmatrix}
+        \begin{bmatrix}
+            x \\ y
+        \end{bmatrix}
+        > -C
+    \end{equation*}
+
+    If $C$ is a cone, then there exists a line passing $(0,0)$.
+
+    \begin{theo}
+        Let $X$ and $Y$ be real or complex Euclidean spaces, let $A \subset X$ and $B \subset Y$ be convex sets with $B$ compact, and let $f : A \times B \to \R$ be a continuous function such that
+        \begin{enumerate}
+            \item  $u \mapsto f(u,v)$ is a convex function on $A$ for all $v \in B$.
+            \item  $v \mapsto f(u,v)$ is a concave function on $B$ for all $u \in A$.
+        \end{enumerate}
+
+        It holds that 
+        \begin{equation}
+            \inf_{u \in A} \max_{v \in B} f(u,v) = \max_{v \in B} \inf_{u \in A} f(u,v)
+        \end{equation}
+    \end{theo}
+
+    \section{Probability theory}
+    \begin{defi}
+        Suppose $A$ is a subset of a finite-dimensional real or complex vector space $V$ and  
+        \begin{equation}
+            \mu : \op{Borel}(A) \to [0,1]
+        \end{equation}
+        is a probability measure (by which it is meant that $\mu$ is a normalized Borel measure). A random variable $X$ distributed with respect to $\mu$ is a real-valued, integrable Borel function of the form
+        \begin{equation}
+            X : A \to \R
+        \end{equation}
+
+        For every Borel subset $B \subset R$ of the real numbers, the probability that $X$ takes a value in $B$ is defined as
+        \begin{equation}
+            \op{Pr}(X \in B) = \mu( \{ u \in A : X(u) \in B \} )
+        \end{equation}
+
+        The expected value (or mean value) of a random variable $X$, distributed with respect to a probability measure $\mu : \op{Borel}(A) \to [0,1]$, is defined as
+        \begin{equation}
+            E(X) = \int X(u) \d \mu(u)
+        \end{equation}
+
+        If $X$ is a random variable taking nonnegative real values, then it holds that
+        \begin{equation}
+            E(X) = \int_0^\infty \lambda \op{Pr}(\lambda \leq X < \lambda + \d \lambda) = \int_0^{\infty} \op{Pr}(X \geq \lambda) \d \lambda
+        \end{equation}
+    \end{defi}
+
+    \begin{defi}
+        Random variables for discrete distributions. Consider the set $\{ 1,\cdots,n \} \subset \R$ for some choice of a positive integer $n$, and observe that every subset of $\{ 1,\cdots,n \}$ is a Borel subset of this set. The Borel probability measures
+        \begin{equation}
+            \mu : \op{Borel}(\{ 1,\cdots,n \}) \to [0,1]
+        \end{equation}
+        coincide precisely with the set of all probability vectors $p \in P(\{1, \cdots, n\})$. through the equations
+        \begin{equation}
+            \mu(B) = \sum_{b \in B}p(b) \ \ \ \ p(a) = \mu(\{a\})
+        \end{equation}
+        for every $B \subset \{1, \cdots, n\}$ and $a \in \{1,\cdots,n\}$.
+    \end{defi}
+
+    \begin{defi}
+        Independent:
+        \begin{equation}
+            \op{Pr}((X,Y) \in A \times B) = \op{Pr}(X \in A) \op{Pr}(Y \in B) \ \ \ \ \forall A,B \subset \R
+        \end{equation}
+
+        Identically distributed:
+        \begin{equation}
+            \op{Pr}(X \in A) = \op{Pr}(Y \in A) \ \ \ \ \forall A \subset \R
+        \end{equation}
+    \end{defi}
+
+    \begin{theo}
+        A few fundamental theorems
+
+        \begin{description}
+            \item [Markov’s inequality] Let $X$ be a random variable taking nonnegative real values, and let $\epsilon > 0$ be a positive real number. It holds that
+            \begin{equation}
+                \op{Pr}(X \geq \epsilon) \leq \frac{E(X)}{\epsilon}
+            \end{equation}
+
+            \item [Jensen’s inequality] Suppose that $X$ is a random variable and $f : \R \to \R$ is a convex function. It holds that
+            \begin{equation}
+                f(E(X)) \leq E(f(X))
+            \end{equation}
+
+            \item [Weak law of large numbers] Let $X$ be a random variable and let $\alpha = E(X)$. Assume, moreover, for every positive integer $n$, that $\spc X_1, \cdots, \spc X_n$ are independent random variables identically distributed to $X$. For every positive real number $\epsilon > 0$, it holds that
+            \begin{equation}
+                \lim_{n \to \infty} \op{Pr} \left( \left| \frac{X_1 + \cdots + X_n}{n} - \alpha \right| \geq 0 \right) = 0
+            \end{equation}
+
+            \item [Hoeffding’s inequality] Let $\spc X_1, \cdots, \spc X_n$ be independent and identically distributed random variables taking values in the interval $[0,1]$ and having mean value $\alpha$. For every positive real number $\epsilon > 0$ it holds that
+            \begin{equation}
+                \op{Pr} \left( \left| \frac{X_1 + \cdots + X_n}{n} - \alpha \right| \geq \epsilon \right) \leq 2e^{-2n\epsilon^2}
+            \end{equation}
+        \end{description}  
+    \end{theo}
+
+    \begin{defi}
+        Gaussian measure and normally distributed random variables. The standard Gaussian measure on R is the Borel probability measure
+        \begin{equation}
+            \gamma : \op{Borel}(\R) \to [0,1]
+        \end{equation}
+        defined as
+        \begin{equation}
+            \gamma(A) = \frac{1}{\sqrt{2\pi}} \int_A \exp(-\frac{\alpha^2}{2}) \d \alpha
+        \end{equation}
+    \end{defi}
+
+    A random variable $X$ is a standard normal random variable if it holds that $\op{Pr}(X \in A) = \gamma(A)$ for every $A \in \op{Borel}(\R)$. This is equivalent to saying that $X$ is identically distributed to a random variable $Y(\alpha) = \alpha$ distributed with respect to the standard Gaussian measure $\gamma$ on $\R$.
+
+    The following integrals are among many integrals of a similar sort that are useful when reasoning about standard normal random variables:
+    \begin{enumerate}
+        \item  For every positive real number $\lambda > 0$ and every real number $\beta \in \R$ it holds that
+        \begin{equation}
+            \int \exp( -\lambda \alpha^2 + \beta \alpha ) \d \alpha = \sqrt{\frac{\pi}{\lambda}} \exp \left(\frac{\beta^2}{4 \lambda} \right)
+        \end{equation}
+        \item  For every positive integer n, it holds that
+        \begin{equation}
+            \int_0^\infty \alpha^n \d \gamma(\alpha) = \frac{2^{\frac{n}{2}} \Gamma(\frac{n+1}{2}) }{ 2\sqrt{\pi} }
+        \end{equation}
+        where the $\Gamma$-function may be defined at positive half-integer points as follows:
+        \begin{equation}
+            \Gamma \left( \frac{m+1}{2} \right) = \begin{cases}
+                \sqrt{\pi} & m = 0 \\
+                1 & m = 1 \\
+                \frac{m-1}{2} \Gamma(\frac{m-1}{2}) & m \geq 2
+            \end{cases}
+        \end{equation}
+
+        \item For every positive real number $\lambda > 0$ and every pair of real numbers $β_0, β_1 \in \R$ with $\beta_0 \leq \beta_1$ it holds that
+        \begin{equation}
+            \int_{\beta_0}^{\beta_1} \alpha \exp(-\lambda \alpha^2) \d \alpha = \frac{1}{2\lambda} \exp(-\lambda \beta_0^2) - \frac{1}{2\lambda} \exp(-\lambda \beta_1^2)
+        \end{equation}
+    \end{enumerate}
+
+    \begin{defi}
+        For every positive integer $n$, the standard Gaussian measure on $\R_n$ is the Borel probability measure
+        \begin{equation}
+            \gamma_n : \op{Borel}(\R^n) \to [0,1]
+        \end{equation}
+        obtained by taking the n-fold product measure of $\gamma$ with itself. Equivalently
+        \begin{equation}
+            \gamma_n(A) = (2\pi)^{-\frac{n}{2}} \int_A \exp \left( -\frac{\Vert u \Vert^2}{2} \right) \d \nu_n(u)
+        \end{equation}
+        where $\nu_n$ denotes the $n$-fold product measure of the standard Borel measure $\nu$ with itself and the norm is the Euclidean norm.
+    \end{defi}
+
+    \begin{defi}
+        Let $X$ and $Y$ be complex Euclidean spaces, let $\Phi \in T\spc (X\spc ,Y)$ be a Hermitian-preserving map, and let $A \in \Herm(\spc X)$ and $B \in \Herm(\spc X)$. A semidefinite program is a triple $(\Phi,A,B)$, with which the following pair of optimization problems is associated:
+        \begin{equation}
+            \begin{tabular}{ll}
+                Primary problem & \\
+                maximize: & $\< A,X \>$ \\
+                subject to: & $\Phi(X) = B$ \\
+                & $X \in \Pos(\mathcal{X})$
+            \end{tabular}
+            \ \ \ \ \ \ \ \ 
+            \begin{tabular}{ll}
+                Dual problem & \\
+                minimize: & $\< B,Y \>$ \\
+                subject to: & $\Phi^*(Y) \geq A$ \\
+                & $Y \in \Herm(\mathcal{Y})$
+            \end{tabular}
+        \end{equation}
+    \end{defi}
+\end{document}
+    

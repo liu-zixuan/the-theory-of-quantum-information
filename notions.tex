@@ -1,0 +1,1142 @@
+
+\documentclass[aps,pra,onecolumn,notitlepage,superscriptaddress]{revtex4-1}
+
+%\input{myQcircuit}
+\usepackage{graphicx,color}% Include figure files
+\usepackage{dcolumn}% Align table columns on decimal point
+\usepackage{bm}% bold math
+\usepackage{amsmath,amssymb,mathrsfs}
+\usepackage{url}
+\usepackage{hyperref}
+
+% added by me
+\usepackage{framed}
+\usepackage{algorithm}
+\usepackage{dsfont}
+
+
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+
+%  Sets
+\newcommand{\set}[1]{\mathsf{#1}}
+\newcommand{\grp}[1]{\mathsf{#1}}
+\newcommand{\reg}[1]{\mathsf{#1}}
+\newcommand{\spc}[1]{\mathcal{#1}}
+
+% Integrals
+
+\def\d{{\rm d}}
+
+% Linear structures
+\newcommand{\Span}{{\mathsf{Span}}}
+\newcommand{\Lin}{\mathsf{Lin}}
+\newcommand{\Pos}{\mathsf{Pos}}
+\newcommand{\CP}{\mathsf{CP}}
+\newcommand{\Herm}{\mathsf{Herm}}
+\newcommand{\D}{\mathsf{D}}
+\newcommand{\Proj}{\mathsf{Proj}}
+\newcommand{\U}{\mathsf{U}}
+\newcommand{\Diag}{\mathsf{Diag}}
+% added by me
+\newcommand{\T}{\mathsf{T}}
+
+% added by me
+\newcommand{\rank}{\mathsf{rank}}
+\newcommand{\im}{\mathsf{im}}
+\newcommand{\myker}{\mathsf{ker}}
+
+\def\>{\rangle}
+\def\<{\langle}
+\def\kk{\>\!\>}
+\def\bb{\<\!\<}
+\newcommand{\st}[1]{\mathbf{#1}}
+\newcommand{\bs}[1]{\boldsymbol{#1}}
+
+% Linear maps
+\newcommand{\map}[1]{\mathcal{#1}}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\diag}{\mathsf{diag}}
+
+
+%  Operational notions
+\newcommand{\op}[1]{\operatorname{#1}}
+
+\newcommand{\St}{{\mathsf{St}}}
+\newcommand{\Eff}{{\mathsf{Eff}}}
+\newcommand{\Pur}{{\mathsf{Pur}}}
+\newcommand{\Transf}{{\mathsf{Transf}}}
+\newcommand{\Chan}{{\mathsf{Chan}}}
+
+
+%   By Mo
+\newcommand{\arccot}{\mathrm{arccot}\,}
+
+%  Miscellanea
+\newcommand\myuparrow{\mathord{\uparrow}}
+\newcommand\mydownarrow{\mathord{\downarrow}}
+\newcommand\h{{\scriptstyle \frac 12}}
+% added by me
+\newcommand\I{\mathds{1}}
+
+% Environments
+\newtheorem{theo}{Theorem}
+\newtheorem{ax}{Axiom}
+\newtheorem{lemma}{Lemma}
+\newtheorem{prop}{Proposition}
+\newtheorem{cor}{Corollary}
+\newtheorem{defi}{Definition}
+
+
+\newtheorem{rem}{Remark}
+\newtheorem{ex}{Exercise}
+
+\newtheorem{proper}{Property}
+
+\def\Proof{{\bf Proof.~}}
+\def\qed{$\blacksquare$ \newline}
+
+\begin{document}
+    \preprint{APS/123-QED}
+    \title{Basic notions of quantum information}
+    \author{}
+    \maketitle
+    % \tableofcontents
+    % \newpage
+
+    \section{Registers and states}
+    \begin{defi}
+        A \textbf{register} $\reg X$ is either one of the following two objects:
+        \begin{enumerate}
+            \item An alphabet $\Sigma$.
+            \item An $n$-tuple $\reg X = (\reg Y_1, \cdots, \reg Y_n)$, where $n$ is a positive integer and $\reg Y_1, \cdots, \reg Y_n$ are registers.
+        \end{enumerate}
+
+        The classical state set of a register $\reg X$ is determined as follows:
+        \begin{enumerate}
+            \item If $\reg X = \Sigma$ is a simple register, the classical state set of $\reg X$ is $\Sigma$.
+            \item  If $\reg X = (\reg Y_1, \cdots, \reg Y_n)$ is a compound register, the classical state set of $\reg X$ is the Cartesian product
+            \begin{equation}
+                \Sigma = \Gamma_1 \times \cdots \times \Gamma_n
+            \end{equation}
+            where $\Gamma_k$ denotes the classical state set associated with the register $\reg Y_k$ for each $k \in \{1, \cdots ,n\}$.
+        \end{enumerate}
+
+        Elements of a register's classical state set are called \textbf{classical states} of that register.
+    \end{defi}
+
+    \begin{defi}
+        A \textbf{probabilistic state} of a register $\reg X$ refers to a probability distribution, or random mixture, over the classical states of that register. 
+    \end{defi}
+
+    Assuming the classical state set of $\reg X$ is $\Sigma$, a probabilistic state of $\reg X$ is identified with a probability vector $p \in \spc P(\Sigma)$; the value $p(a)$ represents the probability associated with a given classical state $a \in \Sigma$. 
+
+    \begin{defi}
+        The complex Euclidean space (\textbf{quantum system}) associated with a register $\reg X$ is defined to be $\C^\Sigma$, for $\Sigma$ being the classical state set of $\reg X$.
+    \end{defi}
+
+    The complex Euclidean space $\spc X$ associated with a compound register $\reg X = (\reg Y_1, \cdots, \reg Y_n)$ is given by the tensor product
+    \begin{equation}
+        \spc X = \spc Y_1 \otimes \cdots \otimes \spc Y_n
+    \end{equation}
+
+    \begin{defi}
+        A quantum state is a density operator of the form $\rho \in \D(\spc X)$ for some choice of a complex Euclidean space $\spc X$.
+    \end{defi}
+
+    Convex combinations of quantum states
+    \begin{equation}
+        \rho = \sum_{a \in \Gamma} p(a) \rho_a
+    \end{equation}
+    is an valid state.
+
+    \begin{defi}
+        \textbf{Ensembles} of quantum states
+        \begin{align}
+            &\eta: \Gamma \to \Pos(\spc X) \\
+            &\Tr \left( \sum_{a \in \Gamma} \eta(a) \right) = 1
+        \end{align}
+
+        The operator $\eta(a)$ represents a state together with the probability associated with that state: the probability is $\Tr(\eta(a))$, while the state is
+        \begin{equation}
+            \frac{\eta(a)}{\Tr(\eta(a))}
+        \end{equation}
+
+        A quantum state $\rho \in \D(\spc X)$ is said to be a \textbf{pure state} if it has rank equal to 1. Equivalently, $\rho$ is a pure state if there exists a unit vector $u \in \spc X$ such that
+        \begin{equation}
+            \rho = uu^*
+        \end{equation}
+    \end{defi}
+
+    \begin{theo}
+        It follows from the spectral theorem that every quantum state is a mixture of pure quantum states, and moreover that a state $\rho \in \D(\spc X)$ is pure if and only if it is an extreme point of the set $\D(\spc X)$.
+    \end{theo}
+    \Proof {
+        If $\rho$ is pure, then $\rho = uu^*$ for some unit vector $u$. Let 
+        \begin{equation}
+            \rho = \lambda \rho_0 + (1-\lambda) \rho_1 \ \ \ \ \rho_0, \rho_1 \in \D(\spc X) \ \lambda \in (0,1)
+        \end{equation}
+        Then
+        \begin{equation}
+            u^* \rho_0 u = u^* \rho_1 u = 1
+        \end{equation}
+        This implies
+        \begin{equation}
+            \rho_0 = \rho_1 = \rho
+        \end{equation}
+
+        If $\rank(\rho) > 1$, then $\rho = \sum_{a \in \Sigma} p(a)u_au_a^*$ for some alphabet $\Sigma$ with $|\{ p(a) > 0 : a \in \Sigma \}| \geq 2$. Let
+        \begin{equation}
+            \rho_0 = \rho - \delta u_au_a^* + \delta u_bu_b^* \ \ \ \ 
+            \rho_1 = \rho + \delta u_au_a^* - \delta u_bu_b^*
+        \end{equation}
+        For small enough $\delta$, we get
+        \begin{equation}
+            \rho_0,\rho_1 \in \D(\spc X) \ \ \ \ \rho_0 \neq \rho_1 \ \ \ \ \frac{1}{2} \rho_0 + \frac{1}{2} \rho_1 = \rho
+        \end{equation}
+    }
+
+    \begin{defi}
+        A quantum state $\rho \in \D(\spc X)$ is said to be a flat state if it holds that
+        \begin{equation}
+            \rho = \frac{\Pi}{\Tr(\Pi)}
+        \end{equation}
+        for a nonzero projection operator $\Pi \in \Proj(\spc X)$. 
+    \end{defi}
+
+    \begin{theo}
+        Bases of density operators: for every complex Euclidean space $\spc X$ there exist spanning sets of the space $\Lin(\spc X)$ consisting only of density operators. 
+    \end{theo}
+    Let $\Sigma$ be an alphabet, and assume that a total ordering has been defined on $\Sigma$. For every pair $(a,b) \in \Sigma \times \Sigma$, define a density operator
+    \begin{equation}
+        \rho_{a,b} = \begin{cases}
+            E_{a,a} & a = b \\
+            \frac{1}{2} (e_a + e_b)(e_a + e_b)^* & a < b \\
+            \frac{1}{2} (e_a + ie_b)(e_a + ie_b)^* & a > b
+        \end{cases}
+    \end{equation}
+    It follows that
+    \begin{equation}
+        \Span\{ \rho_{a,b} : (a,b) \in \Sigma \times \Sigma \} = \Lin(\C^\Sigma)
+    \end{equation}
+
+    Classical states and probabilistic states as quantum states:
+    \begin{itemize}
+        \item The operator $E_{a,a} \in \D(\spc X)$ is taken as a representation of the register $\reg X$ being in the classical state $a$, for each $a \in \Sigma$.
+        \item Probabilistic states of registers correspond to diagonal density operators, with each probabilistic state $p \in \spc P(\Sigma)$ being represented by the density operator.
+    \end{itemize}
+
+    \begin{defi}
+        The partial trace and reductions of quantum states. Let
+        \begin{equation}
+            \reg X = (\reg Y_1, \cdots, \reg Y_n)
+        \end{equation}
+        be a compound register. By removing the register $\reg Y_k$ from $\reg X$ and leaving the remaining registers untouched
+        \begin{equation}
+            \Tr_{\spc Y_k} (\rho) = \rho[\reg Y_1, \cdots, \reg Y_{k-1}, \reg Y_{k+1}, \cdots, \reg Y_n]
+        \end{equation}
+    \end{defi}
+
+    The definition above may be generalized in a natural way so that it allows one to specify the states that result from removing an arbitrary collection of subregisters from a given compound register, assuming that this removal results in a valid register.
+
+    \begin{defi}
+        $P \in \Pos(\spc X)$, $u \in \spc X \otimes \spc Y$ is said to be a purification of $P$ if
+        \begin{equation}
+            \Tr_{\spc Y}(uu^*) = P
+        \end{equation}
+    \end{defi}
+
+    \begin{theo}
+        The following statements are equivalent:
+        \begin{enumerate}
+            \item There exists a purification $u \in \spc X \otimes \spc Y$ of $P$.
+            \item There exists an operator $A \in \Lin(\spc Y, \spc X)$ such that $P = AA^*$. 
+        \end{enumerate}
+    \end{theo}
+    
+    (Hint: $\Tr_{\spc Y}(\op{vec}(A) \op{vec}(A)^* = AA^*$)
+
+    \begin{theo}
+        Let $\spc X$ and $\spc Y$ be complex Euclidean spaces, and let $P \in \Pos(\spc X)$ be a positive semidefinite operator. 
+        \begin{equation}
+            \exists u \in \spc X \otimes \spc Y \ \Tr_{\spc Y}(uu^*) = P \Longleftrightarrow \dim(\spc Y) \geq \rank(P)
+        \end{equation}
+    \end{theo}
+
+    \begin{theo}
+        Unitary equivalence of purifications:
+        Let $\spc X$ and $\spc Y$ be complex Euclidean spaces, let $u,v \in \spc X \otimes \spc Y$ be vectors, and assume that
+        \begin{equation}
+            \Tr_{\spc Y}(uu^*) = \Tr_{\spc Y}(vv^*)
+        \end{equation}
+        There exists a unitary operator $U \in \U(\spc Y)$ such that $v = (\I_{\spc X} \otimes U)u$.
+    \end{theo}
+    
+    \section{Channels}
+    \begin{defi}
+        A quantum channel is a linear map $\Phi \in \T(\spc X, \spc Y)$, satisfying two properties:
+        \begin{enumerate}
+            \item $\Phi$ is completely positive.
+            \item $\Phi$ is trace preserving.
+        \end{enumerate}
+
+        The collection of all channels $\spc X \to \spc Y$ is denoted $\Chan(\spc X, \spc Y)$.
+    \end{defi}
+
+    \begin{defi}
+        Representations and characterizations of channels
+        \begin{enumerate}
+            \item \textbf{The natural representation}.
+            \begin{align}
+                X &\mapsto \Phi(X) \\
+                \op{vec}(X) &\mapsto \op{vec}(\Phi(X))
+            \end{align}
+
+            Natural representation is not convenient for expressing complete positivity and trace preservation.
+
+            \item \textbf{The Choi representation}
+            
+            One may define a mapping $J : \T(\spc X, \spc Y) \to \Lin(\spc Y \otimes \spc X)$ as
+            \begin{equation}
+                J(\Phi) = (\Phi \otimes \I_{\Lin(\spc X)}) (\op{vec}(\I_{\spc X}) \op{vec}(\I_{\spc X})^*) = \sum_{a,b \in \Sigma} \Phi(E_{a,b}) \otimes E_{a,b}
+            \end{equation}
+
+            The action of the mapping $\Phi$ can be recovered from the operator $J(\Phi)$ by means of the equation
+            \begin{equation}
+                \Phi(X) = \Tr_{\spc X} ( J(\Phi) (\I_{\spc Y} \otimes X^T) )
+            \end{equation}
+            \item \textbf{Kraus representations}
+            \begin{equation}
+                \Phi(X) = \sum_{a \in \Sigma} A_a X B_a^*
+            \end{equation}
+            where $\{ A_a : a \in \Sigma \}$, $\{ B_a : a \in \Sigma \} \subset \Lin(\spc X, \spc Y)$.
+
+            Kraus representations are not unique.
+
+            \item \textbf{Stinespring representations}
+            \begin{equation}
+                \Phi(X) = \Tr_{\spc Z}(AXB^*)
+            \end{equation}
+            where $A,B \in \Lin(\spc X, \spc Y \otimes \spc Z)$.
+
+            Stinespring representations are not unique.
+        \end{enumerate}
+    \end{defi}
+
+    \begin{theo}
+        Relationships among the representations. 
+        
+        Let $\{A_a : a \in \Sigma\}$, $\{B_a : a \in \Sigma\} \subset \Lin(\spc X,\spc Y)$, $\Phi \in \T(\spc X,\spc Y)$, and $A,B \in \Lin(\spc X, \spc Y \otimes \spc Z) \ A = \sum_{a \in \Sigma} A_a \otimes e_a, B = \sum_{a \in \Sigma} B_a \otimes e_a$
+        \begin{align*}
+            & K(\Phi) = \sum_{a \in \Sigma} A_a \otimes \overline{B_a}\\
+            \Longleftrightarrow \ & J(\Phi) = \sum_{a \in \Sigma} \op{vec}(A_a) \op{vec}(B_a)^*\\
+            \Longleftrightarrow \ & \Phi(X) = \sum_{a \in \Sigma}A_a X B_a^* \ \ \ \ \forall X \in \Lin(\spc X)\\
+            \Longleftrightarrow \ & \Phi(X) = \Tr_{\spc Z}(AXB^*) \ \ \ \ \forall X \in \Lin(\spc X)\\
+        \end{align*}
+    \end{theo}
+
+    \begin{theo}
+        Let $\Phi \in \T(\spc X, \spc Y)$ be a non-zero map. The following statements are equivalent:
+        \begin{enumerate}
+            \item $\Phi$ is completely positive
+            \item $\Phi \otimes \I_{\Lin(\spc X)}$ is positive
+            \item $J(\Phi) \in \Pos(\spc Y \otimes \spc X)$
+            \item \label{krausform} $\exists \{ A_a : a \in \Sigma \} \subset \Lin(\spc X, \spc Y)$
+            \begin{equation}
+                \Phi(X) = \sum_{a \in \Sigma} A_a X A_a^* \ \ \ \ \forall X \in \Lin(\spc X)
+            \end{equation}
+            \item Statement \ref{krausform} holds for an alphabet $\Sigma$ satisfying $|\Sigma| = \rank(J(\Phi))$.
+            \item \label{stineform} $\exists A \in \Lin(\spc X, \spc Y\otimes \spc Z)$
+            \begin{equation}
+                \Phi(X) = \Tr_{\spc Z}(AXA^*)
+            \end{equation}
+            \item Statement \ref{stineform} holds for $\spc Z$ having dimension equal to $\rank(J(\Phi))$.
+        \end{enumerate}
+    \end{theo}
+
+    \begin{cor}
+        ``Uniqueness'' of representation
+        \begin{enumerate}
+            \item $\{A_a : a \in \Sigma\}, \{B_b : b \in \Gamma\} \subset \Lin(\spc X,\spc Y)$
+            \begin{align}
+                &\forall X \in \Lin(\spc X) \ \sum_{a \in \Sigma} A_a X A_a^* = \sum_{b \in \Gamma} B_b X B_b^* \\
+                \implies &\forall b \in \Gamma \ (B_b = \sum_{a \in \Sigma} W(b,a) A_a) \land (WW^* \in \Proj(\C^\Gamma), W^*W \in \Proj(\C^\Sigma))
+            \end{align}
+            \item $\{A_a : a \in \Sigma\}, \{B_b : b \in \Gamma\} \subset \Lin(\spc X,\spc Y)$ and $|\Sigma| \leq |\Gamma|$
+            \begin{align}
+                &\forall X \in \Lin(\spc X) \ \sum_{a \in \Sigma} A_a X A_a^* = \sum_{b \in \Gamma} B_b X B_b^* \\
+                \implies &\forall b \in \Gamma \ (B_b = \sum_{a \in \Sigma} W(b,a) A_a) \land (W \in \U(\C^\Sigma, \C^\Gamma))
+            \end{align}
+            \item $\{A_a : a \in \Sigma\}, \{B_b : b \in \Gamma\} \subset \Lin(\spc X,\spc Y)$ and $\{A_a : a \in \Sigma\}$ is an orthogonal set.
+            \begin{equation}
+                \forall X \in \Lin(\spc X) \ \sum_{a \in \Sigma} A_a X A_a^* = \sum_{b \in \Gamma} B_b X B_b^* \implies  (\forall b \in \Gamma \ B_b = \sum_{a \in \Sigma} W(b,a) A_a) \land (W \in \U(\C^\Sigma, \C^\Gamma))
+            \end{equation}
+            \item $\{A_a : a \in \Sigma\}, \{B_b : b \in \Sigma\} \subset \Lin(\spc X,\spc Y)$
+            \begin{equation}
+                \forall X \in \Lin(\spc X) \ \sum_{a \in \Sigma} A_a X A_a^* = \sum_{b \in \Sigma} B_b X B_b^* \implies  (\forall b \in \Sigma \ B_b = \sum_{a \in \Sigma} U(b,a) A_a) \land (U \in \U(\C^\Sigma))
+            \end{equation}
+            \item $A,B \in \Lin(\spc X, \spc Y \otimes \spc Z)$
+            \begin{equation}
+                \forall X \in \Lin(\spc X) \ \Tr_{\spc Z}(AXA^*) = \Tr_{\spc Z}(BXB^*) \implies (B=(\I_{\spc Y} \otimes U)A) \land (U \in \U(\spc Z))
+            \end{equation}
+        \end{enumerate}
+        
+    \end{cor}
+
+    \begin{theo}
+        Let $\Phi \in \T(\spc X, \spc Y)$ be a non-zero map. The following statements are equivalent:
+        \begin{enumerate}
+            \item $\Phi$ is a Hermitian preserving.
+            \item It holds that $(\Phi(X))^* = \Phi(X^*)$ for every $X \in \Lin(\spc X)$.
+            \item It holds that $J(\Phi) \in \Herm(\spc Y \otimes \spc X)$
+            \item $\exists \Phi_0, \Phi_1 \in \op{CP}(\spc X, \spc Y) \ \Phi = \Phi_0 - \Phi_1$
+        \end{enumerate}
+    \end{theo}
+
+    \begin{theo}
+        Let $\Phi \in \T(\spc X, \spc Y)$ be a non-zero map. The following statements are equivalent:
+        \begin{enumerate}
+            \item $\Phi$ is a trace-preserving.
+            \item $\Phi^*$ is a unital map.
+            \item $\Tr_{\spc Y}(J(\Phi)) = \I_{\spc X}$
+            \item There exist collections $\{A_a : a \in \Sigma\}$, $\{B_a : a \in \Sigma\} \subset \Lin(\spc X, \spc Y)$ of
+            operators such that
+            \begin{equation}
+                \Phi(X) = \sum_{a \in \Sigma} A_a X B_a^* \ \ \ \ \sum_{a \in \Sigma} A_a^* B_a = \I_{\spc X}
+            \end{equation}
+            \item There exist operators $A,B \in \Lin(\spc X, \spc Y\otimes \spc Z)$, for some complex Euclidean space $\spc Z$, such that
+            \begin{equation}
+                \Phi(X) = \Tr_{\spc Z}(AXB^*) \ \ \ \ A^*B = \I
+            \end{equation}
+        \end{enumerate}
+    \end{theo}
+
+    \begin{cor}
+        Let $\Phi \in \Lin(\spc X, \spc Y)$ be a map. The following statements are equivalent:
+        \begin{enumerate}
+            \item $\Phi$ is a channel.
+            \item $J(\Phi) \in \Pos(\spc Y \otimes \spc X)$ and $\Tr_{\spc Y} (J(\Phi)) = \I_{\spc X}$.
+            \item \label{kraus} There exists an alphabet $\Sigma$ and a collection $\{A_a : a \in \Sigma\} \subset \Lin(\spc X, \spc Y)$
+            satisfying
+            \begin{equation}
+                \sum_{a \in \Sigma} A_a^*A_a = \I_{\spc X} \text{ and } \forall X \in \Lin(\spc X) \ \Phi(X) = \sum_{a \in \Sigma} A_a X A_a^*
+            \end{equation}
+            \item Statement \ref{kraus} holds for $|\Sigma| = \rank(J(\Phi))$
+            \item \label{iso} There exists an isometry $A \in \U(\spc X, \spc Y \otimes \spc Z)$, for some choice of a complex Euclidean space $\spc Z$, such that
+            \begin{equation}
+                \Phi(X) = \Tr_{\spc Z}(AXA^*) \ \forall X \in \Lin(\spc X)
+            \end{equation}
+            \item Statement \ref{iso} holds under the requirement $\dim (\spc Z) = \rank (J(\Phi))$
+        \end{enumerate}
+    \end{cor}
+
+    \begin{theo}
+        Let $\spc X$ and $\spc Y$ be complex Euclidean spaces. The set $\Chan(\spc X, \spc Y)$ is compact and convex.
+    \end{theo}
+
+    Examples of channels
+    \begin{enumerate}
+        \item Unitary channels
+        \item Replacement channels. Let $A \in \Lin(\spc X)$ and $B \in \Lin(\spc Y)$
+        \begin{equation}
+            \Phi(X) = \< A,X \> B
+        \end{equation}
+        \begin{align*}
+            K(\Phi) &= \op{vec}(B)\op{vec}(A)^* \\
+            J(\Phi) &= B \otimes \overline{A} \\
+            \Phi(X) &= \sum_{(a,b) \in \Sigma \times \Gamma}  C_{a,b}XD_{a,b}  \ \ \ \ (A = \sum_{a \in \Sigma}u_ax_a^*, B = \sum_{b \in \Gamma}v_by_b^*,  C_{a,b} = v_bu_a^*, D_{a,b} = y_bx_a^*) \\
+            \Phi(X) &= \Tr_{\spc Z}(CXD^*) \ \ \ \ (C = \sum_{(a,b)\in \Sigma \times \Gamma} C_{a,b} \otimes e_{(a,b)}, D = \sum_{(a,b) \in \Sigma \times \Gamma} D_{a,b} \otimes e_{(a,b)}, \spc Z = \C^{\Sigma \times \Gamma})
+        \end{align*}
+
+        For the completely depolarizing channel
+        \begin{equation}
+            \Omega(X) = \Tr(X) \frac{\I_{\spc X}}{\dim(\spc X)}
+        \end{equation}
+        \begin{align*}
+            K(\Omega) &= \frac{\op{vec}(\I_{\spc X})\op{vec}(\I_{\spc X})^*}{\dim(\spc X)} \\
+            J(\Omega) &= \frac{\I_{\spc X} \otimes \I_{\spc X} }{\dim(\spc X)} \\
+            \Omega(X) &= \frac{1}{\dim(\spc X)} \sum_{a,b\in \Sigma\times\Sigma} v_bu_a^* X u_av_b^* 
+        \end{align*}
+        \item Product channels
+        \item State preparations
+        \item Trace map
+        \item Transpose map
+        \begin{equation}
+            \op{T}(X) = X^T
+        \end{equation}
+        \begin{align*}
+            K(\op{T})(\op{vec}(X)) &= \op{vec}(X^T) \\
+            K(\op{T})(u \otimes v) &= \op{vec}(v \otimes u) \\
+            J(\op{T}) &= \sum_{a,b \in \Sigma} E_{b,a} \otimes E_{a,b} \\
+            \op{T}(X) &= \sum_{a,b \in \Sigma} E_{a,b} X E_{b,a}^*
+        \end{align*}
+
+        \item The completely dephasing channel.
+        \begin{equation}
+            \Delta(X) = \sum_{a \in \Sigma} X(a,a) E_{a,a}
+        \end{equation}
+        \begin{align*}
+            K(\Delta)(e_a \otimes e_b) &= 
+            \begin{cases}
+                e_a \otimes e_b & a = b \\
+                0 & a \neq b
+            \end{cases} \\
+            J(\Delta) &= \sum_{a \in \Sigma} E_{a,a} \otimes E_{a,a}
+        \end{align*}
+    \end{enumerate}
+
+    \begin{theo}
+        Let $A \in \Lin(\spc Y, \spc X)$ be an operator. 
+        \begin{equation}
+            \{ P \in \Pos(\spc X) : \im(P) \subset \im(A) \}
+            =
+            \{ AQA^* : Q \in \Pos(\spc Y) \}
+        \end{equation}
+    \end{theo}
+    \Proof {
+        \begin{equation}
+            X = AQA^* \implies \begin{cases}
+                X \in \Pos(\spc X) \\
+                \im(X) \subset \im(A)
+            \end{cases}
+        \end{equation}
+        Let $Q = A^+P(A^+)^*$, Then
+        \begin{equation}
+            \begin{cases}
+                P \in \Pos(\spc X) \\
+                \im(P) \subset \im(A)
+            \end{cases}
+            \implies
+            AQA^* = (AA^+)P(AA^+)^* = \Pi_{\im(A)}P\Pi_{\im(A)} = P
+        \end{equation}
+    }
+
+    \begin{theo}
+        $\Phi \in \Chan(\spc X, \spc Y)$ and $\Phi(X) = \sum_{a \in \Sigma} A_aXA_a^*$ with $\{A_a : a \in \Sigma\}$ being a linearly independent set. Then $\Phi$ is a extreme point of $\Chan(\spc X, \spc Y)$ iff
+        \begin{equation}
+            \{ A_b^*A_a : (a,b) \in \Sigma \times \Sigma \} \subset \Lin(\spc X)
+        \end{equation}
+        is linearly independent.
+    \end{theo}
+    \Proof {
+        Let $\spc Z = \C^{\Sigma}$, define an operator $M \in \Lin(\spc Z, \spc Y\otimes \spc X)$ as
+        \begin{equation}
+            M = \sum_{a \in \Sigma} \op{vec}(A_a)e_a^*
+        \end{equation}
+        and observe that 
+        \begin{equation}
+            \begin{cases}
+                MM^* = J(\Phi) \\
+                \text{$\{A_a : a \in \Sigma\}$ is a linearly independent set} \implies \myker(M) = \{0\}
+            \end{cases}
+        \end{equation}
+        \begin{enumerate}
+            \item Assume that $\Phi$ is not a extreme point. Then
+            \begin{align}
+                \Phi &= \lambda \Psi_0 + (1-\lambda) \Psi_1 \ \ \ \ \lambda \in (0,1) \ \Psi_0 \neq \Psi_1 \\
+                J(\Phi) &= \lambda J(\Psi_0) + (1-\lambda) J(\Psi_1)
+            \end{align}
+            Since $\lambda J(\Psi_0), (1-\lambda) J(\Psi_1) \in \Pos(\spc Y \otimes \spc X)$
+            \begin{align}
+                &\im(J(\Psi_0)) \subset \im(J(\Phi)) = \im(M) \\
+                &\im(J(\Psi_1)) \subset \im(J(\Phi)) = \im(M)
+            \end{align}
+            Then
+            \begin{equation*}
+                J(\Psi_0) = M R_0 M^* \ \ \ \ J(\Psi_1) = M R_1 M^*
+            \end{equation*}
+            where $R_0, R_1 \in \Pos(\spc Z)$.
+            Let $H = R_0 - R_1$
+            \begin{equation}
+                0 = \Tr_{\spc Y}(J(\Psi_0)) - \Tr_{\spc Y}(J(\Psi_1)) = \Tr_{\spc Y}(MHM^*) = \sum_{a,b\in\Sigma} H(a,b) (A_b^*A_a)^T
+            \end{equation}
+            \begin{equation}
+                H \neq 0 \implies \{ A_b^*A_a : (a,b) \in \Sigma \times \Sigma \} \text{ is not an independent set.}
+            \end{equation}
+
+            \item Assume the set is not linearly independent. Then
+            \begin{equation}
+                \sum_{a,b \in \Sigma} Z(a,b) A_b^*A_a = 0 \ \ \ \ Z \neq 0
+            \end{equation}
+            Take the adjoint of both sides, we get
+            \begin{equation}
+                \sum_{a,b \in \Sigma} Z^*(a,b) A_b^*A_a = 0 \ \ \ \ Z \neq 0
+            \end{equation}
+            It follows that 
+            \begin{equation}
+                \sum_{a,b \in \Sigma} H(a,b) A_b^*A_a = 0 \ \ \ \ H = \frac{Z+Z^*}{2} \text{ or } \frac{Z-Z^*}{2}
+            \end{equation}
+            Choose the non-zero $H$. Define $\Psi_0, \Psi_1 \in \T(\spc X, \spc Y)$
+            \begin{equation}
+                J(\Psi_0) = M (\I + \delta H) M^* \ \ \ \ 
+                J(\Psi_1) = M (\I - \delta H) M^*
+            \end{equation}
+
+            For small enough $\delta$, $J(\Psi_0)$ and $J(\Psi_1)$ are positive.
+
+            \begin{equation}
+                \Tr_{\spc Y}(MHM^*) = \sum_{a,b \in \Sigma} H(a,b)(A_b^*A_a)^T = 0
+            \end{equation}
+            Then
+            \begin{equation}
+                \Tr_{\spc Y}(J(\Psi_0)) = \Tr_{\spc Y}(J(\Psi_1)) = \Tr_{\spc Y}(MM^*) = \I_{\spc X}
+            \end{equation}
+            Thus, $\Psi_0$ and $\Psi_1$ are channels.
+
+            Finally, we get $\Psi_0 \neq \Psi_1$.
+            \begin{equation}
+                \frac{1}{2}J(\Psi_0) + \frac{1}{2}J(\Psi_1) = MM^* = J(\Phi) \implies \Phi = \frac{1}{2}\Psi_0 + \frac{1}{2}\Psi_1
+            \end{equation}
+        \end{enumerate}
+    }
+
+    \section{Measurements}
+    \begin{defi}
+        Measurements defined by measurement operators.
+        \begin{equation}
+            \begin{cases}
+                \mu: \Sigma \to \Pos(\spc X) \\
+                \sum_{a\in \Sigma} \mu(a) = \I_{\spc X}
+            \end{cases}
+        \end{equation}
+        
+        Born's rule: 
+        \begin{equation}
+            p(a) = \< \mu(a), \rho \>
+        \end{equation}
+    \end{defi}
+
+    \begin{defi}
+        $\Phi \in \Chan(\spc X, \spc Y)$ is a quantum-to-classical channel if
+        \begin{equation}
+            \Phi = \Delta \Phi
+        \end{equation}
+        for $\Delta$ denoting the completely dephasing channel.
+    \end{defi}
+        
+    \begin{theo}
+        Measurements as channels.
+        Let $\spc Y = \C^{\Sigma}$
+        \begin{equation}
+            \Phi \text{ is quantum-to-classical} \implies \exists \text{ unique } \mu \ \Phi(X) = \sum_{a \in \Sigma} \< \mu(a), X \> E_{a,a}
+        \end{equation}
+        \begin{equation}
+            \forall \mu \ \Phi(X) = \sum_{a \in \Sigma} \< \mu(a), X \> E_{a,a} \text{ is quantum-to-classical}
+        \end{equation}
+    \end{theo}
+    
+    \begin{theo}
+        The set of quantum-to-classical channels $\{ \Delta\Psi : \Psi \in \Chan(\spc X, \spc Y) \}$ is compact and convex.
+    \end{theo}
+    \Proof {
+        $\Chan(\spc X, \spc Y)$ is compact and convex. The mapping $\Psi \to \Delta \Psi$ is continuous.
+    }
+
+    \begin{defi}
+        \begin{enumerate}
+            \item Product measurements. Suppose $X = (Y_1 , \cdots, Y_n)$ is a compound register. 
+            \begin{align}
+                \mu &: \Sigma_1 \times \cdots \times \Sigma_n \to \Pos(\spc X) \\
+                \mu(a_1, \cdots, a_n) &= \mu_1(a_1) \otimes \cdots \otimes \mu_n(a_n)
+            \end{align}
+            It may be verified that when a product measurement is performed on a product state, the measurement outcomes resulting from the individual measurements are independently distributed.
+            \item Partial measurements. Suppose $X = (Y_1 , \cdots, Y_n)$ is a compound register. 
+            \begin{equation}
+                \mu : \Sigma \to \Pos(\spc Y_k)
+            \end{equation}
+            Consider the quantum-to-classical channel that corresponds to the measurement $\mu$.
+            \begin{equation}
+                \Phi(Y) = \sum_{a \in \Sigma} \< \mu(a), Y \> E_{a,a}
+            \end{equation}
+
+            Applying the channel $\Phi$ to $\reg Y_k$,  followed by the application of a channel that performs the permutation of registers.
+            \begin{equation}
+                \sum_{a \in \Sigma} E_{a,a} \otimes \Tr_{\spc Y_k}[(\I_{\spc Y_{1} \otimes \cdots \otimes \spc Y_{k-1}} \otimes \mu(a) \otimes \I_{\spc Y_{k+1} \otimes \cdots \otimes \spc Y_{n}})\rho]
+            \end{equation}
+            The state is a classical-quantum state, and is naturally associated with the ensemble
+            \begin{align}
+                \eta &: \Sigma \to \Pos(\spc Y_{1} \otimes \cdots \otimes \spc Y_{k-1} \otimes \spc Y_{k+1} \otimes \cdots \otimes \spc Y_{n}) \\
+                \eta(a) &= \Tr_{\spc Y_k}[(\I_{\spc Y_{1} \otimes \cdots \otimes \spc Y_{k-1}} \otimes \mu(a) \otimes \I_{\spc Y_{k+1} \otimes \cdots \otimes \spc Y_{n}})\rho]
+            \end{align}
+        \end{enumerate}
+    \end{defi}
+
+    \begin{defi}
+        Let $\mu : \Sigma \to \Pos(\spc X)$ be a projective measurement. The set $\{\mu(a) : a \in \Sigma\}$ is an orthogonal set.
+    \end{defi}
+
+    \begin{theo}
+        Let $\mu : \Sigma \to \Pos(\spc X)$ be a measurement, and let $\spc Y = \C^{\Sigma}$. There exists a isometry $A \in \U(\spc X, \spc X \otimes \spc Y)$ such that
+        \begin{equation}
+            \mu(a) = A^* (\I_{\spc X} \otimes E_{a,a})A
+        \end{equation}
+    \end{theo}
+    \Proof {
+        Define
+        \begin{equation}
+            A = \sum_{a \in \Sigma} \sqrt{\mu(a)} \otimes e_a
+        \end{equation}
+        Then $\mu(a) = A^* (\I_{\spc X} \otimes E_{a,a})A$ and $A^*A = \sum_{a \in \Sigma} \mu(a) = \I_{\spc X}$.
+    }
+
+    \begin{cor}
+        Let $\mu : \Sigma \to \Pos(\spc X)$ be a measurement, $\spc Y = \C^{\Sigma}$ and $u \in \spc Y$ be a unit vector. There exists a projective measurement $\nu : \Sigma \to \Pos(\spc X \otimes \spc Y)$ such that
+        \begin{equation}
+            \< \nu(a), X \otimes uu^* \> = \< \mu(a), X \>
+        \end{equation}
+    \end{cor}
+    \Proof {
+        Choose $U \in \U(\spc X \otimes \spc Y)$ such that
+        \begin{equation}
+            U(\I_{\spc X} \otimes u) = A
+        \end{equation}
+
+        Define
+        \begin{equation}
+            \nu(a) = U^*(\I_{\spc X} \otimes E_{a,a})U
+        \end{equation}
+    }
+
+    \begin{theo}
+        Let $\{A_a : a \in \Sigma\} \subset \Lin(\spc X)$ be a collection of operators for which
+        \begin{equation}
+            \Span\{ A_a : a \in \Sigma \} = \Lin(\spc X)
+        \end{equation}
+        
+        The mapping $\phi : \Lin(\spc X) \to \C^\Sigma$ defined by
+        \begin{equation}
+            (\phi(X))(a) = \< A_a, X \>
+        \end{equation}
+        is an injective mapping.
+    \end{theo}
+    \Proof {
+        \begin{align*}
+            &\phi(X) = \phi(Y) \\
+            \implies& \< A_a, X-Y \> = 0 \ \ \ \ \forall a \in \Sigma \\
+            \implies& \< Z, X-Y \> = 0 \\
+            \implies& X-Y = 0 \\
+        \end{align*}
+    }
+    One way to construct an information complete measurement. Let $\{\rho_{a,b} : a \times b \in \Sigma \times \Sigma \}$ be a collection of density operators that spans all of $\Lin(\spc X)$. Define
+    \begin{equation}
+        Q = \sum_{(a,b) \in \Sigma \times \Sigma} \rho_{a,b}
+    \end{equation}
+
+    Then
+    \begin{equation}
+        \mu(a,b) = Q^{-\frac{1}{2}} \rho_{a,b} Q^{-\frac{1}{2}}
+    \end{equation}
+    is an information-complete measurement.
+
+    \begin{defi}
+        Nondestructive measurement
+        \begin{equation}
+            \{ M_a : a \in \Sigma \} \subset \Lin(\spc X) \ \ \ \ \sum_{a \in \Sigma} M_a^*M_a = \I_{\spc X}
+        \end{equation}
+
+        When measurement is applied, two things happens
+        \begin{enumerate}
+            \item An element of $\Sigma$ is selected at random, with each outcome $a \in \Sigma$ being obtained with probability $\< M_a^*M_a, \rho \>$.
+            \item Conditioned on the measurement outcome $a \in \Sigma$ having been obtained, the state of the register $\reg X$ becomes
+            \begin{equation}
+                \frac{M_a \rho M_a^*}{ \< M_a^*M_a, \rho \> }
+            \end{equation}
+        \end{enumerate}
+    \end{defi}
+
+    \begin{defi}
+        Instruments. 
+        \begin{equation}
+            \{ \Phi_a : a \in \Sigma \} \subset \op{CP}(\spc X, \spc Y) \ \ \ \ \sum_{a \in \Sigma} \Phi_a \in \Chan(\spc X, \spc Y)
+        \end{equation}
+
+        When measurement is applied, two things happens
+        \begin{enumerate}
+            \item An element of $\Sigma$ is selected at random, with each outcome $a \in \Sigma$ being obtained with probability $\Tr(\Phi_a(\rho))$.
+            \item Conditioned on the measurement outcome $a \in \Sigma$ having been obtained, the state of the register $\reg X$ becomes
+            \begin{equation}
+                \frac{\Phi_a(\rho)}{ \Tr(\Phi_a(\rho)) }
+            \end{equation}
+        \end{enumerate}
+    \end{defi}
+    
+    It is easy to see that indirect measurement is a special case of instrument.
+
+    Processes that are expressible as instruments, including nondestructive measurements, can alternatively be described as compositions of channels and (ordinary) measurements. Introduce a (classical) register $\reg Z$ having classical state set $\Sigma$, and define a channel $\Phi \in \Chan(\spc X, \spc Z \otimes \spc Y)$ as
+    \begin{equation}
+        \Phi(X) = \sum_{a \in \Sigma} E_{a,a} \otimes \Phi_a(X)
+    \end{equation}
+
+    \begin{defi}
+        Convex combinations of measurements
+        \begin{equation}
+            \mu_b : \Sigma \to \Pos(\spc X) \ \ \ \ b \in \Gamma
+        \end{equation}
+        \begin{equation}
+            \mu = \sum_{b \in \Gamma} p(b)\mu_b \ \ \ \ p \in \spc P(\Gamma)
+        \end{equation}
+
+        Consider the vector space consists of the form of functions
+        \begin{equation}
+            \theta : \Sigma \to \Herm(\spc X)
+        \end{equation}
+    \end{defi}
+
+    \begin{defi}
+        $\mu : \Sigma \to \Pos(\spc X)$ is an extremal measurement if 
+        \begin{equation}
+            \mu = \lambda \mu_0 + (1-\lambda) \mu_1 \ \lambda \in (0,1) \implies \mu_0 = \mu_1
+        \end{equation}
+    \end{defi}
+
+    \begin{theo}
+        $\mu : \Sigma \to \Pos(\spc X)$ is an extremal measurement iff
+        \begin{equation}
+            \forall \theta : \Sigma \to \Herm(\spc X) \
+            \left(
+                \begin{cases}
+                    \sum_{a \in \Sigma} \theta(a) = 0 \\
+                    \forall a \in \Sigma \ \im(\theta(a)) \subset \im(\mu(a))
+                \end{cases}
+                \implies \forall a \in \Sigma \ \theta(a) = 0
+            \right) 
+        \end{equation}
+    \end{theo}
+    \Proof {
+        \begin{enumerate}
+            \item Assume $\mu$ is not extremal. Then
+            \begin{equation}
+                \mu = \lambda \mu_0 + (1-\lambda) \mu_1 \ \mu_0 \neq \mu_1
+            \end{equation}
+
+            One may construct $\nu_0, \nu_1$ such that
+            \begin{equation}
+                \mu = \frac{\nu_0 + \nu_1}{2}
+            \end{equation}
+            by
+            \begin{equation}
+                \begin{cases}
+                    \nu_0 = 2\lambda \mu_0 + (1-2\lambda)\mu_1, \ \nu_1 = \mu_1 & \lambda \leq \frac{1}{2} \\
+                    \nu_0 = \mu_0, \ \nu_1 = (2\lambda - 1)\mu_0 + (2-2\lambda)\mu_1 & \lambda \geq \frac{1}{2}
+                \end{cases}
+            \end{equation}
+
+            So we get
+            \begin{equation}
+                \theta(a) = \nu_0(a) - \nu_1(a) \ \ \ \ \forall a \in \Sigma
+            \end{equation}
+
+            It holds that $\sum_{a \in \Sigma} \theta(a) = 0$ and $\im(\theta(a)) \subset \im(\nu_0(a)) + \im(\nu_1(a)) = \im(\mu(a))$. However, $\theta \neq 0$.
+
+            \item Assume
+            \begin{equation}
+                \begin{cases}
+                    \theta \neq 0 \\
+                    \sum_{a \in \Sigma} \theta(a) = 0 \\
+                    \forall a \in \Sigma \ \im(\theta(a)) \subset  \im(\mu(a))
+                \end{cases}
+            \end{equation}
+
+            Define
+            \begin{equation}
+                \mu_0 = \mu - \delta \theta \ \ \ \ \mu_1 = \mu + \delta \theta
+            \end{equation}
+            
+            By virtue of the fact that $\mu(a)$ is positive semidefinite and $\theta(a)$ is a Hermitian operator with $\im(\theta(a)) \subset \im(\mu(a))$, for small enough $\delta$, $\mu_0, \mu_1 \in \Pos(\spc X)$.
+
+            Thus $\mu = \frac{\mu_0 + \mu_1}{2}$ and $\mu_0 \neq \mu_1$. $\mu$ is not extremal.
+        \end{enumerate}
+    }
+
+    \begin{cor}
+        \begin{enumerate}
+            \item If $\mu : \Sigma \to \Pos(\spc X)$ is an extremal measurement, then
+            \begin{equation}
+                |\{ a \in \Sigma : \mu(a) \neq 0 \}| \leq \dim(\spc X)^2
+            \end{equation}
+            \Proof {
+                Consider the measurement $\mu : \Gamma \to \Pos(\spc X)$ such that $|\Gamma| > \dim(\spc X)^2$. The measurement vectors are in the vector space $\Herm(\spc X)$ so they are linearly dependent. We have 
+                \begin{equation}
+                    \sum_{\alpha \in \Gamma} \alpha_a \mu(a) = 0
+                \end{equation}
+                
+                Define
+                \begin{equation}
+                    \theta(a) = \begin{cases}
+                        \alpha_a \mu(a) & a \in \Gamma \\
+                        0 & a \notin \Gamma
+                    \end{cases}
+                \end{equation}
+
+                It holds that $\sum_{a \in \Sigma} \theta(a) = 0$ and $\im(\theta(a)) \subset \im(\mu(a)) \ \forall a \in \Sigma$. However, $\theta \neq 0$.
+            }
+
+            \item Let $\mu : \Sigma \to \Pos(\spc X)$ be a measurement. There exists a collection of measurements $\{ \mu_b : b \in \Gamma, |\{ a \in \Sigma : \mu_b(a) \neq 0 \}| \leq \dim(\spc X)^2 \}$ such that
+            \begin{equation}
+                \mu = \sum_{b \in \Gamma} p(b)\mu_b
+            \end{equation}
+            (Hint: extremal points convex span)
+            \item Let $\{ x_a : a \in \Sigma \} \subset \spc X$ be nonzero vectors satisfying
+            \begin{equation}
+                \sum_{a \in \Sigma} x_ax_a^* = \I_{\spc X}
+            \end{equation}
+            Then $\mu(a) = x_ax_a^*$ is extremal iff $\{ x_ax_a^* : a \in \Sigma \}$ is a linearly independent set.
+
+            (Hint : $\begin{cases}
+                H \in \Herm(\spc X) \\
+                \im(H) \subset \im(uu^*)
+            \end{cases} \Leftrightarrow H = \alpha uu^*$)
+            \item  Projective measurements are extremal.
+        \end{enumerate}
+    \end{cor}
+
+    \begin{theo}
+        The convex combination of ensembles is also an ensemble.
+        \begin{align}
+            &\eta_b : \Sigma \to \Pos(\spc X) \ \ \ \ \Tr \left(\sum_{a \in \Sigma} \eta_b(a) \right) = 1 \\
+            &\rho_b = \sum_{a \in \Sigma} \eta_b(a) \\
+            &\eta = \sum_{b \in \Gamma} p(b)\eta_b \\
+            &\rho = \sum_{a \in \Sigma} \eta(a) = \sum_{b \in \Gamma} p(b)\rho_b
+        \end{align}
+
+        The extremal points of ensembles
+        \begin{equation}
+            \eta(a) = \begin{cases}
+                uu^* & a = b \\
+                0 & a \neq b
+            \end{cases}
+        \end{equation}
+        for some choice of a unit vector $u \in \spc X$ and a symbol $b \in \Sigma$.
+    \end{theo}
+
+    \begin{theo}
+        Let $\rho = \sum_{a \in \Sigma} \eta(a)$. There exists a collection of ensembles $\{ \eta_b : b \in \Gamma \}$ such that
+        \begin{enumerate}
+            \item $\forall b \in \Gamma \ \sum_{a \in \Sigma} \eta_b(a) = \rho$
+            \item $\forall b \in \Gamma \ |\{ a \in \Sigma : \eta_b(a) \neq 0 \}| \leq \rank(\rho)^2$
+            \item $\exists p \in \spc P(\Gamma) \ \eta =  \sum_{b \in \Gamma} p(b)\eta_b$
+        \end{enumerate}
+    \end{theo}
+
+    \section{Quantum supermap}
+    \begin{defi}
+        Deterministic quantum supermaps are higher-order maps whose input and output are both quantum channels. 
+        \begin{align*}
+            S : \Chan(\spc X_1, \spc Y_1) &\to \Chan(\spc X_2, \spc Y_2) \\
+            \Phi_1 &\mapsto \Phi_2
+        \end{align*}
+
+        Using Choi isomophism, to each deterministic supermap $S : \Chan(\spc X_1, \spc Y_1) \to \Chan(\spc X_2, \spc Y_2)$ corresponds a map $\bs{S} \in \op{CP}(\spc Y_1 \otimes \spc X_1, \spc Y_2 \otimes \spc X_2)$.
+        \begin{align*}
+            \bs{S} : \Pos(\spc Y_1 \otimes \spc X_1) &\to \Pos(\spc Y_2 \otimes \spc X_2) \\
+            J(\Phi_1) &\mapsto J(\Phi_2)
+        \end{align*}
+    \end{defi}
+
+    \begin{lemma} \label{choi op}
+        $C \in \Lin(\spc Y \otimes \spc X)$
+        \begin{equation}
+            \forall \Phi \in \Chan(\spc X, \spc Y) \ \Tr(CJ(\Phi)) = 1 \Longleftrightarrow \exists \rho \in \Lin(\spc X) \
+            \begin{cases}
+                C = \I_{\spc Y} \otimes \rho \\
+                \Tr(\rho) = 1
+            \end{cases}
+        \end{equation}
+    \end{lemma}
+    \Proof {
+        \begin{enumerate}
+            \item Let $\Psi \in \op{CP}(\spc X, \spc Y)$ such that
+            \begin{equation}
+                P = \Tr_{\spc Y}(J(\Psi)) \leq \I_{\spc X}
+            \end{equation}
+            
+            Let $\sigma \in \D(\spc Y)$, then $J(\Psi) + \sigma \otimes (\I_{\spc X}-P)$ is the Choi operator for some channel.
+            Notice that $\sigma \otimes \I_{\spc X}$ is also the Choi operator for some channel. Thus
+            \begin{equation}
+                \Tr(CJ(\Psi)) = \Tr(C(\sigma \otimes P)) = \Tr((\I_{\spc Y} \otimes \rho)J(\Psi))
+            \end{equation}
+            where $\rho = \Tr_{\spc Y}(C(\sigma \otimes \I_{\spc X}))$
+
+            Since $\rho$ is independent of $J(\Psi)$
+            \begin{equation}
+                \forall A \in \Pos(\spc Y \otimes \spc X) \ \Tr(CA) = \Tr((\I_{\spc Y} \otimes \rho) A)
+            \end{equation}
+            Thus
+            \begin{equation}
+                C = \I_{\spc Y} \otimes \rho
+            \end{equation}
+
+            \item Suppose $C = \I_{\spc Y} \otimes \rho$ and $\Tr(\rho) = 1$, then
+            \begin{equation}
+                \forall \Phi \in \Chan(\spc X, \spc Y) \ \Tr(CJ(\Phi)) = \Tr((\I_{\spc Y} \otimes \rho)J(\Phi)) = \Tr(\rho \Tr_{\spc Y}(J(\Phi))) = \Tr(\rho) = 1
+            \end{equation}
+        \end{enumerate}
+    } \qed
+
+    \begin{lemma}
+        $\bs{S} \in  \op{CP}(\spc Y_1 \otimes \spc X_1, \spc Y_2 \otimes \spc X_2)$ is a deterministic supermap iff
+        \begin{equation}
+            \exists \Psi \in \Chan(\spc X_2, \spc X_1) \ \ \forall \rho \in \D(\spc X_2) \ \ \bs{S}^* (\I_{\spc Y_2} \otimes \rho) = \I_{\spc Y_1} \otimes \Psi(\rho)
+        \end{equation}
+    \end{lemma}
+
+    \Proof {
+        \begin{enumerate}
+            \item Let $\bs{S}$ be a deterministic supermap and $\rho \in \D(\spc X_2)$. Then
+            \begin{equation}
+                \forall \Phi \in \Chan(\spc X_1, \spc Y_1) \ \ \<\bs{S}^*(\I_{\spc Y_2} \otimes \rho), J(\Phi)\> = \<\I_{\spc Y_2} \otimes \rho , \bs{S}(J(\Phi)) \> = 1
+            \end{equation}
+            According to Lemma \ref{choi op}
+            \begin{equation}
+                \bs{S}^*(\I_{\spc Y_2} \otimes \rho) = \I_{\spc Y_1} \otimes \sigma
+            \end{equation}
+            where $\sigma \in \D(\spc X_1)$.
+    
+            Since the maps $\rho \mapsto \I_{\spc Y_2} \otimes \rho$, $\bs{S}^*$ and $\I_{\spc Y_1} \otimes \sigma \mapsto \sigma$ are all CP, we have $\sigma = \Psi(\rho)$, $\Psi \in \Chan(\spc X_2, \spc X_1)$.
+
+            \item Suppose
+            \begin{equation}
+                \exists \Psi \in \Chan(\spc X_2, \spc X_1) \ \ \forall \rho \in \D(\spc X_2) \ \ \bs{S}^* (\I_{\spc Y_2} \otimes \rho) = \I_{\spc Y_1} \otimes \Psi(\rho)
+            \end{equation}
+
+            Let $\Phi \in \Chan(\spc Y_1 \otimes \spc X_1)$, then
+            \begin{equation}
+                \<\I_{\spc Y_2} \otimes \rho , \bs{S}(J(\Phi)) \> = \<\bs{S}^*(\I_{\spc Y_2} \otimes \rho), J(\Phi)\> = \< \I_{\spc Y_1} \otimes \Psi(\rho), J(\Phi) \> = 1
+            \end{equation}
+            This means
+            \begin{align}
+                &\forall \rho \in \D(\spc X_2) \ \ \Tr(\rho \Tr_{\spc Y_2} \bs{S}(J(\Phi))) = 1 \\
+                \implies& \forall u \in \spc X_2 \ \ u^* \Tr_{\spc Y_2} \bs{S}(J(\Phi)) u = 1 \\
+                \implies& \Tr_{\spc Y_2} \bs{S}(J(\Phi)) = \I_{\spc X_2}
+            \end{align}
+            Thus $\bs{S}$ maps Choi operators on $\Lin(\spc Y_1 \otimes \spc X_1)$ to Choi operators on $\Lin(\spc Y_2 \otimes \spc X_2)$.
+        \end{enumerate}
+    } \qed
+
+    \begin{lemma}
+        $\bs{S} \in  \op{CP}(\spc Y_1 \otimes \spc X_1, \spc Y_2 \otimes \spc X_2)$ is a deterministic supermap iff there exists a unital, completely positive map $\Psi^* \in \op{CP}(\spc X_1, \spc X_2)$ such that
+        \begin{equation}
+            \forall A \in \Lin(\spc Y_1 \otimes \spc X_1) \ \ \Tr_{\spc Y_2}(\bs{S}(A)) = \Psi^*(\Tr_{\spc Y_1}(A))
+        \end{equation}
+    \end{lemma}
+
+    \Proof {
+        Let $\rho \in \D(\spc X_2), A \in \Lin(\spc Y_1 \otimes \spc X_1)$
+        \begin{align*}
+            \Tr[ \rho \Tr_{\spc Y_2} \bs{S}(A) ]
+            &= \Tr[ (\I_{\spc Y_2} \otimes \rho) \bs{S}(A) ] \\
+            &= \Tr[ \bs{S}^*(\I_{\spc Y_2} \otimes \rho) A ] \\
+            &= \Tr[ (\I_{\spc Y_1} \otimes \Psi(\rho)) A ] \\
+            &= \Tr[ (\I_{\spc Y_2} \otimes \rho) (\I_{\Lin(\spc Y_1)} \otimes \Psi^*) A ] \\
+            &= \Tr[ \rho \Psi^* (\Tr_{\spc Y_1}(A)) ]
+        \end{align*}
+    } \qed
+
+    \begin{theo}
+        Every deterministic supermap can be realized by a four-port quantum circuit where the input operation $\Phi_1$ is inserted between two isometries $V$ and $W$ and a final ancilla is discarded. The output operation $\Phi_2 = S(\Phi_1)$ is given by
+        \begin{equation}
+            S(\Phi_1)(K) = \Tr_{\spc A} (W (\Phi_1 \otimes \I_{\spc B})(VKV^*) W^*) \ \ \ \ K \in \Lin(\spc X_2)
+        \end{equation}
+    \end{theo}
+    \Proof
+    Consider the following Kraus representations
+    \begin{align}
+        &\Psi(K) = \sum_{b \in \Gamma} B_b K B_b^* \ \ \ \ K 
+        \in \Lin(\spc X_2) \\
+        &\bs{S}(A) = \sum_{a \in \Sigma} S_a A S_a^* \ \ \ \ A \in \Lin(\spc Y_1 \otimes \spc X_1)
+    \end{align}
+    
+    Let $\{u_c : c \in \Lambda\}$ be an ONB of $\spc Y_1 = \C^\Lambda$ and $\{v_d : d \in M \}$ be an ONB of $\spc Y_2 = \C^M$
+    \begin{align*}
+        & \Tr_{\spc Y_2} (\bs{S}(A)) = \sum_{a \in \Sigma} \Tr_{\spc Y_2} (S_a A S_a^*) = \sum_{a \in \Sigma}\sum_{d \in M} (v_d^* \otimes \I_{\spc X_2}) S_a A S_a^* (v_d \otimes \I_{\spc X_2}) \\
+        & \Psi^*(\Tr_{\spc Y_1}(A)) = \sum_{b \in \Gamma} B_b^* \Tr_{\spc Y_1}(A) B_b = \sum_{b \in \Gamma} \sum_{c \in \Lambda} (u_c^* \otimes B_b^*) A (u_c \otimes B_b)
+    \end{align*}
+
+    Thus $\{ (v_d^* \otimes \I_{\spc X_2})S_a : a \in \Sigma, d \in M \}$ and $\{ u_c^* \otimes B_b^* : b \in \Gamma, c \in \Lambda \}$ are Kraus representations of the same CP. And the second one is canonical. So there exists an isometry $\widetilde{W} : (\Sigma \times M) \times (\Gamma \times \Lambda) \to \C $ connecting them
+    \begin{equation}
+        (v_d^* \otimes \I_{\spc X_2})S_a = \sum_{(b,c) \in \Gamma \times \Lambda} \widetilde{W}((a,d),(b,c)) u_c^* \otimes B_b^*
+    \end{equation}
+
+    Let $\{x_a : a \in \Sigma \}$ be an ONB of $\spc A = \C^\Sigma$ and $\{ y_b : b \in \Gamma \}$ be an ONB of $\spc B = \C^\Gamma$. Define the operator $W : \Lin(\spc Y_1 \otimes \spc B, \spc Y_2 \otimes \spc A)$
+    \begin{equation}
+        \widetilde{W}((a,d),(b,c)) = (v_d^* \otimes x_a^*) W (u_c \otimes y_b)
+    \end{equation}
+    Then
+    \begin{align*}
+        S_a 
+        &= \sum_{d \in M, (b,c) \in \Gamma \times \Lambda} \widetilde{W}((a,d),(b,c)) (v_d \otimes \I_{\spc X_2}) (u_c^* \otimes B_b^*) \\
+        &= \sum_{d \in M, b \in \Gamma, c \in \Lambda} 
+        (v_d^* \otimes x_a^*) W
+        (u_c \otimes y_b) 
+        (v_d \otimes \I_{\spc X_2}) 
+        (u_c^* \otimes B_b^*) \\
+        &= \left( 
+        \sum_{d \in M} 
+        (v_d \otimes \I_{\spc X_2})
+        (v_d^* \otimes x_a^* \otimes \I_{\spc X_2})
+        \right) 
+        (W \otimes \I_{\spc X_2})
+        \left( 
+        \sum_{(b,c) \in \Gamma \times \Lambda} 
+        (u_c \otimes y_b  \otimes \I_{\spc X_2})
+        (u_c^* \otimes B_b^*)
+        \right) \\
+        &= (\I_{\spc Y_2} \otimes x_a^* \otimes \I_{\spc X_2})  
+        (W \otimes \I_{\spc X_2})
+        \left( \sum_{b \in \Lambda} \I_{\spc Y_1} \otimes y_b \otimes B_b^* \right) \\
+        &= (\I_{\spc Y_2} \otimes x_a^* \otimes \I_{\spc X_2})  
+        (W \otimes \I_{\spc X_2})
+        (\I_{\spc Y_1} \otimes Z)
+    \end{align*}
+    where $Z = \sum_{b \in \Lambda} y_b \otimes B_b^* \in \Lin(\spc X_1, \spc B \otimes \spc X_2)$.
+
+    So we come to
+    \begin{align*}
+        \bs{S}(A)
+        &= \sum_{a \in \Sigma} S_a A S_a^* \\
+        &= \sum_{a \in \Sigma} (\I_{\spc Y_2} \otimes x_a^* \otimes \I_{\spc X_2})  
+        (W \otimes \I_{\spc X_2})
+        (\I_{\spc Y_1} \otimes Z) 
+        A   
+        (\I_{\spc Y_1} \otimes Z^*)
+        (W^* \otimes \I_{\spc X_2})
+        (\I_{\spc Y_2} \otimes x_a \otimes \I_{\spc X_2}) \\
+        &= \Tr_{\spc A} ((W \otimes \I_{\spc X_2}) ( \I_{\spc Y_1} \otimes Z ) A ( \I_{\spc Y_1} \otimes Z^* ) (W^* \otimes \I_{\spc X_2}))
+    \end{align*}
+    Then for the original supermap,
+    \begin{align*}
+        S(\Phi_1)(K)
+        &= \Tr_{\spc X_2}((\I_{\spc Y_2} \otimes K^T) \bs{S}(J(\Phi_1))) \\
+        &= \Tr_{\spc X_2}
+        (\I_{\spc Y_2} \otimes K^T)
+        \Tr_{\spc A} ((W \otimes \I_{\spc X_2}) ( \I_{\spc Y_1} \otimes Z ) J(\Phi_1) ( \I_{\spc Y_1} \otimes Z^* ) (W^* \otimes \I_{\spc X_2})) \\
+        &= \Tr_{\spc A}\Tr_{\spc X_2}
+        (W \otimes \I_{\spc X_2})
+        (\I_{\spc Y_1} \otimes \I_{\spc B} \otimes K^T)
+        ( \I_{\spc Y_1} \otimes Z ) J(\Phi_1) ( \I_{\spc Y_1} \otimes Z^* ) (W^* \otimes \I_{\spc X_2}) \\
+        &= \Tr_{\spc A} [W [\Tr_{\spc X_2}
+        (\I_{\spc Y_1} \otimes \I_{\spc B} \otimes K^T)
+        ( \I_{\spc Y_1} \otimes Z ) J(\Phi_1) ( \I_{\spc Y_1} \otimes Z^* )] W^*] \\
+        &= \Tr_{\spc A} (W (\Phi_1 \otimes \I_{\spc B})(VKV^*) W^*)
+    \end{align*} 
+    where $V = \sum_{b \in \Lambda} \overline{B_b} \otimes y_b \in \Lin(\spc X_2, \spc X_1 \otimes \spc B)$ is an isometry.
+    \qed
+
+    \begin{rem}
+        In particular, a channel can be viewed as a supermap, mapping the state preparation channel to another state preparation channel. 
+        \begin{equation}
+            \rho_1 = \Phi_1(1) \mapsto \rho_2 = \Phi_2(1)
+        \end{equation}
+        \begin{equation}
+            \Phi_2(1) = S(\Phi_1)(1) = \Tr_{\spc A}(W \Phi_1(1) W^*)
+        \end{equation}
+    \end{rem}
+
+    
+    
+\end{document}
+    

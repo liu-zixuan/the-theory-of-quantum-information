@@ -1,0 +1,186 @@
+
+\documentclass[aps,pra,onecolumn,notitlepage,superscriptaddress]{revtex4-1}
+
+%\input{myQcircuit}
+\usepackage{graphicx,color}% Include figure files
+\usepackage{dcolumn}% Align table columns on decimal point
+\usepackage{bm}% bold math
+\usepackage{amsmath,amssymb,mathrsfs}
+\usepackage{url}
+\usepackage{hyperref}
+
+% added by me
+\usepackage{framed}
+\usepackage{algorithm}
+\usepackage{dsfont}
+\usepackage{mathtools}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+
+%  Sets
+\newcommand{\set}[1]{\mathsf{#1}}
+\newcommand{\grp}[1]{\mathsf{#1}}
+\newcommand{\reg}[1]{\mathsf{#1}}
+\newcommand{\spc}[1]{\mathcal{#1}}
+
+% Integrals
+
+\def\d{{\rm d}}
+
+% Linear structures
+\newcommand{\Span}{{\mathsf{Span}}}
+\newcommand{\Lin}{\mathsf{Lin}}
+\newcommand{\Pos}{\mathsf{Pos}}
+\newcommand{\CP}{\mathsf{CP}}
+\newcommand{\Herm}{\mathsf{Herm}}
+\newcommand{\D}{\mathsf{D}}
+\newcommand{\Proj}{\mathsf{Proj}}
+\newcommand{\U}{\mathsf{U}}
+\newcommand{\Diag}{\mathsf{Diag}}
+% added by me
+\newcommand{\T}{\mathsf{T}}
+\newcommand{\F}{\mathsf{F}}
+\newcommand{\ca}{\mathsf{C}}
+
+% added by me
+\newcommand{\rank}{\mathsf{rank}}
+\newcommand{\im}{\mathsf{im}}
+\newcommand{\myker}{\mathsf{ker}}
+% \newcommand{\Pr}{\mathsf{Pr}}
+
+\def\>{\rangle}
+\def\<{\langle}
+\def\kk{\>\!\>}
+\def\bb{\<\!\<}
+\newcommand{\st}[1]{\mathbf{#1}}
+\newcommand{\bs}[1]{\boldsymbol{#1}}
+
+% Linear maps
+\newcommand{\map}[1]{\mathcal{#1}}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\diag}{\mathsf{diag}}
+
+
+%  Operational notions
+\newcommand{\op}[1]{\operatorname{#1}}
+
+\newcommand{\St}{{\mathsf{St}}}
+\newcommand{\Eff}{{\mathsf{Eff}}}
+\newcommand{\Pur}{{\mathsf{Pur}}}
+\newcommand{\Transf}{{\mathsf{Transf}}}
+\newcommand{\Chan}{{\mathsf{Chan}}}
+
+
+%   By Mo
+\newcommand{\arccot}{\mathrm{arccot}\,}
+
+%  Miscellanea
+\newcommand\myuparrow{\mathord{\uparrow}}
+\newcommand\mydownarrow{\mathord{\downarrow}}
+\newcommand\h{{\scriptstyle \frac 12}}
+% added by me
+\newcommand\I{\mathds{1}}
+
+\newcommand{\vertiii}[1]{{\left\vert\kern-0.25ex\left\vert\kern-0.25ex\left\vert #1 
+    \right\vert\kern-0.25ex\right\vert\kern-0.25ex\right\vert}}
+
+% Environments
+\newtheorem{theo}{Theorem}
+\newtheorem{ax}{Axiom}
+\newtheorem{lemma}{Lemma}
+\newtheorem{prop}{Proposition}
+\newtheorem{cor}{Corollary}
+\newtheorem{defi}{Definition}
+
+
+\newtheorem{rem}{Remark}
+\newtheorem{ex}{Exercise}
+
+\newtheorem{proper}{Property}
+
+\def\Proof{{\bf Proof.~}}
+\def\qed{$\blacksquare$ \newline}
+
+\begin{document}
+    \preprint{APS/123-QED}
+    \title{Quantum state discrimination}
+    \author{}
+    \maketitle
+    % \tableofcontents
+    % \newpage
+
+    \section{Classical information over quantum channels}
+    $\Phi \in \Chan(\spc X, \spc Y)$ and $\Psi \in \Chan(\spc Z)$. The channel $\Phi$ emulates $\Psi$ if 
+    \begin{equation}
+        \exists \Xi_E \in \Chan(\spc Z, \spc X) \ \Xi_D \in \Chan(\spc Y, \spc Z) \ \Psi = \Xi_D \Phi \Xi_E
+    \end{equation}
+    The channel $\Xi_E$ is called an encoding channel and $\Xi_D$ is called a decoding channel.
+
+    \begin{defi}
+        $\Psi_0, \Psi_1 \in \Chan(\spc Z)$. $\Psi_0$ is $\epsilon$-approximation to $\Psi_1$ if
+        \begin{equation}
+            \vertiii{ \Psi_0 - \Psi_1 } < \epsilon
+        \end{equation}
+    \end{defi}
+
+    \begin{defi}
+        $\Phi \in \Chan(\spc X, \spc Y)$. $\spc Z = \C^{\{ 0,1 \}}$. $\Delta \in \Chan(\spc Z)$ is the completely dephasing channel.
+
+        A value $\alpha > 0$ is achievable if $\forall \epsilon > 0$, for all but finitely many $n \in \N$, the channel $\Phi^{\otimes n}$ emulates an $\epsilon$-approximation to the channel $\Delta^{\floor {\alpha n}}$.
+
+        The classical capacity of $\Phi$, denoted $\ca(\Phi)$, is the supremum value of all achievable rates for classical information transmission through $\Phi$.
+    \end{defi}
+
+    \begin{rem}
+        When considering an emulation of the $m$-fold tensor product $\Delta^{\otimes m}$ of this ideal classical channel by the channel $\Phi^{\otimes n}$ , no generality is lost in restricting one's attention to classical-to-quantum encoding channels $\Xi_E$ and quantum-to-classical decoding channels $\Xi_D$.
+        \begin{equation}
+            \Xi_E = \Xi_E \Delta^{\otimes m} \ \ \ \ 
+            \Xi_D = \Delta^{\otimes m} \Xi_D
+        \end{equation}
+    \end{rem}
+
+    \begin{theo}
+        $\Phi \in \Chan(\spc X, \spc Y)$
+        \begin{equation}
+            \ca(\Phi^{\otimes k}) = k \ \ca (\Phi)
+        \end{equation}
+    \end{theo}
+
+    \begin{defi}
+        Entanglement-assisted classical capacity
+        \begin{equation}
+            Z \mapsto (\Xi_D ( \Phi \Xi_E \otimes \I_{\Lin(\spc W)} ) ) (Z \otimes \xi)
+        \end{equation}
+
+        A value $\alpha > 0$ is achievable if $\forall \epsilon > 0$, for all but finitely many $n \in \N$, the channel $\Phi^{\otimes n}$ emulates an $\epsilon$-approximation to the channel $\Delta^{\floor {\alpha n}}$.
+
+        The entanglement-assisted classical capacity of $\Phi$, denoted $\ca_E(\Phi)$, is the supremum value of all achievable rates for classical information transmission through $\Phi$.
+    \end{defi}
+
+    \begin{theo}
+        $\Phi \in \Chan(\spc X, \spc Y)$
+        \begin{equation}
+            \ca_E(\Phi^{\otimes k}) = k \ca_E (\Phi)
+        \end{equation}
+    \end{theo}
+
+    \begin{defi}
+        $\Phi \in \Chan(\spc X, \spc Y)$. The Holevo capacity of $\Phi$ is defined as
+        \begin{equation}
+            \chi(\Phi) = \sup_{\eta} \chi(\Phi(\eta))
+        \end{equation}
+    \end{defi}
+
+    \begin{theo}
+        It is enough to maximize Holevo information using pure states. And what's more, the size of the alphabet of the ensemble can be restricted to $\dim(\spc X)^2$.
+    \end{theo}
+    
+\end{document}
+    
