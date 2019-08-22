@@ -735,17 +735,17 @@
     \Proof
     Suppose $\rho_a = u_au_a^*$, consider a purification of $\rho = \sum_{a \in \Sigma} p(a) \rho_a$
     \begin{equation}
-        w = \sum_{a \in \Sigma} \sqrt{p(a)} u_a \otimes e_a
+        w = \sum_{a \in \Sigma} \sqrt{p(a)} u_a \otimes e_a \in \D(\spc Y, \spc Z)
     \end{equation}
     
     Then
     \begin{equation}
-        \op H(\rho) = \op H(\reg X) = \op H(\reg Y)
+        \op H(\rho) = \op H(\reg Y) = \op H(\reg Z)
     \end{equation}
 
-    Perform a projective measurement on $w[\reg Y]$. We get
+    If perform a projective measurement $\{ e_a^* e_a \}$ on $w[\reg Z]$, the entropy of $\reg Z$ becomes $\op H(p)$. Because projection increases entropy, we get
     \begin{equation}
-        \op H(\reg Y) \leq \op H(p)
+        \op H(\reg Z) \leq \op H(p)
     \end{equation}
 
     Thus, we have proved that when the states $\rho_a$ are pure,

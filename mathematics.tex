@@ -654,7 +654,7 @@
 
             \item \textbf{The Frobenius norm} 
             \begin{equation}
-                \Vert A \Vert_2 = (\Tr(A^*A))^{1/2} = \sqrt{\< A^*A \>} = \Vert \op{vec}(A) \Vert = \sqrt{\sum_{a,b} |A(a,b)|^2 }
+                \Vert A \Vert_2 = (\Tr(A^*A))^{1/2} = \sqrt{\< A, A \>} = \Vert \op{vec}(A) \Vert = \sqrt{\sum_{a,b} |A(a,b)|^2 }
             \end{equation}
 
             \item \textbf{The trace norm} 
@@ -728,7 +728,7 @@
     \end{proper}
 
     \begin{rem}
-        \textbf{Spectrum norm is so important} that when we always omit the $\infty$ symbol when we write it. The spectrum norm of a vector (viewed as an operator on $\Lin(\C, \spc X)$) coincides with its Euclidean norm.
+        \textbf{Spectrum norm is so important} that when we always omit the $\infty$ symbol when we write it.
     \end{rem}
 
     \section{Analysis}
@@ -863,7 +863,7 @@
     \begin{defi}
        The convex hull of a set $A \subset V$ is defined as
        \begin{equation}
-           \op{conv}(A) = \{ \sum_{a \in \Sigma} p(a)u_a: p \in \spc P(\Sigma), \ \{ u_a : a \in \Sigma \} \subset A \}
+           \op{conv}(A) = \left\{ \sum_{a \in \Sigma} p(a)u_a: p \in \spc P(\Sigma), \ \{ u_a : a \in \Sigma \} \subset A \right\}
        \end{equation}
     \end{defi}
     
